@@ -253,13 +253,13 @@ def lin_reg(x_list, y_list):
     # Sum of the squares of residuals from the mean
     s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n)])
     # Standard deviation
-    # st_dev = (s_sq_r / (n-1))**(0.5)
+    st_dev = (s_sq_r / (n-1))**(0.5)
     # R-Squared Value - coefficient of determination
-    # r_sq = 1 - (s_sq_t / s_sq_r)
+    r_sq = 1 - (s_sq_t / s_sq_r)
     # Standard error
-    # std_er = (s_sq_t/(n-2))**(0.5)
+    std_er = (s_sq_t/(n-2))**(0.5)
     # Find maximum error deviation from the best fit line
-    # er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
+    er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
     print('Linear Best Fit: y = ( {:.4f} ) x {:+.4f}'.format(coef_a,coef_b))
     # print('Standard Deviation = {:.4f}'.format(st_dev))
     # print('R-Squared, Calibration Constant = {:.4f}'.format(r_sq))

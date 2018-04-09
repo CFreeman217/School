@@ -184,10 +184,10 @@ def lp_801_300(in_volts):
     min_travel = 0
     max_travel = 300 # mm
     displacement = abs(in_volts * (max_travel-min_travel) / (max_volts - min_volts))
-    linearity = (max_volts - min_volts) * 0.01
-    hysteresis = 0.025 # mm
-    repeatability = 0.012 # mm
-    error = np.sqrt(linearity**2 + hysteresis**2 + repeatability**2)
+    # linearity = (max_volts - min_volts) * 0.01
+    # hysteresis = 0.025 # mm
+    # repeatability = 0.012 # mm
+    # error = np.sqrt(linearity**2 + hysteresis**2 + repeatability**2)
     # print('LP801-300 Measurement Results:')
     # print('Measured Displacement : {:1.2f} mm'.format(displacement))
     # print('Uncertainty : +/- {:1.2f} mm'.format(error))
@@ -236,24 +236,24 @@ def lin_reg(x_list, y_list):
         return
     s_xi = sum(x_list)
     s_yi = sum(y_list)
-    y_mean = s_yi/n
+    # y_mean = s_yi/n
     s_xi2 = sum([i**2 for i in x_list])
     s_xy = sum([x_list[i]*y_list[i] for i in range(n)])
     # Calculate coefficients
     coef_a = ((n * s_xy) - (s_xi * s_yi)) / ((n * s_xi2) - (s_xi**2))
     coef_b = ((s_xi2 * s_yi) - (s_xi * s_xy)) / ((n*s_xi2) - (s_xi**2))
     # Sum of the squares of residuals from the generated line
-    s_sq_t = sum([((coef_a * x_list[i] + coef_b - y_list[i])**2) for i in range(n)])
+    # s_sq_t = sum([((coef_a * x_list[i] + coef_b - y_list[i])**2) for i in range(n)])
     # Sum of the squares of residuals from the mean
-    s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n)])
+    # s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n)])
     # Standard deviation
-    st_dev = (s_sq_r / (n-1))**(0.5)
+    # st_dev = (s_sq_r / (n-1))**(0.5)
     # R-Squared Value - coefficient of determination
-    r_sq = 1 - (s_sq_t / s_sq_r)
+    # r_sq = 1 - (s_sq_t / s_sq_r)
     # Standard error
-    std_er = (s_sq_t/(n-2))**(0.5)
+    # std_er = (s_sq_t/(n-2))**(0.5)
     # Find maximum error deviation from the best fit line
-    er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
+    # er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
     print('Linear Best Fit: y = ( {:.4f} ) x {:+.4f}'.format(coef_a,coef_b))
     # print('Standard Deviation = {:.4f}'.format(st_dev))
     # print('R-Squared, Calibration Constant = {:.4f}'.format(r_sq))
