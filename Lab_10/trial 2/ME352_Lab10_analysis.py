@@ -400,7 +400,8 @@ def acm_peak_to_peak(time, accel_data, vel_data, disp_data, mass):
         if sign != sign_toggle:
             vel_zero_list.append(index)
             sign_toggle = sign
-    # [print(i) for i in vel_zero_list]
+    [print(i) for i in vel_zero_list]
+    x = input('wait?')
     peak1 = disp_data[vel_zero_list[1]]
     time1 = time[vel_zero_list[1]]
     peak2 = disp_data[vel_zero_list[3]]
