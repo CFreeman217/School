@@ -3,7 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal, stats, integrate
-
+import pprint as pprint
 
 
 
@@ -17,23 +17,22 @@ trial_regex = re.compile(r'''(
     (\d+)
     (g_)
     (displacement|displaceMass)
-    (\d+|_\d+)
+    (\d+|_\d+)?
 
 )''', re.VERBOSE)
 
 def main():
     # Initialize variables to hold calibration data when going through the dataset
+    trial_mass = 4.112
+    m_g = 9.81*trial_mass
     disp_cal = []
     rest_cal = []
     rest_n_cal = 0
     force_cal = []
-    trial_mass = 4.204
-    # Gravity force
-    m_g = 9.81*trial_mass
-    c_points = 8000 # Number of points (out of 10000) to analyze from the dataset
+    c_points = None
     # Run through the current file
     for file_name in os.listdir('.'):
-        if file_name.startswith('Lab10_'):
+        if file_name.startswith('Lab10_') and file_name.endswith('.txt'):
             # Gather and parse the dataset into variables
             time, disp_x, accel, force = np.loadtxt(open(file_name),
                                             delimiter='\t',
@@ -49,14 +48,18 @@ def main():
             m_accel = adxl335(np.mean(accel))
             # Mean Force, Newtons
             m_force = lc105_25(np.mean(force))
+            if c_points == None:
+                c_points = len(time)
+            elif c_points < len(time):
+                c_points = len(time)
             time = np.array([time[i] for i in range(c_points)])
         # Gather information about the trial
         trial_info = trial_regex.findall(file_name)
 
         # Catch the zero data offset used to calibrate the rest of the data
-        if file_name == 'Lab10_zero_data_2.txt':
+        if file_name.startswith('Lab10_zero_data.txt'):
                 disp_offset = m_disp
-                print('disp offset {}'.format(disp_offset))
+
                 accel_offset = m_accel
                 force_offset = m_force
 
@@ -71,18 +74,20 @@ def main():
                     d_x = np.array([lp_801_300(disp_x[i]) for i in range(c_points)])
                     d_a = np.array([adxl335(accel[i]) for i in range(c_points)])
                     f_y = np.array([lc105_25(force[i]) for i in range(c_points)])
-                    swap = d_a
-                    uf_d_a = d_x
-                    uf_d_x = swap
-                    d_x = butterworth_filter(uf_d_x, 2000, 20)
+                    # swap = d_a
+                    # uf_d_a = d_x
+                    # uf_d_x = swap
+                    uf_d_a = d_a
+                    uf_d_x = d_x
+                    d_x = butterworth_filter(uf_d_x, 8000, 20)
                     # The acceleration data is noisy, so it needs a filter
 
-                    d_a = butterworth_filter(uf_d_a, 2500, 20)
+                    d_a = butterworth_filter(uf_d_a, 4000, 20)
                     # Calibration information
             if trial_info[0][4] == 'displacement':
-                force_cal.append(mass*4.44822)
+                force_cal.append(mass*.45359237*9.80665)
                 disp_cal.append(m_disp)
-                if mass == trial_mass:
+                if abs(mass - trial_mass) < .5:
                     rest_cal.append(m_disp)
                     rest_n_cal += 1
 
@@ -106,19 +111,19 @@ def main():
     # Define Linfit function
     cal_linfit_fcn_spring = lambda x : s_const_k *cal_xaxis + y_int
     # Subtract zero offsets
-    uf_d_x = rest_cal - uf_d_x
-    d_x = rest_cal - d_x
+    # uf_d_x = rest_cal - uf_d_x
+    # d_x = rest_cal - d_x
     # uf_d_a -= accel_offset
     # d_a -= accel_offset
-    # uf_d_x -= rest_cal
-    # d_x -= rest_cal
+    uf_d_x -= rest_cal
+    d_x -= rest_cal
     uf_d_a = accel_offset - uf_d_a
     d_a = accel_offset - d_a
 
-    # f_y -= force_offset
+    f_y -= force_offset
 
     # Method 3: Force data from derived spring constant and potentiometer displacement
-    m3_f_data = d_x * s_const_k
+    m3_f_data = d_x * s_const_k *
     # Method 2: Numeric differentiation of potentiometer data to collect velocity data
     pot_vel = num_1deriv(time, d_x)
     # Method 2: Numeric differentiation of potentiometer data to collect acceleration data
@@ -133,25 +138,18 @@ def main():
     acc_disp = lambda a, b : integrate.simps(acc_vel_pts[a:b], time[a:b])
     acc_disp_pts = [acc_disp(0, k+1) for k, v in enumerate(acc_vel_pts)]
     # Set maximum limit on the numeric integration time
-    max_int_time = 2 # seconds
+    # max_int_time = 2 # seconds
     # Collect the integral
     # for k, v in enumerate(time):
-        # The displacement should read zero once the trial is over and the spring settles
-        # however, due to some leftover residuals after the integration, the
-        # displacement graph accumulates. 1.35 seconds is an arbitrary value for zeroing the
-        # graph out but works for this problem
-        # if v < max_int_time:
-        #     acc_disp_pts.append(acc_disp(0, k+1)*9.81)
-        # else:
-        #     acc_disp_pts.append(0)
-        #     # if k < len(time) - 1:
-        #     #     disp = acc_disp(0, k+1)*9.81
-        #     #     if disp > 0:
-        #     #         acc_disp_pts.append(disp)
-        #     #     else:
-        #     #         acc_disp_pts.append(0)
-        #     # else:
-        #     #     acc_disp_pts.append(acc_disp_pts[k-1])
+    #     # The displacement should read zero once the trial is over and the spring settles
+    #     # however, due to some leftover residuals after the integration, the
+    #     # displacement graph accumulates. 1.35 seconds is an arbitrary value for zeroing the
+    #     # graph out but works for this problem
+    #     if v < max_int_time:
+    #         acc_disp_pts[k] append(acc_disp(0, k+1))
+    #     else:
+    #         acc_disp_pts.append(0)
+
     # Gather damping coefficient information from each data set.
     # b_pot = pot_peak_to_peak(time, d_x, pot_vel, trial_mass)
     b_pot = 0
@@ -184,45 +182,46 @@ def main():
     plt.savefig('Lab_10_ForceCalibration.png', bbox_inches='tight')
     plt.show()
 
-    # plt.scatter(np.array(disp_cal), np.array(force_cal))
-    # plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.')
-    # plt.title('Spring Constant Calibration Data')
-    # plt.xlabel('Displacement (mm)')
-    # plt.ylabel('Force (N)')
-    # plt.savefig('Lab_10_SpringConstantCalibration.png', bbox_inches='tight')
-    # plt.show()
 
-    # plt.plot(time, d_x, label='Displacement')
-    # plt.plot(time, [i/9.81 for i in pot_vel], label='Velocity')
-    # plt.plot(time, [i/(9.81**2) for i in pot_accel], label='Acceleration')
-    # plt.title('Potentiometer Data')
-    # plt.xlabel('Time')
-    # plt.ylabel('mm, m/s, or m/s^2')
-    # plt.legend()
-    # plt.savefig('Lab_10_PotentiometerData.png', bbox_inches='tight')
-    # plt.show()
+    plt.scatter(np.array(disp_cal), np.array(force_cal))
+    plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.')
+    plt.title('Spring Constant Calibration Data')
+    plt.xlabel('Displacement (mm)')
+    plt.ylabel('Force (N)')
+    plt.savefig('Lab_10_SpringConstantCalibration.png', bbox_inches='tight')
+    plt.show()
 
-    # plt.plot(time, acc_disp_pts, label='Displacement')
-    # plt.plot(time, acc_vel_pts, label='Velocity')
-    # plt.plot(time, d_a, label='Acceleration')
-    # plt.title('Accelerometer Data')
-    # plt.xlabel('Time')
-    # plt.ylabel('mm, m/s, or m/s^2')
-    # plt.legend()
-    # plt.savefig('Lab_10_AccelerometerData.png', bbox_inches='tight')
-    # plt.show()
+    plt.plot(time, d_x, label='Displacement')
+    plt.plot(time, [i/9.81 for i in pot_vel], label='Velocity')
+    plt.plot(time, [i/(9.81**2) for i in pot_accel], label='Acceleration')
+    plt.title('Potentiometer Data')
+    plt.xlabel('Time')
+    plt.ylabel('mm, m/s, or m/s^2')
+    plt.legend()
+    plt.savefig('Lab_10_PotentiometerData.png', bbox_inches='tight')
+    plt.show()
 
-    # # # # # plt.plot(time, ode_array, label='ODE Integration (Method 1)')
-    # plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)')
-    # plt.plot(time, m3_f_data, label='Spring Constant and Displacement (Method 3)')
-    # plt.plot(time, acc_sp_f, label='Force from Acceleration (Method 4)')
-    # plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)')
-    # plt.title('Time and Force')
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # plt.savefig('Lab_10_SpringForceMethods_n.png', bbox_inches='tight')
-    # plt.show()
+    plt.plot(time, acc_disp_pts, label='Displacement')
+    plt.plot(time, acc_vel_pts, label='Velocity')
+    plt.plot(time, d_a, label='Acceleration')
+    plt.title('Accelerometer Data')
+    plt.xlabel('Time')
+    plt.ylabel('mm, m/s, or m/s^2')
+    plt.legend()
+    plt.savefig('Lab_10_AccelerometerData.png', bbox_inches='tight')
+    plt.show()
+
+    # # # # plt.plot(time, ode_array, label='ODE Integration (Method 1)')
+    plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)')
+    plt.plot(time, m3_f_data, label='Spring Constant and Displacement (Method 3)')
+    plt.plot(time, acc_sp_f, label='Force from Acceleration (Method 4)')
+    plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)')
+    plt.title('Time and Force')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_SpringForceMethods_n.png', bbox_inches='tight')
+    plt.show()
 
 
 def lp_801_300(in_value):
@@ -239,7 +238,7 @@ def lp_801_300(in_value):
         Input value received : {:1.2f}\n
         '''.format(min_input, max_input, in_value))
         exit()
-    min_output = 304.8 # 12 inches to mm
+    min_output = 304.8 # 12 inches to m
     max_output = 0
     output_data = (in_value * (max_output-min_output) / (max_input - min_input))
     # linearity = (max_input - min_input) * 0.01
@@ -283,7 +282,7 @@ def lc105_25(in_value):
     Returns force data from Omega LC105-25 Load Cell (Force Sensor)
     '''
     min_input = 0
-    max_input =  25 # lbs
+    max_input =  10 # volts
     if in_value < min_input or in_value > max_input:
         print('''
         ERROR: Input value outside range for instrument : Load Cell\n
@@ -292,7 +291,7 @@ def lc105_25(in_value):
         '''.format(min_input, max_input, in_value))
         exit()
     min_output = 0
-    max_output = 111.206 # 25 pounds, where 1 lb = 4.44822 N
+    max_output = (25*(.45359237*9.80665)**2) # 2.2 pound is 1 kg
     output_data = (in_value * (max_output-min_output) / (max_input - min_input))
     # linearity = (max_input - min_input) * 0.01
     # hysteresis = 0.025 # mm
@@ -321,27 +320,27 @@ def lin_reg(x_list, y_list):
         return
     s_xi = sum(x_list)
     s_yi = sum(y_list)
-    # y_mean = s_yi/n
+    y_mean = s_yi/n
     s_xi2 = sum([i**2 for i in x_list])
     s_xy = sum([x_list[i]*y_list[i] for i in range(n)])
     # Calculate coefficients
     coef_a = ((n * s_xy) - (s_xi * s_yi)) / ((n * s_xi2) - (s_xi**2))
     coef_b = ((s_xi2 * s_yi) - (s_xi * s_xy)) / ((n*s_xi2) - (s_xi**2))
-    # # Sum of the squares of residuals from the generated line
-    # s_sq_t = sum([((coef_a * x_list[i] + coef_b - y_list[i])**2) for i in range(n)])
-    # # Sum of the squares of residuals from the mean
-    # s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n)])
-    # # Standard deviation
-    # st_dev = (s_sq_r / (n-1))**(0.5)
-    # # R-Squared Value - coefficient of determination
-    # r_sq = 1 - (s_sq_t / s_sq_r)
-    # # Standard error
-    # std_er = (s_sq_t/(n-2))**(0.5)
-    # # Find maximum error deviation from the best fit line
-    # er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
+    # Sum of the squares of residuals from the generated line
+    s_sq_t = sum([((coef_a * x_list[i] + coef_b - y_list[i])**2) for i in range(n)])
+    # Sum of the squares of residuals from the mean
+    s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n)])
+    # Standard deviation
+    st_dev = (s_sq_r / (n-1))**(0.5)
+    # R-Squared Value - coefficient of determination
+    r_sq = 1 - (s_sq_t / s_sq_r)
+    # Standard error
+    std_er = (s_sq_t/(n-2))**(0.5)
+    # Find maximum error deviation from the best fit line
+    er_max = max([abs(coef_a * x_list[i] + coef_b - y_list[i]) for i in range(n)])
     print('Linear Best Fit: y = ( {:.4f} ) x {:+.4f}'.format(coef_a,coef_b))
     # print('Standard Deviation = {:.4f}'.format(st_dev))
-    # print('R-Squared, Calibration Constant = {:.4f}'.format(r_sq))
+    print('R-Squared, Calibration Constant = {:.4f}'.format(r_sq))
     # print('Standard Error = {:.4f}'.format(std_er))
     # print('Maximum Error = {:.4f}\n'.format(er_max))
     return coef_a, coef_b

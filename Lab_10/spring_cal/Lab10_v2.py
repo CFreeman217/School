@@ -27,7 +27,7 @@ def main():
     rest_cal = []
     rest_n_cal = 0
     force_cal = []
-    trial_mass = 4.204
+    trial_mass = 4.112
     # Gravity force
     m_g = 9.81*trial_mass
     c_points = 8000 # Number of points (out of 10000) to analyze from the dataset
