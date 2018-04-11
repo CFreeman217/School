@@ -265,7 +265,7 @@ def lin_reg(x_list, y_list):
         return
     s_xi = sum(x_list)
     s_yi = sum(y_list)
-    y_mean = s_yi/n
+    # y_mean = s_yi/n
     s_xi2 = sum([i**2 for i in x_list])
     s_xy = sum([x_list[i]*y_list[i] for i in range(n)])
     # Calculate coefficients
