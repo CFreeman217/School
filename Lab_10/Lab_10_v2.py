@@ -2,12 +2,7 @@ import re
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import signal, stats, integrate
-import pprint as pprint
-
-
-
-
+from scipy import signal, integrate
 
 # Some trial information is stored in the file name
 # This regex parses each component out for 8 of the 9 text files in the dataset.
@@ -117,7 +112,7 @@ def main():
     # We generated the force offset data from the zero data information
     # this should go in the first data point of the force calibration values
     f_cal_val[0] = force_offset
-    lcell_cal_coef = lin_origin(force_cal, f_cal_val)
+    lcell_cal_coef, lc_rsq = lin_origin(force_cal, f_cal_val)
     lcell_cal_list = np.array([lcell_cal_coef * i for i in force_cal])
     f_y = np.array([i/lcell_cal_coef for i in f_y])
     # get rid of the manually entered force cal data point to avoid problems later
@@ -129,14 +124,17 @@ def main():
     # Displacement calibration offset
     disp_cal = abs(disp_offset-disp_cal)
     # Spring constant using linear fit for calibration data.
-    s_const_k , y_int = lin_reg(disp_cal, force_cal[1:])
+    # s_const_k , y_int, sc_rsq = lin_reg(disp_cal, force_cal[1:])
+    s_const_k , sc_rsq = lin_origin(disp_cal, force_cal[1:])
     # Finding boundaries
     cal_min = min(disp_cal)
     cal_max = max(disp_cal)
     # Create axis of points to plot line best fit
     cal_xaxis = np.linspace(cal_min, cal_max, 2)
     # Define Linfit function
-    cal_linfit_fcn_spring = lambda x : s_const_k *cal_xaxis + y_int
+    # cal_linfit_fcn_spring = lambda x : s_const_k *cal_xaxis + y_int
+    cal_linfit_fcn_spring = lambda x : s_const_k *cal_xaxis
+
     # Subtract zero offsets
 
     # uf_d_x = rest_cal - uf_d_x
@@ -182,91 +180,151 @@ def main():
     # Method 1: Solve the ODE
     id_x, id_y = mass_spring(trial_mass, damp, s_const_k*1000, pp_data[0])
     # Shift y-values up to the baseline
-    ode_y = [(i + pp_data[-1])*s_const_k for i in id_y]
-    # ode_x = id_x
+    ode_y = [(i)*s_const_k + m_g for i in id_y]
     ode_x = [i + pp_times[0]+.1 for i in id_x]
+    comp_lc_st = '--'
+    compcol = 'C7'
+    n_fig = 1
 
-
-    plt.scatter(force_cal, f_cal_val)
-    plt.plot(force_cal, lcell_cal_list)
-    # get current axes and set limits
-    # axes = plt.gca()
-    # axes.set_ylim([0, max(f_cal_val)])
-    plt.xlabel('Force Applied (Newtons)')
-    plt.ylabel('Load Cell Output')
-    plt.title('Load Cell Calibration')
-    plt.text(20,0,'Load Cell Calibration Coefficient = {:1.2f}'.format(1/lcell_cal_coef))
-    # plt.savefig('NEW_Lab_10_LoadCellCalibration.png', bbox_inches='tight')
-    plt.show()
-
-    plt.plot(time, uf_d_x, label='Unfiltered Displacement')
-    plt.plot(time, d_x, label='Filtered Displacement')
-    plt.scatter(pp_times, pp_data, label='Peak Detection Data', c='r')
-    plt.text(2,0,'Damping Coefficient = {:1.2f}'.format(damp))
-    plt.xlabel('Time (s)')
-    plt.ylabel('Displacement (m)')
-    plt.title('Displacement Data Filtering')
-    plt.legend()
-    # plt.savefig('NEW_Lab_10_DisplacementFiltering.png', bbox_inches='tight')
-    plt.show()
-
-    plt.plot(time, uf_d_a, label='Unfiltered Acceleration')
-    plt.plot(time, d_a, label='Filtered Acceleration')
-    plt.title('Accleration Data Filtering')
-    plt.legend()
-    # plt.savefig('NEW_Lab_10_AccelerationFiltering.png', bbox_inches='tight')
-    plt.show()
-
-    plt.plot(time, f_y, label='Force (N)')
-    plt.title('Load Cell Calibrated Data')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Force (N)')
-    # plt.savefig('NEW_Lab_10_ForceCalibration.png', bbox_inches='tight')
-    plt.show()
-
-
-    plt.scatter(np.array(disp_cal), np.array(force_cal[1:]))
-    plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.')
-    plt.title('Spring Constant Calibration Data')
-    plt.xlabel('Displacement (mm)')
-    plt.ylabel('Force (N)')
-    plt.text(5,10,'Spring Constant = {:1.4f} N/mm'.format(s_const_k))
-    # plt.savefig('NEW_Lab_10_SpringConstantCalibration2.png', bbox_inches='tight')
-    plt.show()
-
-
-    plt.plot(time, d_x, label='Displacement')
-    plt.plot(time, pot_vel, label='Velocity')
-    plt.plot(time, pot_accel, label='Acceleration')
-    plt.title('Potentiometer Data')
-    plt.xlabel('Time')
-    plt.ylabel('mm, m/s, or m/s^2')
-    plt.legend()
-    # plt.savefig('NEW_Lab_10_PotentiometerData.png', bbox_inches='tight')
-    plt.show()
-
-    plt.plot(time, acc_disp_pts, label='Displacement')
-    plt.plot(time, acc_vel_pts, label='Velocity')
-    plt.plot(time, d_a, label='Acceleration')
-    plt.title('Accelerometer Data')
-    plt.xlabel('Time')
-    plt.ylabel('mm, m/s, or m/s^2')
-    plt.legend()
-    # plt.savefig('NEW_Lab_10_AccelerometerData.png', bbox_inches='tight')
-    plt.show()
-
+    # Group Photo: Clusterfuck
     plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)',c='C0')
     plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c='C1')
     plt.plot(time, m3_f_data, label='Spring Constant and Displacement (Method 3)', c='C2')
-    plt.plot(time, acc_sp_f, label='Force from Acceleration (Method 4)', c='C3')
-    plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)', c='C4')
-    plt.title('Time and Force')
+    plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c='C3')
+    plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)', c='k', ls=':')
+    plt.title('Figure {}: Force Calculation Method Comparison'.format(n_fig))
     plt.xlabel('Time (s)')
     plt.ylabel('Force (N)')
     plt.legend()
-    # plt.savefig('NEW_Lab_10_SpringForceMethods_clusterfuck.png', bbox_inches='tight')
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    n_fig +=1
     plt.show()
 
+    # # Load Cell Calibration from static tests
+    # plt.scatter(force_cal, f_cal_val, label='Mean Load Cell Reading')
+    # plt.plot(force_cal, lcell_cal_list, color='r',ls='-.',label='Linear fit through origin')
+    # plt.title('Figure {}: Load Cell Calibration'.format(n_fig))
+    # plt.xlabel('Force Applied (Newtons)')
+    # plt.ylabel('Load Cell Output')
+    # plt.text(20,.06,'Load Cell Calibration Coefficient = {:1.2f}'.format(1/lcell_cal_coef))
+    # plt.text(42.5,0,r'r$^2$ = ' + '{:1.4f}'.format(lc_rsq))
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+
+    # # Spring Constant Derivation
+    # plt.scatter(np.array(disp_cal), np.array(force_cal[1:]),label='Mean displacement with known mass')
+    # plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.', label='Linear fit through origin')
+    # plt.title('Figure {}: Spring Constant Calibration Data'.format(n_fig))
+    # plt.xlabel('Displacement (mm)')
+    # plt.ylabel('Force (N)')
+    # plt.text(10.5,5.2,'Spring Constant = {:1.4f} N/mm'.format(s_const_k))
+    # plt.text(16,2.5,r'r$^2$ = ' + '{:1.4f}'.format(sc_rsq))
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Accelerometer Filtering
+    # plt.plot(time, uf_d_a, label='Unfiltered Acceleration')
+    # plt.plot(time, d_a, label='Filtered Acceleration')
+    # plt.title('Figure {}: Accleration Data Filtering'.format(n_fig))
+    # plt.xlabel('Time(s)')
+    # plt.ylabel('Accelerometer Output')
+    # plt.text(2.5,-11,'Butterworth Filter Parameters : ')
+    # plt.text(2.5,-12,r'Order = 2, $f_s = 10000Hz, f_c = 20Hz$ ')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Accelerometer Integrated data
+    # plt.plot(time, acc_disp_pts, label='Displacement')
+    # plt.plot(time, acc_vel_pts, label='Velocity')
+    # plt.plot(time, d_a, label='Acceleration')
+    # plt.title('Figure {}: Accelerometer Data'.format(n_fig))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Scaled Accelerometer Output')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+
+    # # Potentiometer (displacement) Filtering
+    # plt.plot(time, uf_d_x, label='Unfiltered Displacement')
+    # plt.plot(time, d_x, label='Filtered Displacement')
+    # plt.scatter(pp_times, pp_data, label='Peak Detection Data', c='r')
+    # plt.text(.6,0,r'Damping Coefficient = B = $\frac{mg - kx - m\dot{y}}{m\ddot{y}} = - \frac{2m * ln(\frac{y_2}{y_1})}{\Delta t}$ = ' + '{:1.2f}'.format(damp))
+    # plt.text(2.5,45,'Butterworth Filter Parameters : ')
+    # plt.text(2.5,42,r'Order = 2, $f_s = 10000Hz, f_c = 30Hz$ ')
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Displacement (m)')
+    # plt.title('Figure {}: Displacement Data Filtering'.format(n_fig))
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Potentiometer derived data
+    # plt.plot(time, d_x, label='Displacement')
+    # plt.plot(time, [i/9.81 for i in pot_vel], label='Velocity')
+    # plt.plot(time, [i/(9.81**2) for i in pot_accel], label='Acceleration')
+    # plt.title('Figure {}: Potentiometer Data'.format(n_fig))
+    # plt.xlabel('Time')
+    # plt.ylabel('Scaled Potentiometer Output')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+
+
+    # # Method 1:
+    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    # plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)', c=compcol)
+    # plt.title('Figure {}: Numeric ODE Solution'.format(n_fig))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Force (N)')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Method 2:
+    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    # plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c=compcol)
+    # plt.title('Figure {}: Potentiometer Derived Force'.format(n_fig))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Force (N)')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Method 3:
+    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    # plt.plot(time, m3_f_data, label='Spring Constant and displacement (Method 3)', c=compcol)
+    # plt.title('Figure {}: Force from Spring Constant'.format(n_fig))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Force (N)')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
+
+    # # Method 4:
+    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    # plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c=compcol)
+    # plt.title('Figure {}: Accelerometer Derived Force Data'.format(n_fig))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Force (N)')
+    # plt.legend()
+    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
+    # n_fig +=1
+    # plt.show()
 
 def lp_801_300(in_value):
     '''
@@ -298,7 +356,6 @@ def adxl335(in_value):
     '''
     Returns acceleration from input voltage to Analog Devices ADXL335 Accelerometer
     '''
-
     min_input = 0
     max_input = 3 # Volts
     if in_value < min_input or in_value > max_input:
@@ -319,32 +376,6 @@ def adxl335(in_value):
     # print('Measured Displacement : {:1.2f} mm'.format(output_data))
     # print('Uncertainty : +/- {:1.2f} mm'.format(error))
     return output_data
-
-
-def lc105_25(in_value, cal_coef = 1):
-    '''
-    Returns force data from Omega LC105-25 Load Cell (Force Sensor)
-    '''
-    # min_input = 0
-    # max_input =  10 # volts
-    # if in_value < min_input or in_value > max_input:
-    #     print('''
-    #     ERROR: Input value outside range for instrument : Load Cell\n
-    #     Minimum input value (volts) : {:1.2f} \t Maximum input value (volts) : {:1.2f}\n
-    #     Input value received : {:1.2f}\n
-    #     '''.format(min_input, max_input, in_value))
-    #     exit()
-    # min_output = 0
-    # max_output = (25*(.45359237*9.80665)**2) # 2.2 pound is 1 kg
-    # output_data = (in_value * (max_output-min_output) / (max_input - min_input))
-    # linearity = (max_input - min_input) * 0.01
-    # hysteresis = 0.025 # mm
-    # repeatability = 0.012 # mm
-    # error = np.sqrt(linearity**2 + hysteresis**2 + repeatability**2)
-    # print('LP801-300 Measurement Results:')
-    # print('Measured Displacement : {:1.2f} mm'.format(output_data))
-    # print('Uncertainty : +/- {:1.2f} mm'.format(error))
-    return in_value * cal_coef
 
 def lin_reg(x_list, y_list):
     '''
@@ -387,7 +418,7 @@ def lin_reg(x_list, y_list):
     print('R-Squared, Calibration Constant = {:.4f}'.format(r_sq))
     # print('Standard Error = {:.4f}'.format(std_er))
     # print('Maximum Error = {:.4f}\n'.format(er_max))
-    return coef_a, coef_b
+    return coef_a, coef_b, r_sq
 
 def lin_origin(x_list, y_list):
     '''
@@ -395,6 +426,7 @@ def lin_origin(x_list, y_list):
     applications.
     '''
     n_size = len(y_list)
+    y_mean = sum(y_list)/n_size
     numer = 0
     denom = 0
     if n_size != len(x_list):
@@ -403,7 +435,12 @@ def lin_origin(x_list, y_list):
     for x_i in range(n_size):
         numer += x_list[x_i]*y_list[x_i]
         denom += x_list[x_i]**2
-    return (numer/denom)
+    coef_a = (numer/denom)
+    s_sq_t = sum([((coef_a * x_list[i] - y_list[i])**2) for i in range(n_size)])
+    s_sq_r = sum([(y_list[i] - y_mean)**2 for i in range(n_size)])
+    r_sq = 1 - (s_sq_t / s_sq_r)
+
+    return coef_a, r_sq
 
 def butterworth_filter(in_data, f_s=10000, f_c=20):
     '''
@@ -514,7 +551,8 @@ def num_2deriv(x_list, y_list):
 def sim_int_num(x_list, y_list):
     '''
     Numerical Methods : Integration
-    Numerically integrates an xy list using an optimized simpson algorithm
+    Numerically integrates an xy list using an optimized simpson algorithm.
+    Requires equally spaced x-data.
     '''
     # Trapezoidal rule for 2 points
     trap = lambda h, f_0, f_1 : h * (f_0 - f_1) / 2
@@ -589,7 +627,7 @@ def damping(peaks_x, peaks_y, mass, skip=0):
     y_2 = peaks_y[skip+1] - offset
     dt = abs(x_2 - x_1)
     d_const_b = (-2 * mass * np.log(y_2/y_1))/dt
-    print('Damping Constant : {}'.format(d_const_b))
+    # print('Damping Constant : {}'.format(d_const_b))
     return (d_const_b)
 
 def mass_spring(mass, damp_coef, sp_const, i_disp):
@@ -603,7 +641,5 @@ def mass_spring(mass, damp_coef, sp_const, i_disp):
     u_vals = integrate.odeint(dU_dx, i_cond, x_vals)
     y_vals = u_vals[:,0]
     return x_vals, y_vals
-
-
 
 main()
