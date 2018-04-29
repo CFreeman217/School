@@ -1,5 +1,4 @@
 import os, csv
-# from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -101,7 +100,6 @@ def do_math(y_list):
     # Gather information about the data set
     y_list = [int(i) for i in y_list if i != '']
     n = len(y_list)
-    s = n-1
     tau = 1.960
     s_yi = sum(y_list)
     y_mean = s_yi/n
@@ -157,14 +155,5 @@ def time2hrs(in_time):
     secs = float(parts[2])/3600
     mins = float(parts[1])/60
     return float(parts[0]) + secs + mins
-
-'''
-TAVG = Average Temperature
-TMAX = Max Temperature
-TMIN = Min Temperature
-TOBS = Temp. at time of observation?
-'''
-
-
 
 main()
