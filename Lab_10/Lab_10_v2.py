@@ -186,150 +186,150 @@ def main():
     compcol = 'C7'
     n_fig = 1
 
-    # # Group Photo: Clusterfuck
-    # plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)',c='C0')
-    # plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c='C1')
-    # plt.plot(time, m3_f_data, label='Spring Constant and Displacement (Method 3)', c='C2')
-    # plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c='C3')
-    # plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)', c='k', ls=':')
-    # plt.title('Figure {}: Force Calculation Method Comparison'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Load Cell Calibration from static tests
-    # plt.scatter(force_cal, f_cal_val, label='Mean Load Cell Reading')
-    # plt.plot(force_cal, lcell_cal_list, color='r',ls='-.',label='Linear fit through origin')
-    # plt.title('Figure {}: Load Cell Calibration'.format(n_fig))
-    # plt.xlabel('Force Applied (Newtons)')
-    # plt.ylabel('Load Cell Output')
-    # plt.text(20,.06,'Load Cell Calibration Coefficient = {:1.2f}'.format(1/lcell_cal_coef))
-    # plt.text(42.5,0,r'r$^2$ = ' + '{:1.4f}'.format(lc_rsq))
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-
-    # # Spring Constant Derivation
-    # plt.scatter(np.array(disp_cal), np.array(force_cal[1:]),label='Mean displacement with known mass')
-    # plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.', label='Linear fit through origin')
-    # plt.title('Figure {}: Spring Constant Calibration Data'.format(n_fig))
-    # plt.xlabel('Displacement (mm)')
-    # plt.ylabel('Force (N)')
-    # plt.text(10.5,5.2,'Spring Constant = {:1.4f} N/mm'.format(s_const_k))
-    # plt.text(16,2.5,r'r$^2$ = ' + '{:1.4f}'.format(sc_rsq))
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Accelerometer Filtering
-    # plt.plot(time, uf_d_a, label='Unfiltered Acceleration')
-    # plt.plot(time, d_a, label='Filtered Acceleration')
-    # plt.title('Figure {}: Acceleration Data Filtering'.format(n_fig))
-    # plt.xlabel('Time(s)')
-    # plt.ylabel('Accelerometer Output')
-    # plt.text(2.5,-11,'Butterworth Filter Parameters : ')
-    # plt.text(2.5,-12,r'Order = 2, $f_s = 10000Hz, f_c = 20Hz$ ')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Accelerometer Integrated data
-    # plt.plot(time, acc_disp_pts, label='Displacement')
-    # plt.plot(time, acc_vel_pts, label='Velocity')
-    # plt.plot(time, d_a, label='Acceleration')
-    # plt.title('Figure {}: Accelerometer Data'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Scaled Accelerometer Output')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-
-    # # Potentiometer (displacement) Filtering
-    # plt.plot(time, uf_d_x, label='Unfiltered Displacement')
-    # plt.plot(time, d_x, label='Filtered Displacement')
-    # plt.scatter(pp_times, pp_data, label='Peak Detection Data', c='r')
-    # plt.text(.6,0,r'Damping Coefficient = B = $\frac{mg - kx - m\dot{y}}{m\ddot{y}} = - \frac{2m * ln(\frac{y_2}{y_1})}{\Delta t}$ = ' + '{:1.2f}'.format(damp))
-    # plt.text(2.5,45,'Butterworth Filter Parameters : ')
-    # plt.text(2.5,42,r'Order = 2, $f_s = 10000Hz, f_c = 30Hz$ ')
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Displacement (m)')
-    # plt.title('Figure {}: Displacement Data Filtering'.format(n_fig))
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Potentiometer derived data
-    # plt.plot(time, d_x, label='Displacement')
-    # plt.plot(time, [i/9.81 for i in pot_vel], label='Velocity')
-    # plt.plot(time, [i/(9.81**2) for i in pot_accel], label='Acceleration')
-    # plt.title('Figure {}: Potentiometer Data'.format(n_fig))
-    # plt.xlabel('Time')
-    # plt.ylabel('Scaled Potentiometer Output')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-
-
-    # # Method 1:
-    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
-    # plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)', c=compcol)
-    # plt.title('Figure {}: Numeric ODE Solution'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Method 2:
-    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
-    # plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c=compcol)
-    # plt.title('Figure {}: Potentiometer Derived Force'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Method 3:
-    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
-    # plt.plot(time, m3_f_data, label='Spring Constant and displacement (Method 3)', c=compcol)
-    # plt.title('Figure {}: Force from Spring Constant'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    # # Method 4:
-    # plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
-    # plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c=compcol)
-    # plt.title('Figure {}: Accelerometer Derived Force Data'.format(n_fig))
-    # plt.xlabel('Time (s)')
-    # plt.ylabel('Force (N)')
-    # plt.legend()
-    # plt.savefig('Lab_10_figure_{}.png'.format(n_fig), bbox_inches='tight')
-    # n_fig +=1
-    # plt.show()
-
-    plt.plot(time,butterworth_filter(f_y),label='Filtered')
-    plt.plot(time,f_y,label='Unfiltered')
-
+    # Group Photo: Clusterfuck
+    plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)',c='C0')
+    plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c='C1')
+    plt.plot(time, m3_f_data, label='Spring Constant and Displacement (Method 3)', c='C2')
+    plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c='C3')
+    plt.plot(time, f_y, label='Force From Load Cell (Direct Measurement)', c='k', ls=':')
+    plt.title('Force Calculation Method Comparison')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_Compare.png', bbox_inches='tight')
+    n_fig +=1
     plt.show()
+
+    # Load Cell Calibration from static tests
+    plt.scatter(force_cal, f_cal_val, label='Mean Load Cell Reading')
+    plt.plot(force_cal, lcell_cal_list, color='r',ls='-.',label='Linear fit through origin')
+    plt.title('Load Cell Calibration')
+    plt.xlabel('Force Applied (Newtons)')
+    plt.ylabel('Load Cell Output')
+    plt.text(20,.06,'Load Cell Calibration Coefficient = {:1.2f}'.format(1/lcell_cal_coef))
+    plt.text(42.5,0,r'r$^2$ = ' + '{:1.4f}'.format(lc_rsq))
+    plt.legend()
+    plt.savefig('Lab_10_LC_cal.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+
+    # Spring Constant Derivation
+    plt.scatter(np.array(disp_cal), np.array(force_cal[1:]),label='Mean displacement with known mass')
+    plt.plot(cal_xaxis, cal_linfit_fcn_spring(cal_xaxis), color='r', ls='-.', label='Linear fit through origin')
+    plt.title('Spring Constant Calibration Data')
+    plt.xlabel('Displacement (mm)')
+    plt.ylabel('Force (N)')
+    plt.text(10.5,5.2,'Spring Constant = {:1.4f} N/mm'.format(s_const_k))
+    plt.text(16,2.5,r'r$^2$ = ' + '{:1.4f}'.format(sc_rsq))
+    plt.legend()
+    plt.savefig('Lab_10_K_cal.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Accelerometer Filtering
+    plt.plot(time, uf_d_a, label='Unfiltered Acceleration')
+    plt.plot(time, d_a, label='Filtered Acceleration')
+    plt.title('Acceleration Data Filtering')
+    plt.xlabel('Time(s)')
+    plt.ylabel('Accelerometer Output')
+    plt.text(2.5,-11,'Butterworth Filter Parameters : ')
+    plt.text(2.5,-12,r'Order = 2, $f_s = 10000Hz, f_c = 20Hz$ ')
+    plt.legend()
+    plt.savefig('Lab_10_acc_filt.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Accelerometer Integrated data
+    plt.plot(time, acc_disp_pts, label='Displacement')
+    plt.plot(time, acc_vel_pts, label='Velocity')
+    plt.plot(time, d_a, label='Acceleration')
+    plt.title('Accelerometer Data')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Scaled Accelerometer Output')
+    plt.legend()
+    plt.savefig('Lab_10_acc_int.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+
+    # Potentiometer (displacement) Filtering
+    plt.plot(time, uf_d_x, label='Unfiltered Displacement')
+    plt.plot(time, d_x, label='Filtered Displacement')
+    plt.scatter(pp_times, pp_data, label='Peak Detection Data', c='r')
+    plt.text(.6,0,r'Damping Coefficient = B = $\frac{mg - kx - m\dot{y}}{m\ddot{y}} = - \frac{2m * ln(\frac{y_2}{y_1})}{\Delta t}$ = ' + '{:1.2f}'.format(damp))
+    plt.text(2.5,45,'Butterworth Filter Parameters : ')
+    plt.text(2.5,42,r'Order = 2, $f_s = 10000Hz, f_c = 30Hz$ ')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Displacement (m)')
+    plt.title('Displacement Data Filtering')
+    plt.legend()
+    plt.savefig('Lab_10_pot_peak_damp.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Potentiometer derived data
+    plt.plot(time, d_x, label='Displacement')
+    plt.plot(time, [i/9.81 for i in pot_vel], label='Velocity')
+    plt.plot(time, [i/(9.81**2) for i in pot_accel], label='Acceleration')
+    plt.title('Potentiometer Data')
+    plt.xlabel('Time')
+    plt.ylabel('Scaled Potentiometer Output')
+    plt.legend()
+    plt.savefig('Lab_10_pot_ddx.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+
+
+    # Method 1:
+    plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    plt.plot(ode_x, ode_y, label='ODE Integration (Method 1)', c=compcol)
+    plt.title('Numeric ODE Solution')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_m1_ode.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Method 2:
+    plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    plt.plot(time, pot_sp_f, label='Potentiometer Differentiation (Method2)', c=compcol)
+    plt.title('Potentiometer Derived Force')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_m2_pot.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Method 3:
+    plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    plt.plot(time, m3_f_data, label='Spring Constant and displacement (Method 3)', c=compcol)
+    plt.title('Force from Spring Constant')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_m3_kcal.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # Method 4:
+    plt.plot(time, f_y, label='Load Cell Data',c='k', ls=comp_lc_st)
+    plt.plot(time, acc_sp_f, label='Accelerometer Integration (Method 4)', c=compcol)
+    plt.title('Accelerometer Derived Force Data')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Force (N)')
+    plt.legend()
+    plt.savefig('Lab_10_m4_acc.png', bbox_inches='tight')
+    n_fig +=1
+    plt.show()
+
+    # plt.plot(time,butterworth_filter(f_y),label='Filtered')
+    # plt.plot(time,f_y,label='Unfiltered')
+
+    # plt.show()
 
 def lp_801_300(in_value):
     '''
