@@ -631,7 +631,7 @@ def damping(peaks_x, peaks_y, mass, skip=0):
     x_2 = peaks_x[skip+1]
     y_2 = peaks_y[skip+1] - offset
     dt = abs(x_2 - x_1)
-    d_const_b = (-2 * mass * np.log(y_2/y_1))/dt
+    d_const_b = (-2* mass * np.log(y_2/y_1))/dt
     # print('Damping Constant : {}'.format(d_const_b))
     return (d_const_b)
 
