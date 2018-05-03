@@ -1,6 +1,9 @@
+## module day_length
 import os, csv
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import signal
+from findpeaks import findpeaks
 
 def main():
     x_vals, y_vals = readFile('sun_data_short.txt', 0, -1, 1)
@@ -8,7 +11,6 @@ def main():
     x_new = [i for i in range(1, len(x_vals)+1)]
     timehr = [time2hrs(i) for i in y_vals]
     max_day = timehr.index(max(timehr))
-
     max_hrs = max(timehr)
     min_day = timehr.index(min(timehr))
     min_hrs = min(timehr)
@@ -25,41 +27,52 @@ def main():
     period = 2*(max_day - min_day)
     b_coef = (2*np.pi) / period
     ang_func = lambda x : amp*np.cos(b_coef*(x - max_day))+k_shift
+    d_x = butterworth_filter(t_mean,2000,40)
     sun_angles = [ang_func(i) for i in x_new]
+    peaks = findpeaks(x_new, d_x)
+    fp_ydata = [d_x[i] for i in peaks]
 
     # Plot 1
 
-    plt.plot(x_new, timehr)
-    plt.scatter(max_day, max_hrs, color='r',label='June 21, Summer solstice')
-    plt.scatter(min_day, min_hrs, color='b',label='December 21, Winter Solstice')
-    plt.xlabel('Day of Year')
-    plt.ylabel('Hours of Daylight')
-    plt.title('Day Length')
-    plt.legend()
-    plt.savefig('ME399_day_length.png', bbox_inches='tight')
-    plt.show()
-
-    # Plot 2
-
-    plt.plot(x_new, sun_angles)
-    plt.xlabel('Day of Year')
-    plt.ylabel('Sun Path Angle (degrees)')
-    plt.title('Kansas City Yearly Sun Trajectory')
-    plt.savefig('ME399_Sun_Trajectory.png', bbox_inches='tight')
-    plt.show()
-
-    # Plot 3
-
     plt.plot(x_new, t_mean, label='Mean Temperature')
-    plt.plot(x_new,tr_min, label='95/% Confidence Lower Bound')
-    plt.plot(x_new, tr_max,label='95/% Confidence Upper Bound')
+    plt.plot(x_new, d_x, label='Filtered Temperature')
+    plt.scatter(peaks, fp_ydata, label='Hottest Day: {}, July 22'.format(peaks[1]),c='r')
+    # plt.plot(x_new,tr_min, label='95/% Confidence Lower Bound')
+    # plt.plot(x_new, tr_max,label='95/% Confidence Upper Bound')
     plt.xlabel('Day of Year')
-    plt.ylabel('Temperature (F)')
-    plt.title('50-Mile 10-Year Temperature Data')
+    plt.ylabel(r'Temperature ($^\circ$F)')
+    plt.title('50-Mile Radius 10-Year Temperature Data')
     plt.legend()
     plt.savefig('ME399_Temp_Info.png', bbox_inches='tight')
     plt.show()
 
+    # # Plot 2
+
+    # plt.plot(x_new, timehr)
+    # plt.scatter(max_day, max_hrs, color='r',label='June 21, Summer solstice')
+    # plt.scatter(min_day, min_hrs, color='b',label='December 21, Winter Solstice')
+    # plt.xlabel('Day of Year')
+    # plt.ylabel('Hours of Daylight')
+    # plt.title('Day Length')
+    # plt.legend()
+    # plt.savefig('ME399_day_length.png', bbox_inches='tight')
+    # plt.show()
+
+    # # Plot 3
+
+    plt.plot(x_new, sun_angles)
+    plt.scatter(196, ang_func(196), label=r'July 15 Peak Angle : {:1.2f}$^\circ$'.format(ang_func(196)),c='C1')
+    plt.scatter(203, ang_func(203), label=r'July 22 Peak Angle: {:1.2f}$^\circ$'.format(ang_func(203)),c='C2')
+    plt.scatter(258, ang_func(258), label=r'August 15 Peak Angle: {:1.2f}$^\circ$'.format(ang_func(258)),c='C3')
+    plt.scatter(355, ang_func(355), label=r'December 21 Sun Angle: {:1.2f}$^\circ$'.format(ang_func(355)),c='b')
+    plt.xlabel('Day of Year')
+    plt.ylabel('Solar Noon Elevation (degrees)')
+    plt.title('Kansas City Peak Elevation')
+    plt.legend()
+    plt.savefig('ME399_Sun_Trajectory.png', bbox_inches='tight')
+    plt.show()
+
+    # Plot 4
 
 
 
@@ -90,13 +103,14 @@ def collect_weather_data(data_file):
         else:
             mean_data[day_num] = [h_temp,]
     for day in mean_data.keys():
-        lower, mean, upper = do_math(mean_data[day])
+        lower, mean, upper = mean95int(mean_data[day])
         r_95_l.append(lower)
         m_temp.append(mean)
         r_95_u.append(upper)
     return r_95_l, m_temp, r_95_u
 
-def do_math(y_list):
+def mean95int(y_list):
+    ''' Generate the mean and a 95% confidence interval using student's t-distribution coefficient for a sample size between 30-50'''
     # Gather information about the data set
     y_list = [int(i) for i in y_list if i != '']
     n = len(y_list)
@@ -148,12 +162,22 @@ def conv_date(in_date):
         m_iter += 1
     return today
 
-    
-
 def time2hrs(in_time):
     parts = in_time.split(':')
     secs = float(parts[2])/3600
     mins = float(parts[1])/60
     return float(parts[0]) + secs + mins
+
+def butterworth_filter(in_data, f_s=10000, f_c=50):
+    '''
+    Filters input data in butterworth plot to get rid of noise
+
+    f_s : Sampling Frequency for the dataset
+    f_c : Cutoff Frequency to eliminate noise
+    '''
+    W_n = 2 * f_c / f_s # Natural Frequency
+    b, a = signal.butter(2, W_n)
+    filtered_data = signal.filtfilt(b, a, in_data)
+    return filtered_data
 
 main()
