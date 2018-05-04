@@ -183,7 +183,7 @@ def lin_fit(x_list, y_list):
     # Standard error
     std_er = (r2_num/(n-2))**(0.5)
     return coef_a, coef_b, r_sq, std_er, er_max
-    
+
 
 def prob_3():
     deflect = [0.00, 1.25, 2.50, 3.75, 5.00]
@@ -193,9 +193,9 @@ def prob_3():
     print('R-Squared, Calibration Constant = {:.4f}'.format(r2))
     print('Standard Error = {:.4f}'.format(se))
     print('Maximum Error = {:.4f}'.format(me))
-    
 
 
 
-# prob_1()
-prob_3()
+
+prob_1()
+# prob_3()
