@@ -1,0 +1,36 @@
+Velocity : 10 m/s
+Trial : 2
+Mean signal between 20s and 30s = 0.3041721286592593
+Samples Collected : 50000
+Velocity : 10 m/s
+Trial : 3
+Mean signal between 40s and 50s = 0.3264904214663587
+Samples Collected : 50000
+Velocity : 10 m/s
+Trial : 1
+Mean signal between 20s and 30s = 0.40489705748065963
+Samples Collected : 50000
+Velocity : 20 m/s
+Trial : 2
+Mean signal between 15s and 22s = 1.484594229621212
+Samples Collected : 35000
+Velocity : 20 m/s
+Trial : 3
+Mean signal between 25s and 30s = 1.523773553297724
+Samples Collected : 25000
+Velocity : 20 m/s
+Trial : 1
+Mean signal between 19s and 29s = 1.3776181674104333
+Samples Collected : 50000
+Velocity : 30 m/s
+Trial : 2
+Mean signal between 30s and 40s = 2.767681054221361
+Samples Collected : 50000
+Velocity : 30 m/s
+Trial : 3
+Mean signal between 35s and 40s = 2.8985715026643457
+Samples Collected : 25000
+Velocity : 30 m/s
+Trial : 1
+Mean signal between 30s and 40s = 2.7719920447647537
+Samples Collected : 50000
