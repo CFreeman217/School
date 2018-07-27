@@ -11,7 +11,7 @@ SdFile dataFile;
 
 const byte CS_PIN  = 4;
 const byte analogPin0 = A0;   
-const byte analogPin1 = A1;   
+const byte analogPin1 = A1;
 const byte analogPin2 = A2; 
 const char filename[] = "ArduinoPoop_7.csv";
 int val = 0; 

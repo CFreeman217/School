@@ -13,6 +13,10 @@ def main():
                                                     delimiter=',',
                                                     skiprows=1,
                                                     unpack=True)
+                                                    
+            print('Max time : {}'.format(np.max(wt)))
+            print('Min time : {}'.format(np.min(wt)))
+            print('Mean time : {}'.format(np.mean(wt)))
             c_time = c_time/1000
             plt.plot(c_time, a0,label='Analog Pin 0')
             plt.plot(c_time, a1,label='Analog Pin 1')
