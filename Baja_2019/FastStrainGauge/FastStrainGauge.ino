@@ -38,7 +38,7 @@ void setup () {
 //    if(dataFile)//Sd.h
   {
 //    Serial.println("data file open");
-    dataFile.print(F("Data Point Number, Analog Reading 1, Analog Reading 2, Analog Reading 3, Current Milliseconds, Microseconds Write Time"));
+    dataFile.println(F("n_point, Pin A0, Pin A1, Pin A2, Current Time(ms), Time since last write (us)"));
   }
   else
   {
@@ -65,8 +65,8 @@ void loop () {
   lastWrite = micros();
 
 
-  // Save data after 250 seconds
-  static unsigned long chunkTime = 2500000;
+  // Save data after 5 minutes
+  static unsigned long chunkTime = 300000;
   static unsigned long startLog = millis();
   
   

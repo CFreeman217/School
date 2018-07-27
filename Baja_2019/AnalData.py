@@ -1,21 +1,20 @@
 #! /usr/bin/env python3
 import os
 import numpy as np
-# import matplotlib
-# matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 
 
 def main():
     for filename in os.listdir('.'):
-        if filename.startswith("ArduinoPoop"):
+        if filename.endswith(".csv"):
             print("HEY")
-            pt, a0, a1, a2, c_time, wt = np.loadtxt(open(filename),
+            pt, a2, a1, a0, c_time, wt = np.loadtxt(open(filename),
                                                     delimiter=',',
                                                     skiprows=1,
                                                     unpack=True)
             c_time = c_time/1000
-            print(c_time)
+            
             plt.plot(c_time, a0,label='Analog Pin 0')
             plt.plot(c_time, a1,label='Analog Pin 1')
             plt.plot(c_time, a2,label='Analog Pin 2')
@@ -24,6 +23,7 @@ def main():
             plt.ylabel('Reading')
             plt.legend()
             plt.show()
+            # plt.savefig('Graph_{}.jpg'.format(filename),box_inches='tight')
 
 main()
 
