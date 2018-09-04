@@ -13,11 +13,18 @@ def prob2_7b():
 # prob2_7b()
 
 def prob2_15():
+    import numpy as np
     from scipy.signal import residue, zpk2tf, TransferFunction
     from numpy import roots
 
     num = [-5, 70]
-    den = [0, -45, -55, (roots([1, 7, 110])), (roots([1, 6, 95]))]
-
-    num_tf, den_tf = zpk2tf(num, den, 10000)
-    G_tf = transferFunction(num_tf, den_tf)
+    rp1 = (roots([1, 7, 110]).T.conj())
+    rp2 = (roots([1, 6, 95]).T.conj())
+    print(rp1[0])
+    # den = [0, -45, -55, rp1[0][0], rp1[0][1], rp2[0][0], rp2[0][1]]
+    # print(num)
+    # print(den)
+    # num_tf, den_tf = zpk2tf(np.atleast_2d(num).T.conj(), np.atleast_2d(den).T.conj(), 10000)
+    # G_tf = transferFunction(num_tf, den_tf)
+    # print(G_tf)
+prob2_15()
