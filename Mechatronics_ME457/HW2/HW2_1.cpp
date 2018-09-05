@@ -16,7 +16,7 @@ Let the variable accels hold the three accelerometer readings provided to the pr
 double r2d = 180/PI;
 
 // Input an array of floats to hold accelerometer readings
-float accels[] = {0.0, 0.0, 9.81};
+float accels[] = {1.0, 1.5, 10.81};
 
 int main()
 {
@@ -26,13 +26,13 @@ int main()
       double az = accels[2] - 9.81;
 
       // calculate pitch, roll and yaw
-      double pitch = atan( ax / (sqrt(pow(ay,2.0) + pow(az, 2.0))));
-      double roll = atan( ay / (sqrt(pow(ax, 2.0) + pow(az, 2.0))));
+      double pitch = atan2(ax, az) * r2d;
+      double roll = atan2(ay, az) * r2d;
       //double yaw = atan( az / (sqrt(pow(ax, 2.0) + pow(ay, 2.0))));
-      double yaw = atan((sqrt(pow(ax, 2.0) + pow(ay, 2.0))) / az);
+      double yaw = atan2(ay, ax) * r2d;
 
       // convert to degrees
-      pitch *= r2d; roll *= r2d; yaw *= r2d;
+      // pitch *= r2d; roll *= r2d; yaw *= r2d;
 
       // print the results
       printf(" Pitch = %f , Roll = %f, Yaw = %f \n", pitch, roll, yaw);
