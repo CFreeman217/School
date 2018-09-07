@@ -2,6 +2,7 @@
 from nanpy import (ArduinoApi, SerialManager)
 import math
 import timeit
+import time
 
 sensorPin = 14
 
@@ -19,9 +20,11 @@ try:
     # Header
     print('start_millis, sensor_1, strain_1, end_millis, read_time')
     while True:
-        start = timeit.timeit()
+       # start = timeit.timeit()
+        start = int(round(time.time()*1000))
         sensor1 = a.analogRead(sensorPin)
-        end = timeit.timeit()
+       # end = timeit.timeit()
+        end = int(round(time.time()*1000))
         strain1 = (1023-sensor1)*(30000/1023)
         span = end-start
         print("{},{},{},{},{}".format(start,sensor1, strain1, end, span))
