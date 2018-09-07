@@ -26,13 +26,10 @@ int main()
       double az = accels[2] - 9.81;
 
       // calculate pitch, roll and yaw
-      double pitch = atan2(ax, az) * r2d;
-      double roll = atan2(ay, az) * r2d;
-      //double yaw = atan( az / (sqrt(pow(ax, 2.0) + pow(ay, 2.0))));
+      double pitch = atan2(ax, -az) * r2d;
+      double roll = atan2(ay, -az) * r2d;
       double yaw = atan2(ay, ax) * r2d;
 
-      // convert to degrees
-      // pitch *= r2d; roll *= r2d; yaw *= r2d;
 
       // print the results
       printf(" Pitch = %f , Roll = %f, Yaw = %f \n", pitch, roll, yaw);
