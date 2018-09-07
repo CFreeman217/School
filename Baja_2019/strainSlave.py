@@ -3,6 +3,7 @@ from nanpy import (ArduinoApi, SerialManager)
 import time
 
 sensorPin = 14
+strain = lambda x : (1023-x)*(30000/1023)
 
 try:
     # connection = SerialManager(device='/dev/ttyUSB0')
@@ -21,9 +22,9 @@ try:
         start = time.clock()
         sensor1 = a.analogRead(sensorPin)
         end = time.clock()
-        strain1 = (1023-sensor1)*(30000/1023)
+        output1 = strain(sensor1)
         span = (end-start)*1000
-        print("{},{},{},{}".format(start,sensor1, strain1, span))
+        print("{},{},{},{}".format(start,sensor1, output1, span))
        
 except:
     print('Error')
