@@ -1,7 +1,5 @@
 #!usr/bin/env/python3
 from nanpy import (ArduinoApi, SerialManager)
-import math
-import timeit
 import time
 
 sensorPin = 14
@@ -25,7 +23,7 @@ try:
         end = time.clock()
         strain1 = (1023-sensor1)*(30000/1023)
         span = (end-start)*1000
-        print("{},{},{},{},{}".format(start,sensor1, strain1, span))
+        print("{},{},{},{}".format(start,sensor1, strain1, span))
        
 except:
     print('Error')
