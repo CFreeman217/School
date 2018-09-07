@@ -18,14 +18,14 @@ a.pinMode(sensorPin, a.INPUT)
 
 try:
     # Header
-    print('start_millis, sensor_1, strain_1, end_millis, read_time')
+    print('start_millis, sensor_1, strain_1, read_time')
     while True:
-        start = datetime.time()
+        start = time.clock()
         sensor1 = a.analogRead(sensorPin)
-        end = datetime.time()
+        end = time.clock()
         strain1 = (1023-sensor1)*(30000/1023)
-        span = end-start
-        print("{},{},{},{},{}".format(start,sensor1, strain1, end, span))
+        span = (end-start)*1000
+        print("{},{},{},{},{}".format(start,sensor1, strain1, span))
        
 except:
     print('Error')
