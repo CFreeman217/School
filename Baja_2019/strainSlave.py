@@ -1,6 +1,7 @@
 #!usr/bin/env/python3
 from nanpy import (ArduinoApi, SerialManager)
-from time import sleep
+import math
+import timeit
 
 sensorPin = 14
 
@@ -15,9 +16,15 @@ except:
 a.pinMode(sensorPin, a.INPUT)
 
 try:
+    # Header
+    print('start_millis, sensor_1, strain_1, end_millis, read_time')
     while True:
+        start = timeit.timeit()
         sensor1 = a.analogRead(sensorPin)
-        print("Signal Reading {}".format(sensor1))
+        end = timeit.timeit()
+        strain1 = (1023-sensor1)*(30000/1023)
+        span = end-start
+        print("{},{},{},{},{}".format(start,sensor1, strain1, end, span))
        
 except:
     print('Error')
