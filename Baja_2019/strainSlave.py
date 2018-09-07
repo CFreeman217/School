@@ -21,8 +21,8 @@ try:
     while True:
         start = time.clock()
         sensor1 = a.analogRead(sensorPin)
-        end = time.clock()
         output1 = strain(sensor1)
+        end = time.clock()
         span = (end-start)*1000
         print("{},{},{},{}".format(start,sensor1, output1, span))
        
