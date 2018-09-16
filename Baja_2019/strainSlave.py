@@ -16,8 +16,8 @@ a.pinMode(sensorPin, a.INPUT)
 
 try:
     while True:
-        sensor = a.analogRead(sensorPin)
-        print("Signal Reading {}".format(sensor))
+        sensor1 = a.analogRead(sensorPin)
+        print("Signal Reading {}".format(sensor1))
        
 except:
     print('Error')
