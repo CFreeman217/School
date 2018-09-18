@@ -1,3 +1,12 @@
+/*
+44 - variable declaration
+95 - accel/gyro vars
+409 - log file text header
+483 - student loop section
+528 - log file data
+590 - console output
+*/
+
 // custom function includes
 #include "Navio/ScaleVars.h" // functions for re-scaling a value within a specified output range
 // log file includes
@@ -41,6 +50,11 @@ const float fc = .25; // Hz
 const float fs = 100; // Hz
 
 digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+
+float pitchA;
+float pitchG;
+float g_old;
+float pitch0;
 
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
@@ -411,7 +425,8 @@ int main( int argc , char *argv[])
 			"adc_array[0],adc_array[1],adc_array[2],adc_array[3],adc_array[4],adc_array[5],"
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
-			"m_mpu[0],m_mpu[1],m_mpu[2],a,b" << endl;
+			"m_mpu[0],m_mpu[1],m_mpu[2],a,b"
+			"pitchA, pitchG" << endl;
 		usleep(20000);
 
 
@@ -527,6 +542,7 @@ while(true) // uncomment here when no transmitter is used
 			fout << a_mpu[0] << "," << a_mpu[1] << "," << a_mpu[2] << ",";
 			fout << g_mpu[0] << "," << g_mpu[1] << "," << g_mpu[2] << ",";
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
+			fout << pitchA << "," << pitchG << ",";
 			// add things to the log file here
 			fout << endl;
 
