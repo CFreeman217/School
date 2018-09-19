@@ -3,7 +3,7 @@ import math, os
 # external libraries (for convolve, sinc, arrays, csv parsing, and plotting)
 import numpy as np, matplotlib.pyplot as plt
 
-def butter2(f_c, f_s, in_list):
+def butter2(f_c, f_s, in_list, highpass=False):
     '''
     2nd Order Butterworth Filter:
     f_c = cutoff frequency - adjust this to change amount of filtering
@@ -14,9 +14,14 @@ def butter2(f_c, f_s, in_list):
     coef_d = gam**2 + (2**0.5)*gam + 1
     a_1 = (2 * (gam**2 - 1)) / coef_d
     a_2 = (gam**2 - (2**0.5)*gam + 1)/coef_d
-    b_0 = (gam**2) / coef_d
-    b_1 = (2*b_0) / coef_d
-    b_2 = b_0
+    if highpass:
+        b_0 = 1
+        b_1 = -2
+        b_2 = 1        
+    else:
+        b_0 = (gam**2) / coef_d
+        b_1 = (2*b_0) / coef_d
+        b_2 = b_0
     x_n1 = 0
     x_n2 = 0
     y_n1 = 0
@@ -75,15 +80,15 @@ for file_name in os.listdir():
                                             skiprows = 2)
 
 d_time /= 1000000 # convert time from microseconds to milliseconds
-cutoff = .000001 # cutoff frequency
+cutoff = 1 # cutoff frequency
 tran_band = 0.005 # transition bandwdth
 sample = 100 # Sampling frequency is 100Hz
 
-# f_acc = butter2(cutoff, sample, pitch_acc) # Filtered accelerometer
-# f_gyro = butter2(cutoff, sample, pitch_gyro) # Filtered gyrometer
+lp_acc = butter2(cutoff, sample, pitch_acc) # Filtered accelerometer
+hp_gyro = butter2(cutoff, sample, pitch_gyro, highpass=True) # Filtered gyrometer
 
-lp_acc = fir_wind(cutoff, tran_band, pitch_acc) # Filtered accelerometer
-hp_gyr = fir_wind(cutoff, tran_band, pitch_gyro, highpass=True) # Filtered gyrometer
+# lp_acc = fir_wind(cutoff, tran_band, pitch_acc) # Filtered accelerometer
+# hp_gyr = fir_wind(cutoff, tran_band, pitch_gyro, highpass=True) # Filtered gyrometer
 
 # Problem 1 plot
 plt.plot(d_time, pitch_acc, label='Accelerometer')
@@ -102,5 +107,5 @@ plt.title(r'Filter Convolution : f$_c$ = {}'.format(cutoff))
 plt.xlabel('Time (seconds)')
 plt.ylabel('Pitch Estimate (degrees)')
 plt.legend()
-plt.savefig('ME457_HW3_P3.png', bbox_inches='tight')
+# plt.savefig('ME457_HW3_P3.png', bbox_inches='tight')
 plt.show()

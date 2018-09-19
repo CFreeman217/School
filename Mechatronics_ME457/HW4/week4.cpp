@@ -46,7 +46,7 @@ using namespace std;
 const int order = 2;
 const char low = 'l'; // for low pass
 const char high = 'h';
-const float fc = .25; // Hz
+const float fc = 1; // Hz
 const float fs = 100; // Hz
 
 digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
@@ -55,6 +55,12 @@ float pitchA;
 float pitchG;
 float g_old;
 float pitch0;
+float c_gyro_filt;
+float c_acc_filt;
+float comp_filter;
+
+digital_filter g_filt(order,high,fc,fs);
+digital_filter a_filt(order,'l',fc,fs);
 
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
@@ -425,8 +431,8 @@ int main( int argc , char *argv[])
 			"adc_array[0],adc_array[1],adc_array[2],adc_array[3],adc_array[4],adc_array[5],"
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
-			"m_mpu[0],m_mpu[1],m_mpu[2],a,b"
-			"pitchA, pitchG" << endl;
+			"m_mpu[0],m_mpu[1],m_mpu[2],"
+			"pitchA, pitchG, acc_filt, gyr_filt, com_filt" << endl;
 		usleep(20000);
 
 
@@ -499,10 +505,15 @@ while(true) // uncomment here when no transmitter is used
 //----------------------------------------------------------------------------------------------------------------------------
 
 
-	pitchA = (atan2(a_mpu[2],-a_mpu[0])*(180/PI)+90);
-	pitchG = pitch0 + 0.1*(((1-g_mpu[1])+g_old)/2)*(180/PI);
-	g_old = -1*g_mpu[1];
+	pitchA = (atan2(a_mpu[0],-a_mpu[2])*(180/PI));
+	pitchG = pitch0 + 0.01*(((1-g_mpu[1])+g_old)/2)*(180/PI);
+	g_old = 1*g_mpu[1];
 	pitch0 = pitchG;
+	
+	c_gyro_filt = g_filt.filter_new_input(pitchG);
+	c_acc_filt = a_filt.filter_new_input(pitchA);
+
+	comp_filter = c_gyro_filt + c_acc_filt;
 
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -542,7 +553,8 @@ while(true) // uncomment here when no transmitter is used
 			fout << a_mpu[0] << "," << a_mpu[1] << "," << a_mpu[2] << ",";
 			fout << g_mpu[0] << "," << g_mpu[1] << "," << g_mpu[2] << ",";
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
-			fout << pitchA << "," << pitchG << ",";
+			fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
+			fout << c_gyro_filt << "," << comp_filter << ",";
 			// add things to the log file here
 			fout << endl;
 
