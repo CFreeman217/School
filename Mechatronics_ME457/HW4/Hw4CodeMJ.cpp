@@ -1,11 +1,5 @@
-/*
-44 - variable declaration
-95 - accel/gyro vars
-409 - log file text header
-483 - student loop section
-528 - log file data
-590 - console output
-*/
+
+
 
 // custom function includes
 #include "Navio/ScaleVars.h" // functions for re-scaling a value within a specified output range
@@ -38,6 +32,12 @@
 #include "Navio/buffer.h"
 
 using namespace std;
+float pitchacc = 0;
+float pitchgyro = 0;
+float pitchold = 0;
+float oldgyro = 0;
+float pitchplus=0;
+
 //----------------------------------------------------------------------------------------------------------Saturation Parameters
 #define MAX_DUTY_CYCLE 0.6
 #define NEUTRAL 1.5
@@ -46,15 +46,14 @@ using namespace std;
 const int order = 2;
 const char low = 'l'; // for low pass
 const char high = 'h';
-const float fc = .25; // Hz
+const float fc = 1; // Hz
 const float fs = 100; // Hz
+float currentgyro = 0;
+float currentaccel = 0;
+float comppitch = 0;
 
-digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
-
-float pitchA;
-float pitchG;
-float g_old;
-float pitch0;
+digital_filter accelfilt(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+digital_filter gyrofilt(order,high,fc,fs);
 
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
@@ -425,8 +424,7 @@ int main( int argc , char *argv[])
 			"adc_array[0],adc_array[1],adc_array[2],adc_array[3],adc_array[4],adc_array[5],"
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
-			"m_mpu[0],m_mpu[1],m_mpu[2],a,b"
-			"pitchA, pitchG" << endl;
+			"m_mpu[0],m_mpu[1],m_mpu[2],pitchacc,pitchgyro" << endl;
 		usleep(20000);
 
 
@@ -499,11 +497,16 @@ while(true) // uncomment here when no transmitter is used
 //----------------------------------------------------------------------------------------------------------------------------
 
 
-	pitchA = (atan2(a_mpu[2],-a_mpu[0])*(180/PI)+90);
-	pitchG = pitch0 + 0.1*(((1-g_mpu[1])+g_old)/2)*(180/PI);
-	g_old = -1*g_mpu[1];
-	pitch0 = pitchG;
-
+			// put your code here!
+			pitchacc = (atan2(a_mpu[2],a_mpu[0]) * 180 / PI) + 90;
+			pitchgyro = (( .01* (oldgyro + g_mpu[1]+.07425 ) / 2 ) * 180 / PI ) + pitchold;
+			oldgyro = g_mpu[1];
+			pitchold = pitchgyro;
+			
+			// set current value and set syntax
+			currentgyro = gyrofilt.filter_new_input(pitchgyro);
+			currentaccel = accelfilt.filter_new_input(pitchacc);
+			comppitch = currentaccel + currentgyro;
 
 //----------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------- End Student Section  ---------------------------------------------------
@@ -542,8 +545,8 @@ while(true) // uncomment here when no transmitter is used
 			fout << a_mpu[0] << "," << a_mpu[1] << "," << a_mpu[2] << ",";
 			fout << g_mpu[0] << "," << g_mpu[1] << "," << g_mpu[2] << ",";
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
-			fout << pitchA << "," << pitchG << ",";
 			// add things to the log file here
+			fout << currentaccel << "," << currentgyro << "," << comppitch << "," ;
 			fout << endl;
 
 			watcher[3] = time_now - timer[3]; // used to check loop frequency
@@ -606,6 +609,8 @@ while(true) // uncomment here when no transmitter is used
 				cout << " Gyroscope: " << g_mpu[0] << " " << g_mpu[1] << " " << g_mpu[2];
 				cout << " Magnetometer: " << m_mpu[0] << " " << m_mpu[1] << " " << m_mpu[2] << endl;
 				// add console output messages here
+				cout << endl << endl << "the value of pitch from accelerometer " << pitchacc << endl;
+				cout << endl << endl << "the value of pitch from gyroscope " << pitchgyro << endl;
 				cout << endl;
 			}
 
