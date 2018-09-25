@@ -11,12 +11,17 @@ float butter2 (float f_c, float f_s, float dat_in, bool highpass)
 {
     /* 
     2nd order butterworth filter for high or low pass data filtering
+
+    this function is designed to be called within a computational loop
+    and the idea is that it stores each input value to build and adjust
+    the filter each time the function is called.
+
     f_c = cutoff frequency
     f_s = sampling frequency
     dat_in = value to be filtered
     highpass = if true, use high pass coefficients
     */
-   // these coefficients are going to be the same regardless
+   // these coefficients are going to be the same
    float gamma = tan((PI*f_c)/f_s);
    float coef_d = pow(gamma, 2) + pow(2, 0.5)*gamma + 1;
    float a_1 = (2 * (pow(gamma, 2) - 1)) / coef_d;
