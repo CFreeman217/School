@@ -27,15 +27,16 @@ float butter2 (float f_c, float f_s, float dat_in, bool highpass)
    float a_1 = (2 * (pow(gamma, 2) - 1)) / coef_d;
    float a_2 = (pow(gamma, 2) - pow(2, 0.5)*gamma + 1)/coef_d;
    // set highpass or lowpass filtering coefficients
+   float b_0, b_1, b_2;
    if (highpass == true)
    {
-       float b_0 = 1;
-       float b_1 = -2;
-       float b_2 = 1;
+       b_0 = 1;
+       b_1 = -2;
+       b_2 = 1;
    } else {
-       float b_0 = (pow(gamma, 2)) / coef_d;
-       float b_1 = (2 * b_0) / coef_d;
-       float b_2 = b_0;
+       b_0 = (pow(gamma, 2)) / coef_d;
+       b_1 = (2 * b_0) / coef_d;
+       b_2 = b_0;
    }
    // hopefully these static declarations store the values
    // so we don't overwrite the coefficients each time the loop

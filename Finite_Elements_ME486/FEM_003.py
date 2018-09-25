@@ -1,4 +1,4 @@
-import numpy as np, matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 fillet_radii = [0.10, 0.25, 0.50, 0.75]
 
