@@ -19,7 +19,7 @@ for file_name in os.listdir('.'):
             plt.plot(d_time, kpe, label=r'K$_p$e')
             plt.plot(d_time, kiei, label=r'K$_i e_i$')
             plt.plot(d_time, kded, label=r'K$_d e_d$')
-            plt.title(file_name)
+            plt.title('Gain Calibration')
             plt.xlabel('time (s)')
             plt.ylabel('error')
             plt.legend()
