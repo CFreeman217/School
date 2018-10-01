@@ -4,8 +4,8 @@ import numpy as np, matplotlib.pyplot as plt
 # For complementary filtering sensor fusion.
 # Sampling frequency is determined by the dataset.
 # Cutoff frequency must be the same for both sensors.
-f_c = 2
-
+f_c = .5
+savefiles = True
 
 def butter2(f_c, f_s, in_list, highpass=False):
     '''
@@ -82,7 +82,8 @@ plt.xlabel('Time (s)')
 plt.ylabel(r'Roll Angle ($^\circ$)')
 plt.title('4(a) : Low Pass Butterworth Filter Roll Angle')
 plt.legend()
-plt.savefig('prob4a.png',bbox_inches='tight')
+if savefiles:
+    plt.savefig('prob4a.png',bbox_inches='tight')
 plt.show()
 
 plt.plot(dtime[:len(rollG)], rollG, label='Raw Gyroscope Estimate')
@@ -91,7 +92,8 @@ plt.xlabel('Time (s)')
 plt.ylabel(r'Roll Angle ($^\circ$)')
 plt.title('4(b) : High Pass Butterworth Filter Roll Angle')
 plt.legend()
-plt.savefig('prob4b.png',bbox_inches='tight')
+if savefiles:
+    plt.savefig('prob4b.png',bbox_inches='tight')
 plt.show()
 
 plt.plot(dtime[:len(comp_filtAG)],comp_filtAG, label='Complementary Filter' )
@@ -101,5 +103,6 @@ plt.xlabel('Time (s)')
 plt.ylabel(r'Roll Angle ($^\circ$)')
 plt.title('4(c) : Sensor Fusion Roll Estimate')
 plt.legend()
-plt.savefig('prob4c.png',bbox_inches='tight')
+if savefiles:
+    plt.savefig('prob4c.png',bbox_inches='tight')
 plt.show()
