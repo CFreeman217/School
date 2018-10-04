@@ -5,6 +5,7 @@
 483 - student loop section
 528 - log file data
 590 - console output
+ME457_Quad3
 */
 
 // custom function includes
@@ -43,17 +44,17 @@ using namespace std;
 #define NEUTRAL 1.5
 
 //------------------------------------------------------------------------------------------------------------Filter Declarations
-#define M1 0
-#define M2 1
-#define M3 2
-#define M4 3
+#define M1 4
+#define M2 5
+#define M3 6
+#define M4 7
 
 float theta_d = 0;
 float err_old = 0;
 float k_p = 0;
 float k_i = 0;
 float k_d = 0;
-float theta_m, err, err_int, err_der, lam, kpe, kiei, kded;
+float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd;
 
 const int order = 2;
 const char low = 'l'; // for low pass
@@ -566,6 +567,19 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	kded = k_d*err_der;
 	lam = kpe + kiei + kded;
 	err_old = err;
+
+	M1cmd=1.5+lam;
+	M3cmd =1.5-lam;
+	
+    cout << M1cmd << ", " << M3cmd << endl;
+
+	// pwm_out.set_duty_cycle(M1,M1cmd);
+	// pwm_out.set_duty_cycle(M3,M3cmd);
+
+	pwm_out.set_duty_cycle(M1,rc_array_scaled[2]);
+	pwm_out.set_duty_cycle(M3,rc_array_scaled[2]);
+	pwm_out.set_duty_cycle(M2,rc_array_scaled[2]);
+	pwm_out.set_duty_cycle(M4,rc_array_scaled[2]);
 
 //----------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------- End Student Section  ---------------------------------------------------
