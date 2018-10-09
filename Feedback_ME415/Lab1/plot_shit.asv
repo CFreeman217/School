@@ -1,0 +1,15 @@
+hold on
+plot(Input)
+
+legList = {'Command Position'}
+for Kp=2:2:10
+    sim('prelab_PID.slx')
+    plot(Output)
+    
+    
+plot(Output)
+titleString = sprintf('Proportional Gain Response');
+legend('Command Position', 'Actual Position')
+title(titleString)
+xlabel('Time(s)')
+ylabel('Response')
