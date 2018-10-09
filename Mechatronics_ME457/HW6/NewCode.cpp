@@ -53,12 +53,14 @@ using namespace std;
 
 float theta_d = 0;
 float err_old = 0;
-float k_p = 35e-4;
-float k_i = 0;
-// float k_i = 5e-10;
-float k_d = 48e-5;
+float k_p = 25e-4;
+// float k_i = 0;
+float k_i = 5e-7;
+
+float k_d = 60e-5;
+
 float base = 1.65; // base throttle number, usually between 1.5 and 1.7
-float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt;
+float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt, multiplier;
 
 const int order = 2;
 const char low = 'l'; // for low pass
@@ -124,6 +126,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
 const float output_range[6][2] = {{-20,20},{30,-30},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
+// const float output_range[6][2] = {{-20,20},{1,100},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
 
 //---------------------------------------------------------------------------------------------------------------IMU Declarations
@@ -482,7 +485,7 @@ int main( int argc , char *argv[])
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
 			"m_mpu[0],m_mpu[1],m_mpu[2],"
 			"pitchA, pitchG, acc_filt, gyr_filt, com_filt, kpe(P)="<<k_p<<", kiei(I)="<<k_i<<", kded(D)="<<k_d<<"," 
-			"signal, mad_pitch"<< endl;
+			"signal, mad_pitch, multiplier"<< endl;
 		usleep(20000);
 
 
@@ -567,6 +570,7 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	theta_m = pitch_mpu_madgwick;
 
 	theta_d = rc_array_scaled[1];
+	// theta_d = 0;
 	throt = rc_array_scaled[2];
 
 	if (throt < 1)
@@ -579,7 +583,9 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	err = theta_d - theta_m;
 	err_int = ((err-err_old)/2)*0.01;
 	err_der = (err - err_old)*100;
+	
 	kpe = k_p*err;
+	// multiplier = rc_array_scaled[1];
 	kiei = k_i*err_int;
 	kded = k_d*err_der;
 	lam = kpe + kiei + kded;
@@ -598,7 +604,7 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	}
 
     // cout << M1cmd << ", " << M3cmd << endl;
-	cout << "Desired Elevator : " << theta_d << endl;
+	// cout << "Desired Elevator : " << theta_d << endl;
 	pwm_out.set_duty_cycle(M1,M1cmd);
 	pwm_out.set_duty_cycle(M3,M3cmd);
 
@@ -651,7 +657,7 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
 			fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
 			fout << c_gyro_filt << "," << comp_filter << "," << kpe <<"," << kiei << "," << kded<< ",";
-			fout << rc_array_scaled[1] << "," << theta_m << ",";
+			fout << rc_array_scaled[1] << "," << theta_m << ","<<multiplier<<",";
 			// add things to the log file here
 			fout << endl;
 
