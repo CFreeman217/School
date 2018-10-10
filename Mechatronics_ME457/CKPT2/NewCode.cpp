@@ -53,9 +53,12 @@ using namespace std;
 
 float theta_d = 0;
 float err_old = 0;
-float k_p = 15e-4;
-float k_i = 2e-7;
-float k_d = 65e-5;
+// float k_p = 0.0025;
+// float k_d = 0.001;
+float k_i = 0;
+float k_p = 8e-4;
+// float k_i = 5e-6;
+float k_d = 50e-5;
 
 float base = 1.65; // base throttle number, usually between 1.5 and 1.7
 float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt, multiplier;
@@ -655,7 +658,7 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
 			fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
 			fout << c_gyro_filt << "," << comp_filter << "," << kpe <<"," << kiei << "," << kded<< ",";
-			fout << rc_array_scaled[1] << "," << theta_m << ","<<multiplier<<",";
+			fout << theta_d << "," << theta_m << ","<<multiplier<<",";
 			// add things to the log file here
 			fout << endl;
 

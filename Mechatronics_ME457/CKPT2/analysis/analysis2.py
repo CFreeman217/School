@@ -17,9 +17,8 @@ for file_name in os.listdir('.'):
                                                 skiprows = 1,
                                                 usecols = (1, 38, 39),)
                 d_time /= 1000000
-                pitch += 20
-                plt.plot(d_time[1600:5500], signal[1600:5500], label='Signal')
-                plt.plot(d_time[1600:5500], pitch[1600:5500], label='Pitch')
+                plt.plot(d_time[5:], signal[5:], label='Signal')
+                plt.plot(d_time[5:], pitch[5:], label='Pitch')
                 plt.title('Pitch and Response\n{}'.format(file_name))
                 plt.xlabel('time (s)')
                 plt.ylabel('Pitch (Degrees)')
