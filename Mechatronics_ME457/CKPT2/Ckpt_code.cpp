@@ -53,11 +53,9 @@ using namespace std;
 
 float theta_d = 0;
 float err_old = 0;
-float k_p = 25e-4;
-// float k_i = 0;
-float k_i = 5e-7;
-
-float k_d = 60e-5;
+float k_p = 15e-4;
+float k_i = 2e-7;
+float k_d = 65e-5;
 
 float base = 1.65; // base throttle number, usually between 1.5 and 1.7
 float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt, multiplier;
@@ -125,8 +123,8 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 //----------------------------------------------------------------------------------------------------------RC Input Declarations
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
-const float output_range[6][2] = {{-20,20},{30,-30},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
-// const float output_range[6][2] = {{-20,20},{1,100},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
+// const float output_range[6][2] = {{-20,20},{1,10},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
 
 //---------------------------------------------------------------------------------------------------------------IMU Declarations
