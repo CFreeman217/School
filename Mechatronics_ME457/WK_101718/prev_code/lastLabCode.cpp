@@ -1,15 +1,3 @@
-/*
-44 - variable declaration
-95 - accel/gyro vars
-409 - log file text header
-483 - student loop section
-528 - log file data
-590 - console output
-ME457_Quad3
-cd Navio2/C++/Examples/NewCodeQuad
-
-*/
-
 // custom function includes
 #include "Navio/ScaleVars.h" // functions for re-scaling a value within a specified output range
 // log file includes
@@ -41,48 +29,41 @@ cd Navio2/C++/Examples/NewCodeQuad
 #include "Navio/buffer.h"
 
 using namespace std;
+//float pitchacc = 0;
+//float pitchgyro = 0;
+//float filtacc = 0; // lowpass
+//float filtgyro = 0; // highpass
+//float pitchold = 0;
+//float oldgyro = 0;
+
+float ekpitchold = 0,ekrollold = 0, ekyawold = 0;
+float ekpitch=0,ekroll=0,ekyaw = 0;
+float edpitch=0,edroll=0,edyaw = 0;
+float eipitch=0,eiroll=0,eiyaw = 0;
+float kppitch=.0014,kproll=.0028,kpyaw=0;
+float kdpitch=.00072,kdroll=0.00045;
+float kipitch=.00045,kiroll=0.00075,kiyaw = 0;
+float lampitch,lamroll,lamyaw;
+float theta = 0; //roll
+float fi = 0; //pitch
+float si = 0; //yaw
+float m1cmd,m2cmd,m3cmd,m4cmd;
 //----------------------------------------------------------------------------------------------------------Saturation Parameters
 #define MAX_DUTY_CYCLE 0.6
 #define NEUTRAL 1.5
-
-//------------------------------------------------------------------------------------------------------------Filter Declarations
 #define M1 0
 #define M2 1
 #define M3 2
 #define M4 3
+//------------------------------------------------------------------------------------------------------------Filter Declarations
+//const int order = 2;
+//const char low = 'l'; // for low pass
+//const char high = 'h';
+//const float fc = 1; // Hz
+//const float fs = 100; // Hz
 
-float theta_d = 0;
-float err_old = 0;
-// float k_p = 0.0025;
-// float k_d = 0.001;
-float k_i = 0;
-float k_p = 8e-4;
-// float k_i = 5e-6;
-float k_d = 50e-5;
-
-float base = 1.65; // base throttle number, usually between 1.5 and 1.7
-float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt, multiplier;
-
-const int order = 2;
-const char low = 'l'; // for low pass
-const char high = 'h';
-const float fc = 1; // Hz
-const float fs = 100; // Hz
-
-digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
-
-
-float pitchA;
-float pitchG;
-float g_old;
-float pitch0;
-float c_gyro_filt;
-float c_acc_filt;
-float comp_filter;
-
-digital_filter g_filt(order,high,fc,fs);
-digital_filter a_filt(order,'l',fc,fs);
-
+//digital_filter lowfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+//digital_filter highfilter(order,high,fc,fs);
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
 bool dbmsg_local  = false; // change in the code at a specific location to view local messages only
@@ -126,8 +107,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 //----------------------------------------------------------------------------------------------------------RC Input Declarations
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
-const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
-// const float output_range[6][2] = {{-20,20},{1,10},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-20,20},{-20,20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
 
 //---------------------------------------------------------------------------------------------------------------IMU Declarations
@@ -301,6 +281,8 @@ int main( int argc , char *argv[])
 	PWM pwm_out;
 	//create pwm output object and initialize right and left winch servos, stop execution if servos cannot be initialized
 	// NOTE!!! if the code is erroring out here, the first thing to check is to make sure that you are are running the code with sudo
+
+		//Motor 1 below
 	if(!pwm_out.init(M1)){ // Motor 1
 		cout << "Cannot Initialize Motor 1" << endl;
 		cout << "Make sure you are root" << endl;
@@ -322,12 +304,21 @@ int main( int argc , char *argv[])
 	pwm_out.enable(M2); // both init() and enable() must be called to use the PWM output on a particular pin
 	pwm_out.enable(M3); // both init() and enable() must be called to use the PWM output on a particular pin
 	pwm_out.enable(M4); // both init() and enable() must be called to use the PWM output on a particular pin
-	cout << "Setting PWM period for 20Hz............" << endl;
-	pwm_out.set_period(M1 , 20); // set the PWM frequency to 20Hz
-	pwm_out.set_period(M2 , 20); // set the PWM frequency to 20Hz
-	pwm_out.set_period(M3 , 20); // set the PWM frequency to 20Hz
-	pwm_out.set_period(M4 , 20); // set the PWM frequency to 20Hz
-
+	cout << "Setting PWM period for 50Hz............" << endl;
+	pwm_out.set_period(M1 , 50); // set the PWM frequency to 50Hz
+	pwm_out.set_period(M2 , 50); // set the PWM frequency to 50Hz
+	pwm_out.set_period(M3 , 50); // set the PWM frequency to 50Hz
+	pwm_out.set_period(M4 , 50); // set the PWM frequency to 50Hz
+	cout << "  --PWM Output successfully enabled-- " << endl;
+	
+	//	if(!pwm_out.init(M1)){ // Motor 1
+//		cout << "Cannot Initialize Motor 1" << endl;
+//		cout << "Make sure you are root" << endl;
+//		return EXIT_FAILURE;}
+	cout << "Enabling PWM output channels..........." << endl;
+//	pwm_out.enable(M1); // both init() and enable() must be called to use the PWM output on a particular pin
+	cout << "Setting PWM period for 50Hz............" << endl;
+//	pwm_out.set_period(M1 , 50); // set the PWM frequency to 50Hz
 	cout << "  --PWM Output successfully enabled-- " << endl;
 
 	// This is the ESC Calibration, problems with ESC can sometimes be fixed by make the value in usleep larger (longer delay)
@@ -335,16 +326,17 @@ int main( int argc , char *argv[])
 	pwm_out.set_duty_cycle(M2, 1);
 	pwm_out.set_duty_cycle(M3, 1);
 	pwm_out.set_duty_cycle(M4, 1);
-	usleep(2000);
+	usleep(200000);
 	pwm_out.set_duty_cycle(M1, 2);
 	pwm_out.set_duty_cycle(M2, 2);
 	pwm_out.set_duty_cycle(M3, 2);
 	pwm_out.set_duty_cycle(M4, 2);
-	usleep(2000);
+	usleep(200000);
 	pwm_out.set_duty_cycle(M1, 1);
 	pwm_out.set_duty_cycle(M2, 1);
 	pwm_out.set_duty_cycle(M3, 1);
 	pwm_out.set_duty_cycle(M4, 1);
+	usleep(200000);
 
 	//--------------------------------------------------------------------------------------------------------------ADC Initialization
 	cout << "Initializing ADC......................." << endl;
@@ -406,8 +398,8 @@ int main( int argc , char *argv[])
 		int standby_message_timer = 0; // used to limit the frequency of the standby message
 
 		while(!(rc_array[5]>1500)){ // uncomment here when using a transmitter
-		// bool temp_flag = false; // uncomment here when no transmitter is used
-		// while(!temp_flag){ // uncomment here when no transmitter is used
+		//bool temp_flag = false; // uncomment here when no transmitter is used
+		//while(!temp_flag){ // uncomment here when no transmitter is used
 			if(standby_message_timer > 250){
 				cout << endl;
 				cout << "---------------------------------------" << endl;
@@ -417,18 +409,18 @@ int main( int argc , char *argv[])
 				standby_message_timer = 0;}
 
 			standby_message_timer++;
-//			pwm_out.set_duty_cycle(M1, 1);
-	pwm_out.set_duty_cycle(M1, 1);
-	pwm_out.set_duty_cycle(M2, 1);
-	pwm_out.set_duty_cycle(M3, 1);
-	pwm_out.set_duty_cycle(M4, 1);
+			pwm_out.set_duty_cycle(M1, 1);
+			pwm_out.set_duty_cycle(M2, 1);
+			pwm_out.set_duty_cycle(M3, 1);
+			pwm_out.set_duty_cycle(M4, 1);
+			eipitch = 0;
 			// since this loop executes based on an rc and an adc condition, we have to poll these devices for new status
 			rc_array[5] = rcinput.read(5);
 			adc_array[4] = adc.read(4);
 			// step counter needs to be set to zero also, this is a hack because the numbering is messed up in the code
 			// we start at negative one here and presumably the counter is incremented before 1st execution
 			usleep(5000);
-			// temp_flag = true;
+			//temp_flag = true;
 
 		}
 		time_t result = time(NULL);
@@ -484,14 +476,13 @@ int main( int argc , char *argv[])
 			"adc_array[0],adc_array[1],adc_array[2],adc_array[3],adc_array[4],adc_array[5],"
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
-			"m_mpu[0],m_mpu[1],m_mpu[2],"
-			"pitchA, pitchG, acc_filt, gyr_filt, com_filt, kpe(P)="<<k_p<<", kiei(I)="<<k_i<<", kded(D)="<<k_d<<"," 
-			"signal, mad_pitch, multiplier"<< endl;
+			"m_mpu[0],m_mpu[1],m_mpu[2],pitch,desired pitch,roll,desired roll,yaw,desired yaw" << endl;
+		eipitch = 0;
 		usleep(20000);
 
 
 while((rc_array[5]>1500)) // uncomment here when using a transmitter
-// while(true) // uncomment here when no transmitter is used
+//while(true) // uncomment here when no transmitter is used
 	{
 		// refresh time now to prepare for another loop execution
 		gettimeofday(&time_obj, NULL); // must first update the time_obj
@@ -559,64 +550,83 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 //----------------------------------------------------------------------------------------------------------------------------
 
 
-	pitchA = (atan2(a_mpu[0],-a_mpu[2])*(180/PI));
-	pitchG = pitch0 + 0.01*(((1-g_mpu[1])+g_old)/2)*(180/PI);
-	g_old = 1*g_mpu[1];
-	pitch0 = pitchG;
-	
-	c_gyro_filt = g_filt.filter_new_input(pitchG);
-	c_acc_filt = a_filt.filter_new_input(pitchA);
+			// put your code here!
+			//pitchacc = (atan2(a_mpu[2],a_mpu[0]) * 180 / PI) + 90;
+			//pitchgyro = (( .01 * ( oldgyro + g_mpu[1]) / 2 ) * 180 / PI ) + pitchold;
+			//oldgyro = g_mpu[1];
+			//pitchold = pitchgyro;
+			//filtgyro = highfilter.filter_new_input(pitchgyro);
+			//filtacc = lowfilter.filter_new_input(pitchacc);
 
-	comp_filter = c_gyro_filt + c_acc_filt;
-	theta_m = pitch_mpu_madgwick;
+fi = float(rc_array_scaled[1]);
 
-	theta_d = rc_array_scaled[1];
-	// theta_d = 0;
-	throt = rc_array_scaled[2];
+ekpitch = fi-pitch_mpu_madgwick;
+eipitch  = eipitch + (ekpitchold+ekpitch)/2 * .01;
+edpitch = (ekpitch - ekpitchold)/.01;
+ekpitchold = ekpitch;
+lampitch = kppitch*ekpitch + kdpitch*edpitch + kipitch*eipitch;
 
-	if (throt < 1)
-	{
-		M1cmd = 1;
-		M3cmd = 1;
-		throt = 0;
-	}
+m1cmd = 1.7+lampitch;
+m3cmd = 1.7-lampitch;
 
-	err = theta_d - theta_m;
-	err_int = ((err-err_old)/2)*0.01;
-	err_der = (err - err_old)*100;
-	
-	kpe = k_p*err;
-	// multiplier = rc_array_scaled[1];
-	kiei = k_i*err_int;
-	kded = k_d*err_der;
-	lam = kpe + kiei + kded;
-	err_old = err;
+if (m1cmd > 2){
+m1cmd = 2;}
+else if (m1cmd<1){
+m1cmd  = 1;}
 
-	M1cmd = throt+lam;
-	M3cmd = throt-lam;
-	
-	if (lam > .5)
-	{
-		lam = .5;
-	}
-	if (lam < -.5)
-	{
-		lam = -.5;
-	}
+if (m3cmd > 2) {
+m3cmd = 2; }
+else if (m3cmd<1) {
+m3cmd = 1; }
 
-    // cout << M1cmd << ", " << M3cmd << endl;
-	// cout << "Desired Elevator : " << theta_d << endl;
-	pwm_out.set_duty_cycle(M1,M1cmd);
-	pwm_out.set_duty_cycle(M3,M3cmd);
+m1cmd = 1;
+m3cmd = 1;
 
-	// pwm_out.set_duty_cycle(M1,rc_array_scaled[2]);
-	// pwm_out.set_duty_cycle(M3,rc_array_scaled[2]);
-	// pwm_out.set_duty_cycle(M2,rc_array_scaled[2]);
-	// pwm_out.set_duty_cycle(M4,rc_array_scaled[2]);
-	// pwm_out.set_duty_cycle(M1,1.5);
-	// pwm_out.set_duty_cycle(M3,1.5);
-	// pwm_out.set_duty_cycle(M2,1.5);
-	// pwm_out.set_duty_cycle(M4,1.5);
+pwm_out.set_duty_cycle(M1,m1cmd);
+pwm_out.set_duty_cycle(M3,m3cmd);
+
+theta = float(rc_array_scaled[0]);
+
+ekroll = theta-roll_mpu_madgwick;
+eiroll  = eiroll + (ekrollold+ekroll)/2 * .01;
+edroll = (ekroll - ekrollold)/.01;
+ekrollold = ekroll;
+lamroll = kproll*ekroll + kdroll*edroll + kiroll*eiroll;
+
+m4cmd = 1.7+lamroll;
+m2cmd = 1.7-lamroll;
+
+if (m2cmd > 2){
+m2cmd = 2;}
+else if (m2cmd<1){
+m2cmd  = 1;}
+
+if (m4cmd > 2) {
+m4cmd = 2; }
+else if (m4cmd<1) {
+m4cmd = 1; }
+
+pwm_out.set_duty_cycle(M2,m2cmd);
+pwm_out.set_duty_cycle(M4,m4cmd);
+
+si = float(rc_array_scaled[3]);
+ekyaw = si - yaw_mpu_madgwick;
+eiyaw = (ekyaw-ekyawold)/.01;
+
+ekyawold = ekyaw;
+
+//lamyaw = kpyaw*ekyaw + kiyaw*eiyaw;
+
+lamyaw = .05;
+m1cmd = 1.2 + lamyaw;
+m2cmd = 1.2 - lamyaw;
+m3cmd = 1.2 + lamyaw;
+m4cmd = 1.2 - lamyaw;
+
+pwm_out.set_duty_cycle(M1,m1cmd);
+pwm_out.set_duty_cycle(M2,m2cmd);
+pwm_out.set_duty_cycle(M3,m3cmd);
+pwm_out.set_duty_cycle(M4,m4cmd);
 
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -656,10 +666,9 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 			fout << a_mpu[0] << "," << a_mpu[1] << "," << a_mpu[2] << ",";
 			fout << g_mpu[0] << "," << g_mpu[1] << "," << g_mpu[2] << ",";
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
-			fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
-			fout << c_gyro_filt << "," << comp_filter << "," << kpe <<"," << kiei << "," << kded<< ",";
-			fout << theta_d << "," << theta_m << ","<<multiplier<<",";
-			// add things to the log file here
+			fout << pitch_mpu_madgwick << "," << fi << "," << roll_mpu_madgwick << "," << theta;
+// add things to the log file here
+			//fout << pitchacc << "," << pitchgyro << "," << filtacc << "," << filtgyro;
 			fout << endl;
 
 			watcher[3] = time_now - timer[3]; // used to check loop frequency
@@ -722,7 +731,21 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 				cout << " Gyroscope: " << g_mpu[0] << " " << g_mpu[1] << " " << g_mpu[2];
 				cout << " Magnetometer: " << m_mpu[0] << " " << m_mpu[1] << " " << m_mpu[2] << endl;
 				// add console output messages here
+				//cout << endl << endl << "the value of pitch from accelerometer " << pitchacc << endl;
+				//cout << endl << endl << "the value of pitch from gyroscope " << pitchgyro << endl;
+				//cout << endl << endl << "the value of the filtered acc " << filtacc << endl;
+				//cout << endl << endl << "the value of the filtered gyro " << filtgyro << endl;
 				cout << endl;
+cout << lampitch;
+cout << endl;
+cout << endl;
+cout << endl;
+cout << endl;
+cout << "m1cmd =" << m1cmd;
+cout << "/t";
+cout << "m3cmd =" << m3cmd;
+cout << "magdwick =" << pitch_mpu_madgwick;
+cout << "desired pitch =" << fi;
 			}
 
 

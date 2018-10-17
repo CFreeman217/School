@@ -51,25 +51,38 @@ using namespace std;
 #define M3 2
 #define M4 3
 
-float pitch_d = 0, roll_d = 0, yaw_d = 0;
-float pitch_m = 0, roll_m = 0, yaw_m = 0;
-
-float err_p_old = 0, err_r_old = 0, err_y_old = 0;
-float pit_lam = 0, rol_lam = 0, yaw_lam = 0;
-
-float err_pp = 0, err_pi = 0, err_pd = 0;
-float err_rp = 0, err_ri = 0, err_rd = 0;
-float err_yp = 0, err_yi = 0, err_yd = 0;
-
-float throt;
-float M1cmd = 0, M2cmd = 0, M3cmd = 0, M4cmd = 0;
-
+float theta_d = 0;
+float err_old = 0;
+float err_r_old = 0;
+// float k_p = 0.0025;
+// float k_d = 0.001;
+float k_i = 0;
 float k_p = 8e-4;
-float k_i = 5e-8;
+// float k_i = 5e-6;
 float k_d = 50e-5;
 
+float base = 1.65; // base throttle number, usually between 1.5 and 1.7
+float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, throt, multiplier;
+float roll_d, roll_m, M2cmd, M4cmd, err_rp, err_ri, err_rd, rol_lam;
+const int order = 2;
+const char low = 'l'; // for low pass
+const char high = 'h';
+const float fc = 1; // Hz
+const float fs = 100; // Hz
 
-// digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+
+
+float pitchA;
+float pitchG;
+float g_old;
+float pitch0;
+float c_gyro_filt;
+float c_acc_filt;
+float comp_filter;
+
+digital_filter g_filt(order,high,fc,fs);
+digital_filter a_filt(order,'l',fc,fs);
 
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
@@ -114,7 +127,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 //----------------------------------------------------------------------------------------------------------RC Input Declarations
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
-const float output_range[6][2] = {{-20,20},{20,-20},{.1,.01},{-120,120},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 // const float output_range[6][2] = {{-20,20},{1,10},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
 
@@ -310,11 +323,11 @@ int main( int argc , char *argv[])
 	pwm_out.enable(M2); // both init() and enable() must be called to use the PWM output on a particular pin
 	pwm_out.enable(M3); // both init() and enable() must be called to use the PWM output on a particular pin
 	pwm_out.enable(M4); // both init() and enable() must be called to use the PWM output on a particular pin
-	cout << "Setting PWM period for 50Hz............" << endl;
-	pwm_out.set_period(M1 , 50); // set the PWM frequency to 50Hz
-	pwm_out.set_period(M2 , 50); // set the PWM frequency to 50Hz
-	pwm_out.set_period(M3 , 50); // set the PWM frequency to 50Hz
-	pwm_out.set_period(M4 , 50); // set the PWM frequency to 50Hz
+	cout << "Setting PWM period for 20Hz............" << endl;
+	pwm_out.set_period(M1 , 20); // set the PWM frequency to 20Hz
+	pwm_out.set_period(M2 , 20); // set the PWM frequency to 20Hz
+	pwm_out.set_period(M3 , 20); // set the PWM frequency to 20Hz
+	pwm_out.set_period(M4 , 20); // set the PWM frequency to 20Hz
 
 	cout << "  --PWM Output successfully enabled-- " << endl;
 
@@ -323,12 +336,12 @@ int main( int argc , char *argv[])
 	pwm_out.set_duty_cycle(M2, 1);
 	pwm_out.set_duty_cycle(M3, 1);
 	pwm_out.set_duty_cycle(M4, 1);
-	usleep(200000);
+	usleep(2000);
 	pwm_out.set_duty_cycle(M1, 2);
 	pwm_out.set_duty_cycle(M2, 2);
 	pwm_out.set_duty_cycle(M3, 2);
 	pwm_out.set_duty_cycle(M4, 2);
-	usleep(200000);
+	usleep(2000);
 	pwm_out.set_duty_cycle(M1, 1);
 	pwm_out.set_duty_cycle(M2, 1);
 	pwm_out.set_duty_cycle(M3, 1);
@@ -473,9 +486,8 @@ int main( int argc , char *argv[])
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
 			"m_mpu[0],m_mpu[1],m_mpu[2],"
-			"YAW_CMD, YAW_MEAS"<<endl;
-			// "pitchA, pitchG, acc_filt, gyr_filt, com_filt, kpe(P)="<<k_p<<", kiei(I)="<<k_i<<", kded(D)="<<k_d<<"," 
-			// "signal, mad_pitch"<< endl;
+			"pitchA, pitchG, acc_filt, gyr_filt, com_filt, kpe(P)="<<k_p<<", kiei(I)="<<k_i<<", kded(D)="<<k_d<<"," 
+			"signal, mad_pitch, multiplier"<< endl;
 		usleep(20000);
 
 
@@ -546,81 +558,75 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 //----------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------- Begin Student Section  --------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------
-	// STATE MEASUREMENTS
-	pitch_m = pitch_mpu_madgwick;
+
+
+	pitchA = (atan2(a_mpu[0],-a_mpu[2])*(180/PI));
+	pitchG = pitch0 + 0.01*(((1-g_mpu[1])+g_old)/2)*(180/PI);
+	g_old = 1*g_mpu[1];
+	pitch0 = pitchG;
+	
+	c_gyro_filt = g_filt.filter_new_input(pitchG);
+	c_acc_filt = a_filt.filter_new_input(pitchA);
+
+	comp_filter = c_gyro_filt + c_acc_filt;
+	theta_m = pitch_mpu_madgwick;
 	roll_m = roll_mpu_madgwick;
-	yaw_m = yaw_mpu_madgwick;
-
-	// DESIRED COMMANDS
-	// pitch_d = 0;
-	pitch_d = rc_array_scaled[1];	
-	// roll_d = 0;
-	roll_d = rc_array_scaled[0];
-	// yaw_d = 0;
-	yaw_d = rc_array_scaled[3];
-
-	// THROTTLE COMMAND
-	// throt = 1.5;
+	// roll_d = rc_array_scaled[0]
+	roll_d = 0;
+	theta_d = rc_array_scaled[1];
+	// theta_d = 0;
 	throt = rc_array_scaled[2];
 
-	err_pp = pitch_d - pitch_m;
-	err_pi = ((err_pp - err_p_old)/2)*0.01;
-	err_pd = (err_pp - err_p_old)*100;
+	if (throt < 1)
+	{
+		M1cmd = 1;
+		M2cmd = 1;
+		M3cmd = 1;
+		M4cmd = 1;
+		throt = 0;
+	}
+
+	err = theta_d - theta_m;
+	err_int = ((err-err_old)/2)*0.01;
+	err_der = (err - err_old)*100;
 
 	err_rp = roll_d - roll_m;
-	err_ri = ((err_rp - err_r_old)/2)*0.01;
+	err_ri = ((err_rp-err_r_old)/2)*0.01;
 	err_rd = (err_rp - err_r_old)*100;
 
-	err_yp = yaw_d - yaw_m;
-	err_yi = ((err_yi - err_y_old)/2)*0.01;
-	err_yd = (err_yi - err_y_old)*100;
+	kpe = k_p*err;
+	// multiplier = rc_array_scaled[1];
+	kiei = k_i*err_int;
+	kded = k_d*err_der;
+	lam = kpe + kiei + kded;
 
-	pit_lam = (err_pp * k_p) + (err_pi * k_i) + (err_pd * k_d);
 	rol_lam = (err_rp * k_p) + (err_ri * k_i) + (err_rd * k_d);
-	yaw_lam = (err_yp * k_p) + (err_yi * k_i) + (err_yd * k_d);
-
-	err_p_old = err_pp;
+	err_old = err;
 	err_r_old = err_rp;
-	err_y_old = err_yp;
 
-	M1cmd = throt + pit_lam;
-	M2cmd = throt - rol_lam;
+	M1cmd = throt+lam;
+	M2cmd = throt+rol_lam;
+	M3cmd = throt-lam;
+	M4cmd = throt-rol_lam;
 	
-	M3cmd = throt - pit_lam;
-	M4cmd = throt + rol_lam;
-	
-	if(M1cmd>2.0)
+	if (lam > .5)
 	{
-		M1cmd = 2.0;
-	} else if (M1cmd < 1.0)
-	{
-		M1cmd = 1.0;
+		lam = .5;
 	}
-	if(M2cmd>2.0)
+	if (lam < -.5)
 	{
-		M2cmd = 2.0;
-	} else if (M2cmd < 1.0)
-	{
-		M2cmd = 1.0;
+		lam = -.5;
 	}
-	if(M3cmd>2.0)
+	if (rol_lam > .5)
 	{
-	M3cmd = 2.0;
-	} else if (M3cmd < 1.0)
-	{
-		M3cmd = 1.0;
+		rol_lam = .5;
 	}
-	if(M4cmd>2.0)
+	if (rol_lam < -.5)
 	{
-		M4cmd = 2.0;
-	} else if (M4cmd < 1.0)
-	{
-		M4cmd = 1.0;
+		rol_lam = -.5;
 	}
-
-
     // cout << M1cmd << ", " << M3cmd << endl;
-	// cout << "Desired Elevator : " << pitch_d << endl;
+	// cout << "Desired Elevator : " << theta_d << endl;
 	pwm_out.set_duty_cycle(M1,M1cmd);
 	pwm_out.set_duty_cycle(M3,M3cmd);
 	pwm_out.set_duty_cycle(M2,M2cmd);
@@ -672,10 +678,9 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 			fout << a_mpu[0] << "," << a_mpu[1] << "," << a_mpu[2] << ",";
 			fout << g_mpu[0] << "," << g_mpu[1] << "," << g_mpu[2] << ",";
 			fout << m_mpu[0] << "," << m_mpu[1] << "," << m_mpu[2] << ",";
-			fout << yaw_d << "," << yaw_m << ",";
-			// fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
-			// fout << c_gyro_filt << "," << comp_filter << "," << kpe <<"," << kiei << "," << kded<< ",";
-			// fout << pitch_d << "," << pitch_m << ","<<multiplier<<",";
+			fout << pitchA << "," << pitchG << "," << c_acc_filt<< ",";
+			fout << c_gyro_filt << "," << comp_filter << "," << kpe <<"," << kiei << "," << kded<< ",";
+			fout << theta_d << "," << theta_m << ","<<multiplier<<",";
 			// add things to the log file here
 			fout << endl;
 
