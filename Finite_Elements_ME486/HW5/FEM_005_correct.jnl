@@ -1,0 +1,330 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=0.5)
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 0.04), point2=(
+    0.07, 0.04))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.07, 0.04), point2=
+    (0.07, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.07, 0.0), point2=(
+    0.05, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.05, 0.0), point2=(
+    0.05, 0.02))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.05, 0.02), point2=
+    (0.0, 0.02))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 0.02), point2=(
+    0.0, 0.04))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.0310578346252441, 0.0302702710032463), value=0.004, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0])
+mdb.models['Model-1'].sketches['__profile__'].undo()
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.0164637938141823, 0.0293604396283627), value=0.04, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    0.100977942347527, 0.0161038190126419), value=0.05, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    0.0594996511936188, -0.0265239253640175), value=0.04, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    0.0335233509540558, 0.0583136379718781), value=0.1, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1])
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    'quarterSketch')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=0.5)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(0.0272570742666724, 0.0158948563039303))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['quarterSketch'])
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name='chimneyPart', 
+    type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['chimneyPart'].BaseShell(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=0.005, name='__profile__', 
+    sheetSize=0.223, transform=
+    mdb.models['Model-1'].parts['chimneyPart'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['chimneyPart'].faces[0], 
+    sketchPlaneSide=SIDE1, sketchOrientation=RIGHT, origin=(0.022727, 0.017727, 
+    0.0)))
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    decimalPlaces=3)
+mdb.models['Model-1'].parts['chimneyPart'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(-0.052727, 
+    -0.017727), point2=(-0.052727, -0.0106729458217025))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[8])
+mdb.models['Model-1'].sketches['__profile__'].ParallelConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    entity2=mdb.models['Model-1'].sketches['__profile__'].geometry[8])
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[6], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(-0.052727, 
+    -0.0106729458217025), point2=(0.0137499999627471, -0.0106729458217024))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[8], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0137499999627471, 
+    -0.0106729458217024), point2=(0.0137499999627471, -0.0277269999748319))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[10])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[10])
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[8], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0137499999627471, 
+    -0.0277269999748319), point2=(0.007273, -0.027727))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.007273, -0.027727)
+    , point2=(0.007273, -0.017727))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[12])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.007273, -0.017727)
+    , point2=(-0.052727, -0.017727))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[13])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[12], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[13])
+mdb.models['Model-1'].sketches['__profile__'].DistanceDimension(entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], textPoint=(
+    -0.0582043290455341, -0.0139364584479928), value=0.005)
+mdb.models['Model-1'].sketches['__profile__'].DistanceDimension(entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[10], textPoint=(
+    0.0101833097319603, -0.0377517056782246), value=0.005)
+mdb.models['Model-1'].parts['chimneyPart'].PartitionFaceBySketch(faces=
+    mdb.models['Model-1'].parts['chimneyPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), sketch=mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].Material(name='Steel')
+mdb.models['Model-1'].materials['Steel'].Conductivity(table=((26.0, ), ))
+mdb.models['Model-1'].Material(name='Brick')
+mdb.models['Model-1'].materials['Brick'].Conductivity(table=((4.6, ), ))
+mdb.models['Model-1'].HomogeneousSolidSection(material='Brick', name=
+    'brickSection', thickness=None)
+mdb.models['Model-1'].HomogeneousSolidSection(material='Steel', name=
+    'steelSection', thickness=None)
+mdb.models['Model-1'].parts['chimneyPart'].Set(faces=
+    mdb.models['Model-1'].parts['chimneyPart'].faces.getSequenceFromMask((
+    '[#2 ]', ), ), name='Set-1')
+mdb.models['Model-1'].parts['chimneyPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['chimneyPart'].sets['Set-1'], sectionName=
+    'brickSection', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].parts['chimneyPart'].Set(faces=
+    mdb.models['Model-1'].parts['chimneyPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), name='Set-2')
+mdb.models['Model-1'].parts['chimneyPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['chimneyPart'].sets['Set-2'], sectionName=
+    'steelSection', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='chimneyPart-1', 
+    part=mdb.models['Model-1'].parts['chimneyPart'])
+mdb.models['Model-1'].HeatTransferStep(amplitude=STEP, name='chimneyHeat', 
+    previous='Initial', response=STEADY_STATE)
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-1', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['chimneyPart-1'].edges.getSequenceFromMask(
+    ('[#18 ]', ), ))
+mdb.models['Model-1'].FilmCondition(createStepName='chimneyHeat', definition=
+    EMBEDDED_COEFF, filmCoeff=340.0, filmCoeffAmplitude='', name='inside', 
+    sinkAmplitude='', sinkDistributionType=UNIFORM, sinkFieldName='', 
+    sinkTemperature=85.0, surface=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-1'])
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-2', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['chimneyPart-1'].edges.getSequenceFromMask(
+    ('[#180 ]', ), ))
+mdb.models['Model-1'].FilmCondition(createStepName='chimneyHeat', definition=
+    EMBEDDED_COEFF, filmCoeff=7.0, filmCoeffAmplitude='', name='outside', 
+    sinkAmplitude='', sinkDistributionType=UNIFORM, sinkFieldName='', 
+    sinkTemperature=70.0, surface=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-2'])
+mdb.models['Model-1'].parts['chimneyPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.001)
+mdb.models['Model-1'].parts['chimneyPart'].generateMesh()
+mdb.models['Model-1'].parts['chimneyPart'].setElementType(elemTypes=(ElemType(
+    elemCode=DC2D4, elemLibrary=STANDARD), ElemType(elemCode=DC2D3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['chimneyPart'].faces.getSequenceFromMask((
+    '[#3 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description='Meters Job 1', echoPrint=
+    OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF
+    , memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='meterJob', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['meterJob'].submit(consistencyChecking=OFF)
+mdb.jobs['meterJob']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Meters Job 1', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\meterJob.odb', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 11152, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'meterJob', 'memory': 30.0})
+mdb.jobs['meterJob']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(MINIMUM_MEMORY, {'minimum_memory': 20.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'meterJob', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['meterJob']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(JOB_COMPLETED, {
+    'time': 'Mon Oct 15 15:45:19 2018', 'jobName': 'meterJob'})
+mdb.models['Model-1'].interactions['inside'].setValues(definition=
+    EMBEDDED_COEFF, filmCoeff=85.0, filmCoeffAmplitude='', sinkAmplitude='', 
+    sinkTemperature=340.0)
+mdb.jobs['meterJob'].submit(consistencyChecking=OFF)
+mdb.jobs['meterJob']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Meters Job 1', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\meterJob.odb', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 9880, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'meterJob', 'memory': 30.0})
+mdb.jobs['meterJob']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(MINIMUM_MEMORY, {'minimum_memory': 20.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'meterJob', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['meterJob']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'meterJob'})
+mdb.jobs['meterJob']._Message(JOB_COMPLETED, {
+    'time': 'Mon Oct 15 15:46:46 2018', 'jobName': 'meterJob'})
+mdb.models['Model-1'].parts['chimneyPart'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].parts['chimneyPart'].setElementType(elemTypes=(ElemType(
+    elemCode=DC2D4, elemLibrary=STANDARD), ElemType(elemCode=DC2D3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['chimneyPart'].faces.getSequenceFromMask((
+    '[#3 ]', ), ), ))
+# Save by ctf365 on 2018_10_15-16.01.04; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].parts['chimneyPart'].regenerate()
+# Save by ctf365 on 2018_10_15-16.01.20; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.regenerate()
+# Save by ctf365 on 2018_10_15-16.01.32; build 2018 2017_11_07-11.21.41 127140

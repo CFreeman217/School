@@ -61,8 +61,8 @@ float k_p = 8e-4;
 float k_d = 50e-5;
 
 float base = 1.65; // base throttle number, usually between 1.5 and 1.7
-float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, elev, throt, multiplier;
-
+float theta_m, err, err_int, err_der, lam, kpe, kiei, kded, M1cmd, M3cmd, throt, multiplier;
+float roll_d, roll_m, M2cmd, M4cmd, 
 const int order = 2;
 const char low = 'l'; // for low pass
 const char high = 'h';
