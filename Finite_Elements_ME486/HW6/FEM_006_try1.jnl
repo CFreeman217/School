@@ -1,0 +1,576 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=20.0)
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(-4.5, 0.0), 
+    point2=(4.625, 1.0))
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.389342784881592, 2.02354025840759), value=12.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    5.47058916091919, 0.454801797866821), value=0.1, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5]), vector=(7.375, 
+    -0.9))
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    'bimetallicSketch')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(6.84333338055705, 0.982308929301252))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['bimetallicSketch'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7]), vector=(
+    6.84333338055705, 0.982308929301252))
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='bimetallicPart', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['bimetallicPart'].BaseSolidExtrude(depth=1.0, 
+    sketch=mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=0.6, name='__profile__', 
+    sheetSize=24.08, transform=
+    mdb.models['Model-1'].parts['bimetallicPart'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['bimetallicPart'].faces[4], 
+    sketchPlaneSide=SIDE1, 
+    sketchUpEdge=mdb.models['Model-1'].parts['bimetallicPart'].edges[4], 
+    sketchOrientation=RIGHT, origin=(12.843333, 1.032309, 1.0)))
+mdb.models['Model-1'].parts['bimetallicPart'].projectReferencesOntoSketch(
+    filter=COPLANAR_EDGES, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(0.0, 
+    -6.00000038055705))
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4])
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(0.0, 
+    5.99999961944295))
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5])
+mdb.models['Model-1'].sketches['__profile__'].undo()
+mdb.models['Model-1'].sketches['__profile__'].undo()
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 
+    5.99999961944295), point2=(0.0499999293012521, 5.99999961944295))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].ParallelConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    entity2=mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0499999293012521, 
+    5.99999961944295), point2=(0.0499999293012521, -6.00000038055705))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0499999293012521, 
+    -6.00000038055705), point2=(0.0, -6.00000038055705))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[8])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[8])
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 
+    -6.00000038055705), point2=(0.0, 5.99999961944295))
+mdb.models['Model-1'].sketches['__profile__'].DistanceDimension(entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], textPoint=(
+    0.0217829303894044, 6.09471535092163), value=0.05)
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.172620300754547, -5.3778755723877), value=12.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4])
+mdb.models['Model-1'].sketches['__profile__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].dimensions[1], ))
+mdb.models['Model-1'].sketches['__profile__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].dimensions[0], ))
+mdb.models['Model-1'].parts['bimetallicPart'].PartitionFaceBySketch(faces=
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#10 ]', ), ), sketch=mdb.models['Model-1'].sketches['__profile__'], 
+    sketchUpEdge=mdb.models['Model-1'].parts['bimetallicPart'].edges[4])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].sketches['bimetallicSketch'])
+mdb.models['Model-1'].sketches.changeKey(fromName='__edit__', toName=
+    'bimetallicSketch')
+del mdb.models['Model-1'].parts['bimetallicPart']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(6.84333338055705, 0.982308929301252))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['bimetallicSketch'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=20.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(6.46484846328034, 0.603824012024542))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['bimetallicSketch'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7]), vector=(
+    6.46484846328034, 0.603824012024542))
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name='bimetallicPart', 
+    type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['bimetallicPart'].BaseShell(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=0.6, name='__profile__', 
+    sheetSize=24.0, transform=
+    mdb.models['Model-1'].parts['bimetallicPart'].MakeSketchTransform(
+    sketchPlane=mdb.models['Model-1'].parts['bimetallicPart'].faces[0], 
+    sketchPlaneSide=SIDE1, sketchOrientation=RIGHT, origin=(12.464848, 
+    0.653824, 0.0)))
+mdb.models['Model-1'].parts['bimetallicPart'].projectReferencesOntoSketch(
+    filter=COPLANAR_EDGES, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(
+    -5.99999953671966, -0.0499999879754579), point2=(6.00000046328034, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5])
+mdb.models['Model-1'].parts['bimetallicPart'].PartitionFaceBySketch(faces=
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), sketch=mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].Material(name='Aluminum')
+mdb.models['Model-1'].materials['Aluminum'].Expansion(table=((14.2, ), ), zero=
+    70.0)
+mdb.models['Model-1'].Material(name='Molybdenum')
+mdb.models['Model-1'].materials['Molybdenum'].Expansion(table=((3.33, ), ), 
+    zero=32.0)
+mdb.models['Model-1'].HomogeneousSolidSection(material='Aluminum', name=
+    'bimetallicSection', thickness=1.0)
+mdb.models['Model-1'].HomogeneousSolidSection(material='Molybdenum', name=
+    'bimetallicMo', thickness=1.0)
+mdb.models['Model-1'].sections.changeKey(fromName='bimetallicSection', toName=
+    'bimetallicAl')
+mdb.models['Model-1'].parts['bimetallicPart'].Set(faces=
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#2 ]', ), ), name='Set-1')
+mdb.models['Model-1'].parts['bimetallicPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['bimetallicPart'].sets['Set-1'], sectionName=
+    'bimetallicAl', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].parts['bimetallicPart'].Set(faces=
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), name='Set-2')
+mdb.models['Model-1'].parts['bimetallicPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['bimetallicPart'].sets['Set-2'], sectionName=
+    'bimetallicMo', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name=
+    'bimetallicPart-1', part=mdb.models['Model-1'].parts['bimetallicPart'])
+mdb.models['Model-1'].CoupledTempDisplacementStep(amplitude=RAMP, cetol=None, 
+    creepIntegration=IMPLICIT_EXPLICIT, deltmx=0.1, description=
+    '600F Final Temp', name='Final', previous='Initial')
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-1', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(70.0, ), name='Predefined Field-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-1'])
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-2', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Field(createStepName='Final', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(600.0, ), name='Predefined Field-2', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-2'])
+del mdb.models['Model-1'].predefinedFields['Predefined Field-2']
+del mdb.models['Model-1'].predefinedFields['Predefined Field-1']
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#42 ]', ), ), name='Set-3')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Final', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'wallConstraint', region=mdb.models['Model-1'].rootAssembly.sets['Set-3'], 
+    u1=0.0, u2=0.0, ur3=0.0)
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-4', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Field(createStepName='Initial', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(70.0, ), name='Predefined Field-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-4'])
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-5', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Field(createStepName='Final', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(600.0, ), name='Predefined Field-2', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-5'])
+mdb.models['Model-1'].CoupledTempDisplacementStep(amplitude=RAMP, cetol=None, 
+    creepIntegration=IMPLICIT_EXPLICIT, deltmx=0.1, description=
+    '70F Starting Temp', name='Start', previous='Initial')
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-6', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Field(createStepName='Start', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(600.0, ), name='Predefined Field-3', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-6'])
+mdb.models['Model-1'].predefinedFields['Predefined Field-3'].move('Start', 
+    'Initial')
+mdb.models['Model-1'].predefinedFields['Predefined Field-2'].move('Final', 
+    'Start')
+mdb.models['Model-1'].predefinedFields['Predefined Field-3'].suppress()
+mdb.models['Model-1'].predefinedFields['Predefined Field-2'].move('Start', 
+    'Initial')
+mdb.models['Model-1'].predefinedFields['Predefined Field-3'].resume()
+del mdb.models['Model-1'].predefinedFields['Predefined Field-3']
+del mdb.models['Model-1'].steps['Start']
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-7', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(70.0, ), name='init_70F', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-7'])
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#7f ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-8', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].vertices.getSequenceFromMask(
+    ('[#3f ]', ), ))
+mdb.models['Model-1'].Field(createStepName='Final', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(600.0, ), name='fin_600F', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-8'])
+del mdb.models['Model-1'].predefinedFields['Predefined Field-1']
+del mdb.models['Model-1'].predefinedFields['Predefined Field-2']
+mdb.models['Model-1'].parts['bimetallicPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.025)
+mdb.models['Model-1'].parts['bimetallicPart'].generateMesh()
+mdb.models['Model-1'].parts['bimetallicPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4T, elemLibrary=STANDARD), ElemType(elemCode=CPE3T, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#3 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description='70F to 600F First Attempt', 
+    echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, 
+    historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model='Model-1', 
+    modelPrint=OFF, multiprocessingMode=DEFAULT, name='try1', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+# Save by ctf365 on 2018_10_18-13.46.05; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['try1'].submit(consistencyChecking=OFF)
+mdb.jobs['try1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '70F to 600F First Attempt', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *FIELD IS USED BUT THE OPTION *INITIAL CONDITIONS,TYPE=FIELD IS NOT. THE INITIAL FIELD VARIABLE VALUES ARE ASSUMED TO BE ZERO.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'ELEMENT 1 INSTANCE BIMETALLICPART-1 IS AN ELEMENT WITH TEMPERATURE DEGREES OF FREEDOM. IT REQUIRES A THERMAL CONDUCTIVITY PROPERTY DEFINITION', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '1920 elements are missing elastic property reference. The elements have been identified in element set ErrElemMissingElasticPropRef.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'SPECIFIC HEAT MUST BE DEFINED IN A TRANSIENT COUPLED TEMPERATURE-DISPLACEMENT ANALYSIS', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 5 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\try1.odb', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.models['Model-1'].materials['Molybdenum'].SpecificHeat(table=((0.0609, ), 
+    ))
+mdb.models['Model-1'].materials['Aluminum'].SpecificHeat(table=((0.215, ), ))
+mdb.jobs['try1'].submit(consistencyChecking=OFF)
+mdb.jobs['try1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '70F to 600F First Attempt', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '*SPECIFIC HEAT REQUIRES THE USE OF *DENSITY', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '*SPECIFIC HEAT REQUIRES THE USE OF *DENSITY', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *FIELD IS USED BUT THE OPTION *INITIAL CONDITIONS,TYPE=FIELD IS NOT. THE INITIAL FIELD VARIABLE VALUES ARE ASSUMED TO BE ZERO.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'ELEMENT 1 INSTANCE BIMETALLICPART-1 IS AN ELEMENT WITH TEMPERATURE DEGREES OF FREEDOM. IT REQUIRES A THERMAL CONDUCTIVITY PROPERTY DEFINITION', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '1920 elements are missing elastic property reference. The elements have been identified in element set ErrElemMissingElasticPropRef.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 5 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\try1.odb', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.models['Model-1'].materials['Aluminum'].Conductivity(table=((1460.0, ), ))
+mdb.models['Model-1'].materials['Aluminum'].Density(table=((0.097504, ), ))
+mdb.models['Model-1'].materials['Molybdenum'].Conductivity(table=((958.0, ), ))
+mdb.models['Model-1'].materials['Molybdenum'].Density(table=((0.3692, ), ))
+# Save by ctf365 on 2018_10_18-13.51.35; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['try1'].submit(consistencyChecking=OFF)
+mdb.jobs['try1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '70F to 600F First Attempt', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *FIELD IS USED BUT THE OPTION *INITIAL CONDITIONS,TYPE=FIELD IS NOT. THE INITIAL FIELD VARIABLE VALUES ARE ASSUMED TO BE ZERO.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '1920 elements are missing elastic property reference. The elements have been identified in element set ErrElemMissingElasticPropRef.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 5 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\try1.odb', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'try1'})
+mdb.models['Model-1'].materials['Aluminum'].Elastic(table=((9860.0, 0.36), ))
+mdb.models['Model-1'].materials['Molybdenum'].Elastic(table=((47900.0, 0.38), 
+    ))
+# Save by ctf365 on 2018_10_18-13.54.25; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['try1'].submit(consistencyChecking=OFF)
+mdb.jobs['try1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '70F to 600F First Attempt', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *FIELD IS USED BUT THE OPTION *INITIAL CONDITIONS,TYPE=FIELD IS NOT. THE INITIAL FIELD VARIABLE VALUES ARE ASSUMED TO BE ZERO.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 5 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\try1.odb', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 11200, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(STEP, {'stepName': '600F Final Temp', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'try1', 'memory': 33.0})
+mdb.jobs['try1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(MINIMUM_MEMORY, {'minimum_memory': 19.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'There is zero FORCE everywhere in the model based on the default criterion. please check the value of the average FORCE during the current iteration to verify that the FORCE is small enough to be treated as zero. if not, please use the solution controls to reset the criterion for zero FORCE.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'There is zero HEAT FLUX everywhere in the model based on the default criterion. please check the value of the average HEAT FLUX during the current iteration to verify that the HEAT FLUX is small enough to be treated as zero. if not, please use the solution controls to reset the criterion for zero HEAT FLUX.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'try1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['try1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(JOB_COMPLETED, {'time': 'Thu Oct 18 13:55:05 2018', 
+    'jobName': 'try1'})
+del mdb.models['Model-1'].historyOutputRequests['H-Output-1']
+del mdb.models['Model-1'].fieldOutputRequests['F-Output-1']
+mdb.jobs['try1'].submit(consistencyChecking=OFF)
+mdb.jobs['try1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '70F to 600F First Attempt', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *FIELD IS USED BUT THE OPTION *INITIAL CONDITIONS,TYPE=FIELD IS NOT. THE INITIAL FIELD VARIABLE VALUES ARE ASSUMED TO BE ZERO.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 5 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\try1.odb', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-20', 'handle': 3352, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(STEP, {'stepName': '600F Final Temp', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'try1', 'memory': 33.0})
+mdb.jobs['try1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(MINIMUM_MEMORY, {'minimum_memory': 19.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'There is zero FORCE everywhere in the model based on the default criterion. please check the value of the average FORCE during the current iteration to verify that the FORCE is small enough to be treated as zero. if not, please use the solution controls to reset the criterion for zero FORCE.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'There is zero HEAT FLUX everywhere in the model based on the default criterion. please check the value of the average HEAT FLUX during the current iteration to verify that the HEAT FLUX is small enough to be treated as zero. if not, please use the solution controls to reset the criterion for zero HEAT FLUX.', 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'try1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['try1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'try1'})
+mdb.jobs['try1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'try1'})
+mdb.jobs['try1']._Message(JOB_COMPLETED, {'time': 'Thu Oct 18 13:59:15 2018', 
+    'jobName': 'try1'})
+# Save by ctf365 on 2018_10_18-14.01.55; build 2018 2017_11_07-11.21.41 127140
+# Save by ctf365 on 2018_10_18-14.03.41; build 2018 2017_11_07-11.21.41 127140
