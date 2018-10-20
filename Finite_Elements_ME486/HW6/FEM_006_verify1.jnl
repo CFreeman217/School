@@ -345,7 +345,6 @@ mdb.Job(atTime=None, contactPrint=OFF, description='70F to 600F First Attempt',
     nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
     resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
     0, waitMinutes=0)
-# Save by ctf365 on 2018_10_18-13.46.05; build 2018 2017_11_07-11.21.41 127140
 from part import *
 from material import *
 from section import *
@@ -429,7 +428,6 @@ mdb.models['Model-1'].materials['Aluminum'].Conductivity(table=((1460.0, ), ))
 mdb.models['Model-1'].materials['Aluminum'].Density(table=((0.097504, ), ))
 mdb.models['Model-1'].materials['Molybdenum'].Conductivity(table=((958.0, ), ))
 mdb.models['Model-1'].materials['Molybdenum'].Density(table=((0.3692, ), ))
-# Save by ctf365 on 2018_10_18-13.51.35; build 2018 2017_11_07-11.21.41 127140
 from part import *
 from material import *
 from section import *
@@ -470,7 +468,6 @@ mdb.jobs['try1']._Message(JOB_ABORTED, {
 mdb.models['Model-1'].materials['Aluminum'].Elastic(table=((9860.0, 0.36), ))
 mdb.models['Model-1'].materials['Molybdenum'].Elastic(table=((47900.0, 0.38), 
     ))
-# Save by ctf365 on 2018_10_18-13.54.25; build 2018 2017_11_07-11.21.41 127140
 from part import *
 from material import *
 from section import *
@@ -572,5 +569,279 @@ mdb.jobs['try1']._Message(COMPLETED, {'phase': STANDARD_PHASE,
     'message': 'Analysis phase complete', 'jobName': 'try1'})
 mdb.jobs['try1']._Message(JOB_COMPLETED, {'time': 'Thu Oct 18 13:59:15 2018', 
     'jobName': 'try1'})
-# Save by ctf365 on 2018_10_18-14.01.55; build 2018 2017_11_07-11.21.41 127140
-# Save by ctf365 on 2018_10_18-14.03.41; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].materials['Aluminum'].elastic.setValues(table=((
+    10000000.0, 0.3), ))
+mdb.models['Model-1'].materials['Aluminum'].expansion.setValues(table=((
+    1.31e-05, ), ))
+mdb.models['Model-1'].materials['Molybdenum'].elastic.setValues(table=((
+    48000000.0, 0.34), ))
+mdb.models['Model-1'].materials['Molybdenum'].expansion.setValues(table=((
+    3e-06, ), ))
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].sketches['bimetallicSketch'])
+mdb.models['Model-1'].sketches['__edit__'].dimensions[1].setValues(value=0.2)
+mdb.models['Model-1'].sketches.changeKey(fromName='__edit__', toName=
+    'bimetallicSketch')
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['bimetallicPart'].features['Partition face-1'].sketch)
+mdb.models['Model-1'].parts['bimetallicPart'].projectReferencesOntoSketch(
+    filter=COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=
+    mdb.models['Model-1'].parts['bimetallicPart'].features['Partition face-1'])
+del mdb.models['Model-1'].sketches['__edit__']
+del mdb.models['Model-1'].steps['Final']
+mdb.models['Model-1'].StaticStep(description=
+    'Thermal Loading Evaluation on Bimetallic Strip', name='Final', previous=
+    'Initial')
+mdb.models['Model-1'].materials['Molybdenum'].expansion.setValues(zero=70.0)
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].edges.getSequenceFromMask(
+    ('[#42 ]', ), ), name='Set-9')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Final', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'leftSideAnchor', region=mdb.models['Model-1'].rootAssembly.sets['Set-9'], 
+    u1=0.0, u2=0.0, ur3=UNSET)
+del mdb.models['Model-1'].fieldOutputRequests['F-Output-1']
+mdb.models['Model-1'].FieldOutputRequest(createStepName='Final', name=
+    'F-Output-1', variables=PRESELECT)
+del mdb.models['Model-1'].predefinedFields['init_70F']
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-10')
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(70.0, ), name='Predefined Field-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-10'])
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-11')
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(600.0, ), name='finalTemp', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-11'])
+mdb.models['Model-1'].predefinedFields.changeKey(fromName='Predefined Field-1', 
+    toName='initialTemp')
+del mdb.models['Model-1'].predefinedFields['finalTemp']
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['bimetallicPart-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-12')
+mdb.models['Model-1'].Temperature(createStepName='Final', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(600.0, ), name='finalTemp', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-12'])
+mdb.models['Model-1'].parts['bimetallicPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPS4I, elemLibrary=STANDARD), ElemType(elemCode=CPS3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['bimetallicPart'].faces.getSequenceFromMask((
+    '[#3 ]', ), ), ))
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    'Bimetallic Strip Evaluation', echoPrint=OFF, explicitPrecision=SINGLE, 
+    getMemoryFromAnalysis=True, historyPrint=OFF, memory=2, memoryUnits=
+    GIGA_BYTES, model='Model-1', modelPrint=OFF, multiprocessingMode=DEFAULT, 
+    name='2ndTry', nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=
+    None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', 
+    waitHours=0, waitMinutes=0)
+mdb.jobs['2ndTry'].submit(consistencyChecking=OFF)
+mdb.jobs['2ndTry']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 0, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Bimetallic Strip Evaluation', 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\2ndTry.odb', 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 6460, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(STEP, {
+    'stepName': 'Thermal Loading Evaluation on Bimetallic Strip', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': '2ndTry', 'memory': 28.0})
+mdb.jobs['2ndTry']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8093.0, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(MINIMUM_MEMORY, {'minimum_memory': 18.0, 
+    'phase': STANDARD_PHASE, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': '2ndTry', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['2ndTry']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '2ndTry'})
+mdb.jobs['2ndTry']._Message(JOB_COMPLETED, {'time': 'Sat Oct 20 09:39:54 2018', 
+    'jobName': '2ndTry'})
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.jobs['try1']
+mdb.jobs.changeKey(fromName='2ndTry', toName='bimetallicBend')
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].parts['bimetallicPart'].sectionAssignments[1].setValues(
+    sectionName='bimetallicAl')
+# Save by ctf365 on 2018_10_20-10.12.20; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    'Verification of solid aluminum test strip', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='bimetallicVerify', nodalOutputPrecision=
+    SINGLE, numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', 
+    type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['bimetallicVerify'].submit(consistencyChecking=OFF)
+mdb.jobs['bimetallicVerify']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 0, 
+    'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Verification of solid aluminum test strip', 
+    'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\bimetallicVerify.odb', 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 7588, 
+    'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(STEP, {
+    'stepName': 'Thermal Loading Evaluation on Bimetallic Strip', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(MEMORY_ESTIMATE, {
+    'phase': STANDARD_PHASE, 'jobName': 'bimetallicVerify', 'memory': 28.0})
+mdb.jobs['bimetallicVerify']._Message(PHYSICAL_MEMORY, {
+    'phase': STANDARD_PHASE, 'physical_memory': 8093.0, 
+    'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(MINIMUM_MEMORY, {'minimum_memory': 18.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'bimetallicVerify', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['bimetallicVerify']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'bimetallicVerify'})
+mdb.jobs['bimetallicVerify']._Message(JOB_COMPLETED, {
+    'time': 'Sat Oct 20 10:13:45 2018', 'jobName': 'bimetallicVerify'})
+mdb.models['Model-1'].parts['bimetallicPart'].sectionAssignments[1].setValues(
+    sectionName='bimetallicMo')
+mdb.models['Model-1'].parts['bimetallicPart'].sectionAssignments[0].setValues(
+    sectionName='bimetallicMo')
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    'Molybdenum Solid Bar Verification', echoPrint=OFF, explicitPrecision=
+    SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, 
+    memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='bimetallicVerifyMo', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['bimetallicVerifyMo'].submit(consistencyChecking=OFF)
+mdb.jobs['bimetallicVerifyMo']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 0, 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Molybdenum Solid Bar Verification', 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\bimetallicVerifyMo.odb', 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE462LAB-22', 'handle': 2852, 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(STEP, {
+    'stepName': 'Thermal Loading Evaluation on Bimetallic Strip', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(MEMORY_ESTIMATE, {
+    'phase': STANDARD_PHASE, 'jobName': 'bimetallicVerifyMo', 'memory': 28.0})
+mdb.jobs['bimetallicVerifyMo']._Message(PHYSICAL_MEMORY, {
+    'phase': STANDARD_PHASE, 'physical_memory': 8093.0, 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(MINIMUM_MEMORY, {
+    'minimum_memory': 18.0, 'phase': STANDARD_PHASE, 
+    'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(STATUS, {'totalTime': 1.0, 
+    'attempts': 1, 'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 
+    'step': 1, 'jobName': 'bimetallicVerifyMo', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['bimetallicVerifyMo']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'bimetallicVerifyMo'})
+mdb.jobs['bimetallicVerifyMo']._Message(JOB_COMPLETED, {
+    'time': 'Sat Oct 20 10:34:46 2018', 'jobName': 'bimetallicVerifyMo'})
+# Save by ctf365 on 2018_10_20-10.36.12; build 2018 2017_11_07-11.21.41 127140
+# Save by ctf365 on 2018_10_20-10.45.04; build 2018 2017_11_07-11.21.41 127140
