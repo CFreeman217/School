@@ -549,7 +549,8 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	// STATE MEASUREMENTS
 	pitch_m = pitch_mpu_madgwick;
 	roll_m = roll_mpu_madgwick;
-	yaw_m = yaw_mpu_madgwick;
+	yaw_m = g_mpu[2];
+	// yaw_m = yaw_mpu_madgwick;
 
 	// DESIRED COMMANDS
 	// pitch_d = 0;
@@ -586,8 +587,8 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	M1cmd = throt + pit_lam;
 	M2cmd = throt - rol_lam;
 	
-	M3cmd = throt - pit_lam;
-	M4cmd = throt + rol_lam;
+	M3cmd = throt + pit_lam;
+	M4cmd = throt - rol_lam;
 	
 	if(M1cmd>2.0)
 	{
