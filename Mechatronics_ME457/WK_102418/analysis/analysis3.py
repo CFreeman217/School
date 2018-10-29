@@ -1,5 +1,6 @@
 import os, math
 import numpy as np, matplotlib.pyplot as plt
+# Start and end plot data points
 s_plot = 905
 e_plot = 4005
 
@@ -37,6 +38,21 @@ def butter2(f_c, f_s, in_list, highpass=False):
 
     return out_list
 
+def tune_tangent(d_l, tau, psi_ss, d_sig):
+    '''
+    Tangent tuning method:
+    d_l = time from step signal initiation to when the device begins to respond to the input
+    tau = intersection of final steady state value and tangent line to sloped region for controller
+    psi_ss = total change in yaw rate during baseline test
+    d_sig = chang in input signal from zero to final value
+    '''
+    k_tot = psi_ss/d_sig
+    k_p = 1.2*(tau/ (k_tot*d_l))
+    k_i = k_p / (2 * d_l)
+    k_d = (k_p * d_l) / 2
+    return k_p, k_i, k_d
+
+
 for file_name in os.listdir('.'):
     if file_name == 'clay_try_1529_Feb_18_06_22-0.csv':
         d_time, yaw, signal, filt_yaw = np.loadtxt(open(file_name),
@@ -44,28 +60,40 @@ for file_name in os.listdir('.'):
                                         unpack = True,
                                         skiprows = 1,
                                         usecols = (1, 26, 30, 31),)
-
+        # Convert time to seconds
         d_time /= 1000000
-        slopeline = lambda x : (x-39.6)*(-0.017)
-        h_line = [0.01 for i in range(len(d_time))]
+        # After plotting several times and looking at the graphs
+        # Set start signal and response to signal times
+        sig_start = 33.75
+        resp_start = 34.5
+        psi_steady = 7 # Raw data change in yaw rate in response to input
+        # Delta L to calculate gains
+        delt_l = resp_start - sig_start
+        t_int = 39.6 # Tau intercept for determining the slope line and tau
+        tau_T = t_int - sig_start # Tau for tangent gain method
+        # Draw sloped line to fit 
+        slopeline = lambda x : (x-t_int)*(-0.017)
         newline = [slopeline(i) for i in d_time]
+        # Butterworth filtering on gyro output data that came in with lots of noise
         filt_yaw2 = butter2(1,100,filt_yaw)
+        # Adjust and scale the filtered yaw data to overlay with the signal input
         filt_yaw2 = [(i/80)+.13 for i in filt_yaw2]
-        # plt.plot(d_time[s_plot:], signal[s_plot:], label='Signal')
-        # plt.plot(d_time[s_plot:], filt_yaw2[s_plot:], label='Butterworth Filtered Yaw')
+        # Plot signal and yaw data
         plt.plot(d_time[s_plot:e_plot], signal[s_plot:e_plot], label='Signal')
-        plt.plot(d_time[s_plot:e_plot], filt_yaw2[s_plot:e_plot], label='Butterworth Filtered Yaw (1/80th Scale)')
-        # plt.plot(d_time[s_plot:e_plot], h_line[s_plot:e_plot], c='r',linestyle=':')
+        plt.plot(d_time[s_plot:e_plot], filt_yaw2[s_plot:e_plot], label='Yaw Measured (Scale = 1:80)')
         plt.plot(d_time[s_plot:e_plot], newline[s_plot:e_plot], c='r', linestyle=':')
-        # plt.plot(d_time[5:], yaw[5:], label='Yaw')
-        plt.title('Yaw and Response\nOpen Loop Gain Tuning')
+        plt.title('Yaw and Response\nOpen Loop Gain Tuning Tangent Method')
         plt.xlabel('time (s)')
         plt.ylabel('Yaw Rate (Rad/s)')
-        plt.axvline(x=33.6657,c='r',linestyle=':')
-        plt.axvline(x=34.0702,c='r',linestyle=':')
+        plt.axvline(x=sig_start,c='r',linestyle=':')
+        plt.axvline(x=resp_start,c='r',linestyle=':')
+        kP, kI, kD = tune_tangent(delt_l, tau_T, psi_steady, 0.1)
+        plt.text(19, 0.06, r'K$_p$ = {:1.6f}'.format(kP),{'color':'k', 'fontsize':12, 'ha':'left', 'bbox': dict(boxstyle='round', fc='w', ec='w',pad=0.2)})
+        plt.text(19, 0.05, r'K$_i$ = {:1.6f}'.format(kI),{'color':'k', 'fontsize':12, 'ha':'left', 'bbox': dict(boxstyle='round', fc='w', ec='w',pad=0.2)})
+        plt.text(19, 0.04, r'K$_d$ = {:1.6f}'.format(kD),{'color':'k', 'fontsize':12, 'ha':'left', 'bbox': dict(boxstyle='round', fc='w', ec='w',pad=0.2)})
         plt.ylim(-0.03,0.13)
         plt.grid(b=True, which='both')
         # plt.grid(b=True, which='major', axis='both')
         plt.legend(loc=3)
-        plt.savefig('{}_A3figure.png'.format(file_name[:-4]), bbox_inches='tight')
+        plt.savefig('ckpt_fig1.png'.format(file_name[:-4]), bbox_inches='tight')
         plt.show()
