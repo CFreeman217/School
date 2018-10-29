@@ -11,14 +11,15 @@ for file_name in os.listdir('.'):
     if file_name.endswith('csv'):
         if file_name[:-4] not in p_files:
             try:
-                d_time, signal, yaw = np.loadtxt(open(file_name),
+                d_time, yaw, signal, filt_yaw = np.loadtxt(open(file_name),
                                                 delimiter = ',',
                                                 unpack = True,
                                                 skiprows = 1,
-                                                usecols = (1, 30,31),)
+                                                usecols = (1, 26, 30, 31),)
                 d_time /= 1000000
                 plt.plot(d_time[5:], signal[5:], label='Signal')
                 plt.plot(d_time[5:], yaw[5:], label='Yaw')
+                plt.plot(d_time[5:], filt_yaw[5:], label='Filtered Yaw')
                 plt.title('Yaw and Response\n{}'.format(file_name))
                 plt.xlabel('time (s)')
                 plt.ylabel('Yaw Rate (Rad/s)')

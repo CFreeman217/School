@@ -68,9 +68,19 @@ float k_p = 8e-4;
 float k_i = 5e-8;
 float k_d = 50e-5;
 
-float k_py = 0;
-float k_iy = 0;
-float k_dy = 0.001;
+// float y_ss = 4.3;
+// float tau = 1;
+// float len = 0.1;
+// float y_cmd = 5
+// float k_len = y_ss/y_cmd;
+// float k_py = 1.2*tau/(k_len*len);
+
+float k_py = 0.0;
+float k_iy = 0.0;
+float k_dy = 0.0;
+// float k_py = 13.95;
+// float k_iy = 69.77;
+// float k_dy = 0.698;
 
 // digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
 
@@ -117,7 +127,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 //----------------------------------------------------------------------------------------------------------RC Input Declarations
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
-const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-5,5},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{0,.1},{-.5,.5},{-.5,.5}};
 // const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 // const float output_range[6][2] = {{-20,20},{1,10},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
@@ -580,10 +590,10 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	err_yi = ((err_yi - err_y_old)/2)*0.01;
 	err_yd = (err_yi - err_y_old)*100;
 
-	pit_lam = (err_pp * k_p) + (err_pi * k_i) + (err_pd * k_d);
-	rol_lam = (err_rp * k_p) + (err_ri * k_i) + (err_rd * k_d);
-	yaw_lam = (err_yp * k_py) + (err_yi * k_iy) + (err_yd * k_dy)+.1;
-
+	// pit_lam = (err_pp * k_p) + (err_pi * k_i) + (err_pd * k_d);
+	// rol_lam = (err_rp * k_p) + (err_ri * k_i) + (err_rd * k_d);
+	// yaw_lam = (err_yp * k_py) + (err_yi * k_iy) + (err_yd * k_dy);
+	yaw_lam = rc_array_scaled[3];
 
 	err_p_old = err_pp;
 	err_r_old = err_rp;
@@ -763,3 +773,4 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	}
 	return 0;
 }
+

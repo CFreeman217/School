@@ -68,11 +68,30 @@ float k_p = 8e-4;
 float k_i = 5e-8;
 float k_d = 50e-5;
 
-float k_py = 0;
-float k_iy = 0;
-float k_dy = 0.001;
+// float y_ss = 4.3;
+// float tau = 1;
+// float len = 0.1;
+// float y_cmd = 5
+// float k_len = y_ss/y_cmd;
+// float k_py = 1.2*tau/(k_len*len);
 
-// digital_filter myfilter(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
+// float k_py = 0.165894;
+// float k_iy = 0.165894;
+// float k_dy = 0.0414735;
+float k_py = 0.333333;
+float k_iy = 0.505050505;
+float k_dy = 0.055;
+// float k_py = 0.20135228677379483;
+// float k_iy = 0.24889034211841138;
+// float k_dy = 0.0407235;
+
+const int order = 2;
+const char low = 'l'; // for low pass
+const char high = 'h';
+const float fc = 1; // Hz
+const float fs = 100; // Hz
+
+digital_filter yaw_filt(order,low,fc,fs); // in order to use the custom filter class we have to declare an instance of the type
 
 //---------------------------------------------------------------------------------------------------User Configurable Parameters
 const bool dbmsg_global = false; // set flag to display all debug messages
@@ -117,7 +136,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 //----------------------------------------------------------------------------------------------------------RC Input Declarations
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
-const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-5,5},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-0.1,0.1},{-.5,.5},{-.5,.5}};
 // const float output_range[6][2] = {{-20,20},{20,-20},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 // const float output_range[6][2] = {{-20,20},{1,10},{.9,1.9},{-120,120},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
@@ -477,7 +496,7 @@ int main( int argc , char *argv[])
 			"a_mpu[0],a_mpu[1],a_mpu[2],"
 			"g_mpu[0],g_mpu[1],g_mpu[2],"
 			"m_mpu[0],m_mpu[1],m_mpu[2],"
-			"YAW_CMD, YAW_MEAS"<<endl;
+			"YAW_CMD, YAW_MEAS_FILT"<<endl;
 			// "pitchA, pitchG, acc_filt, gyr_filt, com_filt, kpe(P)="<<k_p<<", kiei(I)="<<k_i<<", kded(D)="<<k_d<<"," 
 			// "signal, mad_pitch"<< endl;
 		usleep(20000);
@@ -553,14 +572,13 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	// STATE MEASUREMENTS
 	pitch_m = pitch_mpu_madgwick;
 	roll_m = roll_mpu_madgwick;
-	yaw_m = g_mpu[2];
-	// yaw_m = yaw_mpu_madgwick;
+	yaw_m = yaw_filt.filter_new_input(g_mpu[2]);
 
 	// DESIRED COMMANDS
-	// pitch_d = 0;
-	pitch_d = rc_array_scaled[1];	
-	// roll_d = 0;
-	roll_d = rc_array_scaled[0];
+	pitch_d = 0;
+	// pitch_d = rc_array_scaled[1];	
+	roll_d = 0;
+	// roll_d = rc_array_scaled[0];
 	// yaw_d = 0;
 	yaw_d = rc_array_scaled[3];
 
@@ -580,10 +598,10 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 	err_yi = ((err_yi - err_y_old)/2)*0.01;
 	err_yd = (err_yi - err_y_old)*100;
 
-	pit_lam = (err_pp * k_p) + (err_pi * k_i) + (err_pd * k_d);
-	rol_lam = (err_rp * k_p) + (err_ri * k_i) + (err_rd * k_d);
-	yaw_lam = (err_yp * k_py) + (err_yi * k_iy) + (err_yd * k_dy)+.1;
-
+	// pit_lam = (err_pp * k_p) + (err_pi * k_i) + (err_pd * k_d);
+	// rol_lam = (err_rp * k_p) + (err_ri * k_i) + (err_rd * k_d);
+	yaw_lam = (err_yp * k_py) + (err_yi * k_iy) + (err_yd * k_dy);
+	// yaw_lam = rc_array_scaled[3];
 
 	err_p_old = err_pp;
 	err_r_old = err_rp;
@@ -591,7 +609,6 @@ while((rc_array[5]>1500)) // uncomment here when using a transmitter
 
 	M1cmd = throt + pit_lam + yaw_lam;
 	M2cmd = throt - rol_lam - yaw_lam;
-	
 	M3cmd = throt - pit_lam + yaw_lam;
 	M4cmd = throt + rol_lam - yaw_lam;
 	
