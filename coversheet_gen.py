@@ -10,7 +10,7 @@ github repository: https://github.com/CFreeman217/coversheet.git
 '''
 import json
 import docx
-
+import lxml
 def stripdate(in_str):
     import calendar
     '''Cuts the input name into desired date format.
