@@ -76,8 +76,6 @@ float k_d = 73e-5;
 float k_py = .26;
 float k_iy = .0032;
 float k_dy = 0.00;
-// before shawn
-
 
 // Zeigler-Nichols Calculated Gains from Tangent Method:
 // float k_py = 0.20135228677379483;
@@ -137,7 +135,7 @@ float msl = 0.0; // mean sea level altitude (ft) [should be close to 920ft for U
 RCInput rcinput{}; const float input_range[2] = {1088,1940}; // range is the same for all channels
 // for PID tuning
 // const float output_range[6][2] ={{45,-45},{45,-45},{.9,1.9},{1,-1},{-.5,.5},{-.5,.5}};
-const float output_range[6][2] = {{-25,25},{25,-25},{.9,1.9},{1,-1},{-.5,.5},{-.5,.5}};
+const float output_range[6][2] = {{-25,25},{25,-25},{.9,1.7},{1,-1},{-.5,.5},{-.5,.5}};
 float coefficients[6][2];
 
 //---------------------------------------------------------------------------------------------------------------IMU Declarations

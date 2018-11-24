@@ -1,0 +1,103 @@
+close all;clear;clc;fprintf('Extended Kalman Filter');
+
+% Extended Kalman Filter
+% By: Melvin Cordon
+
+
+%data imported-------------------------------------------------------------
+
+Actual_Thrust = csvread("Jan_26_19_19-0.csv");
+AActual_Thrust = csvread("ManData.csv");
+AAActual_Thrust = csvread("StepInput.csv");
+
+t = Actual_Thrust(:,1)*1e-6;
+y = Actual_Thrust(:,3);
+u =Actual_Thrust(:,1);
+uu = deriv(u,.01);
+uuu = deriv(uu,.01);
+
+in =  Actual_Thrust(:,1);
+
+dt = .01;
+
+%--------------------------------------------------------------------------
+
+
+
+
+
+
+
+%% Setting up the model matrices %%
+
+%Number of states
+ 
+
+%intial guess
+k = 1;
+u(k) = 0; 
+uu(k) = 0; 
+aa(k) = 0;
+bb(k) = 0;
+cc(k) = 0;
+
+% Initial guess for parameters (initial cond. come from first data points)
+Xk = [y(k);u(k);uu(k);aa(k);bb(k)]; 
+N = length(Xk);
+
+% Measurement matrix (what do we have estimates of). 
+H = [1 0 0 0 0 ; 
+     0 1 0 0 0 ;
+     0 0 1 0 0]; 
+
+P = eye(N)*.05; % Initial covariance matrix, update number as needed
+Q = eye(N)*.005; 
+R = eye(1)*.1; %Size of different measurements (2 measurements here)
+
+for k = 2:length(y)
+    
+    F = [0 Xk(4) Xk(5) Xk(2) Xk(3);
+    0 1 0 0 0 ;
+    0 0 1 0 0 ;
+    0 0 0 1 0 ;
+    0 0 0 0 1];
+
+    X_pred(1) = Xk(2)*Xk(4) + Xk(3)*Xk(5); 
+    X_pred(2) = u(k) ;
+    X_pred(3) = uu(k);
+    X_pred(4) = Xk(4) ;
+    X_pred(5) = Xk(5) ;
+    
+    
+    
+ 
+    X_pred = X_pred;
+    
+	P_pred = F*P*F' + Q;
+    
+    % New measurements/data
+    Z = [y(k);u(k);uu(k)];
+    
+    yk = Z - H*X_pred';
+    Sk = H*P_pred*H' + R;
+    Kk = P_pred*H'*Sk^-1;
+    
+    
+ 
+    
+	Xk = X_pred' + Kk*yk ;
+	P = (eye(N) - Kk*H)*P_pred;
+    
+	y_kal(k) = Xk(1);
+	yd_kal(k) = Xk(2);
+	ydd_kal(k) = Xk(3);
+     
+end
+
+figure(1)
+title('Pred')
+plot(t, y,'--' ,t, y_kal)
+xlabel('Time [sec]')
+ylabel('Pos [m]')
+legend('Meas','Kalman')
+

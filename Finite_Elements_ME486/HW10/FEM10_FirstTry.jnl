@@ -1,0 +1,576 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=5.0)
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(0.0, 0.0), 
+    point2=(1.1, 0.9))
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.8547682762146, 0.43808501958847), value=1.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    0.496124982833862, 1.40569019317627), value=1.5, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5]), vector=(0.0, 
+    0.1))
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    'insertionTool')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=10.0)
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 0.0), point2=(
+    2.45, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(2.45, 0.0), point2=(
+    2.45, 1.3))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(2.45, 1.3), point2=(
+    0.85, 1.3))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.85, 1.3), point2=(
+    0.85, 0.7))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.85, 0.7), point2=(
+    0.0, 0.7))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 0.7), point2=(
+    0.0, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.694190859794617, 0.358110904693604), value=1.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    3.33426284790039, 0.734269976615906), value=2.5, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    1.20020925998688, -0.605084180831909), value=3.5, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    -0.232002973556519, 1.84564924240112), value=1.2, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5])
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    'pocketBlock')
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].sketches['pocketBlock'])
+mdb.models['Model-1'].sketches['__edit__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[2], 
+    mdb.models['Model-1'].sketches['__edit__'].geometry[3], 
+    mdb.models['Model-1'].sketches['__edit__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__edit__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__edit__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__edit__'].geometry[7]), vector=(1.05, 
+    0.0))
+mdb.models['Model-1'].sketches.changeKey(fromName='__edit__', toName=
+    'pocketBlock')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=3.0)
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    0.0, 0.0), point1=(-0.275, -0.25))
+mdb.models['Model-1'].sketches['__profile__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], radius=1.0, 
+    textPoint=(-0.443177938461304, 0.333129465579987))
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    0.0, 0.0), point1=(-0.6125, 0.4625))
+mdb.models['Model-1'].sketches['__profile__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], radius=0.9, 
+    textPoint=(-1.25742125511169, 0.498818248510361))
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    'gasket')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=5.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(0.313969350072924, 0.761491608407911))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['insertionTool'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7]), vector=(
+    0.313969350072924, 0.761491608407911))
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name=
+    'insertionToolPart', type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['insertionToolPart'].BaseShell(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].sketches['gasket'])
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(0.0, 1.0), point2=(0.0, 
+    0.9))
+mdb.models['Model-1'].sketches['__edit__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[4])
+mdb.models['Model-1'].sketches['__edit__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[4])
+mdb.models['Model-1'].sketches['__edit__'].CoincidentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].vertices[3], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[2])
+mdb.models['Model-1'].sketches['__edit__'].CoincidentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].vertices[4], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[3])
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(0.0, -0.9), point2=(
+    0.0, -1.0))
+mdb.models['Model-1'].sketches['__edit__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[5])
+mdb.models['Model-1'].sketches['__edit__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[3], entity2=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[5])
+mdb.models['Model-1'].sketches['__edit__'].CoincidentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].vertices[5], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[3])
+mdb.models['Model-1'].sketches['__edit__'].CoincidentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].vertices[6], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[2])
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[3], point1=(
+    -0.546276390552521, -0.813147068023682))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[2], point1=(
+    -0.552624046802521, -0.841678559780121))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[7], point1=(
+    -0.914444148540497, -0.559533953666687))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[6], point1=(
+    -0.489147007465363, 0.924102663993835))
+mdb.models['Model-1'].sketches['__edit__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[9], radius=0.9, 
+    textPoint=(1.16126036643982, -0.64512836933136))
+mdb.models['Model-1'].sketches['__edit__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[8], radius=1.0, 
+    textPoint=(1.21204209327698, -0.37883460521698))
+mdb.models['Model-1'].sketches.changeKey(fromName='__edit__', toName='gasket')
+mdb.models['Model-1'].sketches.changeKey(fromName='gasket', toName=
+    'gasketSketch')
+mdb.models['Model-1'].sketches.changeKey(fromName='insertionTool', toName=
+    'insertionToolSketch')
+mdb.models['Model-1'].sketches.changeKey(fromName='pocketBlock', toName=
+    'pocketBlockSketch')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=10.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(1.84503599405289, 0.930164885944494))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['pocketBlockSketch'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[8], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9]), vector=(
+    1.84503599405289, 0.930164885944494))
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name='pocketBlockPart', 
+    type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['pocketBlockPart'].BaseShell(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=10.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(0.617024758494251, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['gasketSketch'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7]), vector=(
+    0.617024758494251, 1.0))
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name='gasketPart', 
+    type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['gasketPart'].BaseShell(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].Material(name='CartridgeBrass')
+mdb.models['Model-1'].materials['CartridgeBrass'].Elastic(table=((16000000.0, 
+    0.3), ))
+mdb.models['Model-1'].materials['CartridgeBrass'].Plastic(table=((50000.0, 
+    0.0), ))
+mdb.models['Model-1'].PEGSection(material='CartridgeBrass', name=
+    'gasketSection', thickness=1.0, wedgeAngle1=0.0, wedgeAngle2=0.0)
+mdb.models['Model-1'].parts['gasketPart'].Set(faces=
+    mdb.models['Model-1'].parts['gasketPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), name='Set-1')
+mdb.models['Model-1'].parts['gasketPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['gasketPart'].sets['Set-1'], sectionName=
+    'gasketSection', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].Material(name='HSLASteel')
+mdb.models['Model-1'].materials['HSLASteel'].Elastic(table=((29700.0, 0.28), ))
+mdb.models['Model-1'].materials['HSLASteel'].Plastic(table=((50000.0, 0.0), ))
+mdb.models['Model-1'].PEGSection(material='HSLASteel', name=
+    'insertionToolSection', thickness=1.0, wedgeAngle1=0.0, wedgeAngle2=0.0)
+mdb.models['Model-1'].parts['insertionToolPart'].Set(faces=
+    mdb.models['Model-1'].parts['insertionToolPart'].faces.getSequenceFromMask(
+    ('[#1 ]', ), ), name='Set-1')
+mdb.models['Model-1'].parts['insertionToolPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['insertionToolPart'].sets['Set-1'], 
+    sectionName='insertionToolSection', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].PEGSection(material='HSLASteel', name=
+    'pocketBlockSection', thickness=1.0, wedgeAngle1=0.0, wedgeAngle2=0.0)
+mdb.models['Model-1'].parts['pocketBlockPart'].Set(faces=
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), name='Set-1')
+mdb.models['Model-1'].parts['pocketBlockPart'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['pocketBlockPart'].sets['Set-1'], sectionName=
+    'pocketBlockSection', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name=
+    'pocketBlockPart-1', part=mdb.models['Model-1'].parts['pocketBlockPart'])
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='gasketPart-1', 
+    part=mdb.models['Model-1'].parts['gasketPart'])
+mdb.models['Model-1'].rootAssembly.translate(instanceList=('gasketPart-1', ), 
+    vector=(1.228011, 1.930165, 0.0))
+mdb.models['Model-1'].rootAssembly.translate(instanceList=('pocketBlockPart-1', 
+    'gasketPart-1'), vector=(-1.845036, -0.930165, 0.0))
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name=
+    'insertionToolPart-1', part=
+    mdb.models['Model-1'].parts['insertionToolPart'])
+mdb.models['Model-1'].rootAssembly.translate(instanceList=(
+    'insertionToolPart-1', ), vector=(-0.31397, 2.238508, 0.0))
+mdb.models['Model-1'].ExplicitDynamicsStep(description='Gasket Installation', 
+    improvedDtMethod=ON, name='squish', previous='Initial')
+mdb.models['Model-1'].ContactProperty('IntProp-1')
+mdb.models['Model-1'].interactionProperties['IntProp-1'].TangentialBehavior(
+    dependencies=0, directionality=ISOTROPIC, elasticSlipStiffness=None, 
+    formulation=PENALTY, fraction=0.005, maximumElasticSlip=FRACTION, 
+    pressureDependency=OFF, shearStressLimit=None, slipRateDependency=OFF, 
+    table=((0.3, ), ), temperatureDependency=OFF)
+mdb.models['Model-1'].rootAssembly.Surface(name='m_Surf-1', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['gasketPart-1'].edges.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='s_Surf-1', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['insertionToolPart-1'].edges.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].SurfaceToSurfaceContactExp(clearanceRegion=None, 
+    createStepName='squish', datumAxis=None, initialClearance=OMIT, 
+    interactionProperty='IntProp-1', master=
+    mdb.models['Model-1'].rootAssembly.surfaces['m_Surf-1'], 
+    mechanicalConstraint=KINEMATIC, name='tool-GasketInteraction', slave=
+    mdb.models['Model-1'].rootAssembly.surfaces['s_Surf-1'], sliding=FINITE)
+mdb.models['Model-1'].rootAssembly.Surface(name='m_Surf-3', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='s_Surf-3', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['gasketPart-1'].edges.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].SurfaceToSurfaceContactExp(clearanceRegion=None, 
+    createStepName='squish', datumAxis=None, initialClearance=OMIT, 
+    interactionProperty='IntProp-1', master=
+    mdb.models['Model-1'].rootAssembly.surfaces['m_Surf-3'], 
+    mechanicalConstraint=KINEMATIC, name='pocketBlock-GasketInteraction', 
+    slave=mdb.models['Model-1'].rootAssembly.surfaces['s_Surf-3'], sliding=
+    FINITE)
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    mask=('[#1 ]', ), )+\
+    mdb.models['Model-1'].rootAssembly.instances['gasketPart-1'].edges.getSequenceFromMask(
+    mask=('[#a ]', ), )+\
+    mdb.models['Model-1'].rootAssembly.instances['insertionToolPart-1'].edges.getSequenceFromMask(
+    mask=('[#8 ]', ), ), name='Set-1')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='squish', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'symmetryPlane', region=mdb.models['Model-1'].rootAssembly.sets['Set-1'], 
+    u1=0.0, u2=UNSET, ur3=UNSET)
+mdb.models['Model-1'].parts['gasketPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.15)
+mdb.models['Model-1'].parts['gasketPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.1)
+mdb.models['Model-1'].parts['gasketPart'].generateMesh()
+mdb.models['Model-1'].parts['insertionToolPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.1)
+mdb.models['Model-1'].parts['insertionToolPart'].generateMesh()
+mdb.models['Model-1'].parts['pocketBlockPart'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.1)
+mdb.models['Model-1'].parts['pocketBlockPart'].generateMesh()
+mdb.models['Model-1'].parts['pocketBlockPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4I, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['insertionToolPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4I, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['insertionToolPart'].faces.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['gasketPart'].setElementType(elemTypes=(ElemType(
+    elemCode=CPE4I, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['gasketPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-5', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['insertionToolPart-1'].edges.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].Pressure(amplitude=UNSET, createStepName='squish', 
+    distributionType=UNIFORM, field='', magnitude=60000.0, name=
+    'installLoading', region=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-5'])
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#2 ]', ), ), name='Set-2')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='squish', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'installPart', region=mdb.models['Model-1'].rootAssembly.sets['Set-2'], u1=
+    UNSET, u2=0.0, ur3=UNSET)
+mdb.Job(activateLoadBalancing=False, atTime=None, contactPrint=OFF, 
+    description='First Attempt at Gasket Installation', echoPrint=OFF, 
+    explicitPrecision=SINGLE, historyPrint=OFF, memory=90, memoryUnits=
+    PERCENTAGE, model='Model-1', modelPrint=OFF, multiprocessingMode=DEFAULT, 
+    name='firstTry', nodalOutputPrecision=SINGLE, numCpus=1, numDomains=1, 
+    parallelizationMethodExplicit=DOMAIN, queue=None, resultsFormat=ODB, 
+    scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.models['Model-1'].parts['pocketBlockPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPEG4I, elemLibrary=STANDARD), ElemType(elemCode=CPEG3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].parts['pocketBlockPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=DEFAULT, distortionControl=DEFAULT), ElemType(
+    elemCode=CPE3, elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].parts['pocketBlockPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4I, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].parts['pocketBlockPart'].checkGeometry()
+del mdb.models['Model-1'].boundaryConditions['installPart']
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#2 ]', ), ), name='Set-3')
+mdb.models['Model-1'].Field(createStepName='squish', crossSectionDistribution=
+    CONSTANT_THROUGH_THICKNESS, distributionType=UNIFORM, fieldVariableNum=1, 
+    magnitudes=(60000.0, ), name='Predefined Field-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-3'])
+del mdb.models['Model-1'].predefinedFields['Predefined Field-1']
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#2 ]', ), ), name='Set-4')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='squish', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'bottomSquish', region=mdb.models['Model-1'].rootAssembly.sets['Set-4'], 
+    u1=UNSET, u2=0.0, ur3=UNSET)
+mdb.models['Model-1'].parts['pocketBlockPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4R, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pocketBlockPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['insertionToolPart'].setElementType(elemTypes=(
+    ElemType(elemCode=CPE4R, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['insertionToolPart'].faces.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['gasketPart'].setElementType(elemTypes=(ElemType(
+    elemCode=CPE4R, elemLibrary=STANDARD), ElemType(elemCode=CPE3, 
+    elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['gasketPart'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['firstTry'].submit(consistencyChecking=OFF)
+mdb.jobs['firstTry']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-17', 'handle': 0, 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'First Attempt at Gasket Installation', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '1007 elements have missing property definitions. The elements have been identified in element set ErrElemMissingSection.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *BOUNDARY,TYPE=DISPLACEMENT HAS BEEN USED; CHECK STATUS FILE BETWEEN STEPS FOR WARNINGS ON ANY JUMPS PRESCRIBED ACROSS THE STEPS IN DISPLACEMENT VALUES OF TRANSLATIONAL DOF. FOR ROTATIONAL DOF MAKE SURE THAT THERE ARE NO SUCH JUMPS. ALL JUMPS IN DISPLACEMENTS ACROSS STEPS ARE IGNORED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\firstTry.odb', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'firstTry'})
+mdb.models['Model-1'].rootAssembly.Surface(name='m_Surf-6', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='s_Surf-6', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['gasketPart-1'].edges.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].SurfaceToSurfaceContactExp(clearanceRegion=None, 
+    createStepName='squish', datumAxis=None, initialClearance=OMIT, 
+    interactionProperty='IntProp-1', master=
+    mdb.models['Model-1'].rootAssembly.surfaces['m_Surf-6'], 
+    mechanicalConstraint=KINEMATIC, name='rightSide', slave=
+    mdb.models['Model-1'].rootAssembly.surfaces['s_Surf-6'], sliding=FINITE)
+mdb.models['Model-1'].rootAssembly.Surface(name='m_Surf-8', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['pocketBlockPart-1'].edges.getSequenceFromMask(
+    ('[#8 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='s_Surf-8', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['insertionToolPart-1'].edges.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].SurfaceToSurfaceContactExp(clearanceRegion=None, 
+    createStepName='squish', datumAxis=None, initialClearance=OMIT, 
+    interactionProperty='IntProp-1', master=
+    mdb.models['Model-1'].rootAssembly.surfaces['m_Surf-8'], 
+    mechanicalConstraint=KINEMATIC, name='toolBlock', slave=
+    mdb.models['Model-1'].rootAssembly.surfaces['s_Surf-8'], sliding=FINITE)
+mdb.jobs['firstTry'].submit(consistencyChecking=OFF)
+mdb.jobs['firstTry']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-17', 'handle': 0, 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'First Attempt at Gasket Installation', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_POCKETBLOCKPART-1_POCKETBLOCKPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_GASKETPART-1_GASKETPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_ HAS NOT BEEN DEFINED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'UNABLE TO LOCATE NODE SET ASSEMBLY_INSERTIONTOOLPART-1_INSERTIONTOOLPART-REFPT_. THE NODE SET MUST HAVE BEEN PREVIOUSLY DEFINED.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '1007 elements have missing property definitions. The elements have been identified in element set ErrElemMissingSection.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'THE OPTION *BOUNDARY,TYPE=DISPLACEMENT HAS BEEN USED; CHECK STATUS FILE BETWEEN STEPS FOR WARNINGS ON ANY JUMPS PRESCRIBED ACROSS THE STEPS IN DISPLACEMENT VALUES OF TRANSLATIONAL DOF. FOR ROTATIONAL DOF MAKE SURE THAT THERE ARE NO SUCH JUMPS. ALL JUMPS IN DISPLACEMENTS ACROSS STEPS ARE IGNORED', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'A REDUNDANT CONTACT CONDITION HAS BEEN SPECIFIED. THE REDUNDANCY INVOLVES THE CONTACT PAIR REFERENCING SURFACES ASSEMBLY_M_SURF-3 AND ASSEMBLY_S_SURF-3 AND THE CONTACT PAIR REFERENCING SURFACES ASSEMBLY_M_SURF-6 AND ASSEMBLY_S_SURF-6.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\firstTry.odb', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'firstTry'})
+mdb.jobs['firstTry']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'firstTry'})
+# Save by ctf365 on 2018_11_13-10.49.39; build 2018 2017_11_07-11.21.41 127140

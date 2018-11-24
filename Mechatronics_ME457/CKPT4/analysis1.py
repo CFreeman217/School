@@ -69,18 +69,16 @@ for file_name in os.listdir('.'):
             plt.legend()
             plt.savefig('Bar_altitude_figure.png'.format(file_name[:-4]), bbox_inches='tight')
             plt.show()
-
-            plt.plot(d_time[st_plot:en_plot], z_accel[st_plot:en_plot], label='Unfiltered Altitude')
-            plt.plot(d_time[st_plot:en_plot], filt_acc[st_plot:en_plot], label='Filtered Altitude')
+            plt.close()
+            plt.plot(d_time[st_plot:en_plot], z_accel[st_plot:en_plot], label='Unfiltered')
+            plt.plot(d_time[st_plot:en_plot], filt_acc[st_plot:en_plot], label='Filtered')
             plt.title('Accelerometer Altitude')
             plt.xlabel('Time (s)')
-            plt.ylabel('Altitude (Meters)')
+            plt.ylabel(r'Z-Acceleration (m/s$^2$)')
             plt.legend()
             plt.savefig('Acc_altitude_figure.png'.format(file_name[:-4]), bbox_inches='tight')
             plt.show()
-
-
-
+            plt.close()
             plt.plot(d_time[st_plot:en_plot], pit_meas[st_plot:en_plot], label='Measurement')
             plt.plot(d_time[st_plot:en_plot], pit_sig[st_plot:en_plot], label='Command')
             plt.title('Pitch Command and Measurement')
@@ -89,7 +87,7 @@ for file_name in os.listdir('.'):
             plt.legend()
             plt.savefig('Pitch_figure.png'.format(file_name[:-4]), bbox_inches='tight')
             plt.show()
-
+            plt.close()
             plt.plot(d_time[st_plot:en_plot], rol_meas[st_plot:en_plot], label='Measurement')
             plt.plot(d_time[st_plot:en_plot], rol_sig[st_plot:en_plot], label='Command')
             plt.title('Roll Command and Measurement')
@@ -98,14 +96,15 @@ for file_name in os.listdir('.'):
             plt.legend()
             plt.savefig('Roll_figure.png'.format(file_name[:-4]), bbox_inches='tight')
             plt.show()
-
+            plt.close()
             plt.plot(d_time[st_plot:en_plot], yaw_meas[st_plot:en_plot], label='Measurement')
             plt.plot(d_time[st_plot:en_plot], yaw_sig[st_plot:en_plot], label='Command')
             plt.title('Yaw Command and Measurement')
             plt.xlabel('Time (s)')
-            plt.ylabel('Yaw (Degrees per second)')
+            plt.ylabel('Yaw (Radians per second)')
             plt.legend()
             plt.savefig('Yaw_figure.png'.format(file_name[:-4]), bbox_inches='tight')
             plt.show()
+            plt.close()
             # except:
             #     pass

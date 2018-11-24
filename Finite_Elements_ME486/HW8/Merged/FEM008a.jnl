@@ -1,0 +1,666 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    0.0, 0.0), point1=(-14.5, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], radius=25.0, 
+    textPoint=(-20.6361026763916, 6.10135078430176))
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    0.0, 0.0), point1=(-16.0, 3.5))
+mdb.models['Model-1'].sketches['__profile__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], radius=24.5, 
+    textPoint=(-22.7659759521484, 7.7094612121582))
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    decimalPlaces=3)
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='post', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['post'].BaseShellExtrude(depth=2000.0, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].parts['post'].DatumPlaneByPrincipalPlane(offset=0.0, 
+    principalPlane=YZPLANE)
+mdb.models['Model-1'].parts['post'].PartitionFaceByDatumPlane(datumPlane=
+    mdb.models['Model-1'].parts['post'].datums[2], faces=
+    mdb.models['Model-1'].parts['post'].faces.getSequenceFromMask(('[#1 ]', ), 
+    ))
+mdb.models['Model-1'].parts['post'].DatumPlaneByPrincipalPlane(offset=0.0, 
+    principalPlane=XZPLANE)
+mdb.models['Model-1'].parts['post'].PartitionFaceByDatumPlane(datumPlane=
+    mdb.models['Model-1'].parts['post'].datums[4], faces=
+    mdb.models['Model-1'].parts['post'].faces.getSequenceFromMask(('[#2 ]', ), 
+    ))
+mdb.models['Model-1'].parts['post'].PartitionFaceByDatumPlane(datumPlane=
+    mdb.models['Model-1'].parts['post'].datums[4], faces=
+    mdb.models['Model-1'].parts['post'].faces.getSequenceFromMask(('[#2 ]', ), 
+    ))
+mdb.models['Model-1'].Material(name='A36 Steel')
+mdb.models['Model-1'].materials['A36 Steel'].Elastic(table=((200000.0, 0.3), ))
+mdb.models['Model-1'].HomogeneousShellSection(idealization=NO_IDEALIZATION, 
+    integrationRule=SIMPSON, material='A36 Steel', name='Section-1', 
+    nodalThicknessField='', numIntPts=5, poissonDefinition=DEFAULT, 
+    preIntegrate=OFF, temperature=GRADIENT, thickness=1.0, thicknessField='', 
+    thicknessModulus=None, thicknessType=UNIFORM, useDensity=OFF)
+mdb.models['Model-1'].parts['post'].Set(faces=
+    mdb.models['Model-1'].parts['post'].faces.getSequenceFromMask(('[#f ]', ), 
+    ), name='Set-1')
+mdb.models['Model-1'].parts['post'].SectionAssignment(offset=0.0, offsetField=
+    '', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['post'].sets['Set-1'], sectionName='Section-1', 
+    thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='post-1', part=
+    mdb.models['Model-1'].parts['post'])
+mdb.models['Model-1'].StaticLinearPerturbationStep(description='Static Load', 
+    name='Static Load', previous='Initial')
+mdb.models['Model-1'].BuckleStep(description='Buckling Load', name=
+    'Buckling Load', numEigen=5, previous='Static Load', vectors=10)
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['post-1'].edges.getSequenceFromMask(
+    ('[#2128 ]', ), ), name='Set-1')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Initial', 
+    distributionType=UNIFORM, fieldName='', localCsys=None, name='BC-1', 
+    region=mdb.models['Model-1'].rootAssembly.sets['Set-1'], u1=SET, u2=SET, 
+    u3=SET, ur1=SET, ur2=SET, ur3=SET)
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-1', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['post-1'].edges.getSequenceFromMask(
+    ('[#1442 ]', ), ))
+mdb.models['Model-1'].ShellEdgeLoad(createStepName='Static Load', 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=
+    1441.55844155844, name='Load-1', region=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-1'])
+mdb.models['Model-1'].parts['post'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=5.0)
+mdb.models['Model-1'].parts['post'].setMeshControls(elemShape=QUAD, regions=
+    mdb.models['Model-1'].parts['post'].faces.getSequenceFromMask(('[#f ]', ), 
+    ), technique=STRUCTURED)
+mdb.models['Model-1'].parts['post'].generateMesh()
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#7fffce9 #0:23 #e0000000 #3fffff #0:11 #fffc0000 #fff80fff', 
+    ' #7ff #0:11 #ffe00000 #1fff #0:11 #ffff800 #0:11', 
+    ' #fc000000 #fff #0:11 #7fffe00 #0:11 #ff000000 #3ff', 
+    ' #0:11 #1ffff80 #0:11 #ffc00000 #ff #0:23 #ffffe', 
+    ' #0:11 #ffff0000 #7 #0:10 #80000000 #3ffff #0:11', 
+    ' #ffffc000 #1 #0:10 #e0000000 #ffff #0:11 #7ffff000', 
+    ' #0:11 #f8000000 #3fff #0:11 #1ffff000 #0:11 #fc000000', 
+    ' #fff #0:11 #7fffe00 #0:11 #ff000000 #3ff #0:11', 
+    ' #1ffff80 #0:11 #ffc00000 #ff #0:11 #ffffffe0 #3ff', 
+    ' #0:11 #1ffffc0 #0:11 #ffe00000 #ff #0:11 #7ffff0', 
+    ' #0:11 #fff80000 #3f #0:11 #1ffffc #0:11 #fffe0000', ' #f ]', ), ))
+del mdb.models['Model-1'].parts['post'].sets['fixSleeve']
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#fffffce9 #1f #0:22 #fff00000 #3fffff #0:11 #fffffc00', 
+    ' #fff80fff #fffff #0:11 #ffe00000 #7fffff #0:11 #fffff800', 
+    ' #3f #0:10 #fc000000 #1fffff #0:11 #fffffe00 #f', 
+    ' #0:10 #ff000000 #7ffff #0:11 #ffffff80 #3 #0:10', 
+    ' #ffc00000 #1ffff #0:22 #fe000000 #fffff #0:11 #ffffff00', 
+    ' #7 #0:10 #ff800000 #3ffff #0:11 #ffffffc0 #1', 
+    ' #0:10 #ffe00000 #ffff #0:11 #7ffffff0 #0:11 #fff80000', 
+    ' #3fff #0:11 #1ffffffc #0:11 #fffe0000 #fff #0:11', 
+    ' #7ffffff #0:11 #ffff8000 #3ff #0:10 #c0000000 #1ffffff', 
+    ' #0:11 #ffffe000 #ff #0:10 #f0000000 #ffffffff #3ffff', 
+    ' #0:11 #ffffffc0 #1 #0:10 #ffe00000 #ffff #0:11', 
+    ' #7ffffff0 #0:11 #fff80000 #3fff #0:11 #1ffffffc #0:11', 
+    ' #fffe0000 #fff ]', ), ))
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#fffffce9 #3 #0:22 #ff800000 #3fffff #0:11 #ffffe000', 
+    ' #fff80fff #1ffff #0:11 #ffe00000 #fffff #0:11 #fffff800', 
+    ' #7 #0:10 #fc000000 #3ffff #0:11 #fffffe00 #1', 
+    ' #0:10 #ff000000 #ffff #0:11 #7fffff80 #0:11 #ffc00000', 
+    ' #3fff #0:22 #f0000000 #fffff #0:11 #fffff800 #7', 
+    ' #0:10 #fc000000 #3ffff #0:11 #fffffe00 #1 #0:10', 
+    ' #ff000000 #ffff #0:11 #7fffff80 #0:11 #ffc00000 #3fff', 
+    ' #0:11 #1fffffe0 #0:11 #fff00000 #fff #0:11 #7fffff8', 
+    ' #0:11 #fffc0000 #3ff #0:11 #1fffffe #0:11 #ffff0000', 
+    ' #ff #0:10 #80000000 #ffffffff #7fff #0:11 #3fffffc0', 
+    ' #0:11 #ffe00000 #1fff #0:11 #ffffff0 #0:11 #fff80000', 
+    ' #7ff #0:11 #3fffffc #0:11 #fffe0000 #1ff ]', ), ))
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#1ffffce9 #0:23 #f0000000 #3fffff #0:11 #fffc0000 #fff80fff', 
+    ' #fff #0:11 #ffe00000 #7fff #0:11 #3ffff800 #0:11', 
+    ' #fc000000 #1fff #0:11 #ffffe00 #0:11 #ff000000 #7ff', 
+    ' #0:11 #3ffff80 #0:11 #ffc00000 #1ff #0:23 #ffffe', 
+    ' #0:11 #ffff0000 #7 #0:10 #80000000 #3ffff #0:11', 
+    ' #ffffc000 #1 #0:10 #e0000000 #ffff #0:11 #7ffff000', 
+    ' #0:11 #f8000000 #3fff #0:11 #1ffffc00 #0:11 #fe000000', 
+    ' #fff #0:11 #7ffff00 #0:11 #ff800000 #3ff #0:11', 
+    ' #1ffffc0 #0:11 #ffe00000 #ff #0:11 #fffffff0 #3ff', 
+    ' #0:11 #1ffffc0 #0:11 #ffe00000 #ff #0:11 #7ffff0', 
+    ' #0:11 #fff80000 #3f #0:11 #1ffffc #0:11 #fffe0000', ' #f ]', ), ))
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#ffffce9 #0:23 #e0000000 #3fffff #0:11 #fff80000 #fff80fff', 
+    ' #7ff #0:11 #ffe00000 #3fff #0:11 #1ffff800 #0:11', 
+    ' #fc000000 #fff #0:11 #7fffe00 #0:11 #ff000000 #3ff', 
+    ' #0:11 #1ffff80 #0:11 #ffc00000 #ff #0:23 #ffffc', 
+    ' #0:11 #fffe0000 #7 #0:11 #3ffff #0:11 #ffff8000', 
+    ' #1 #0:10 #c0000000 #ffff #0:11 #7fffe000 #0:11', 
+    ' #f0000000 #3fff #0:11 #1ffff800 #0:11 #fc000000 #fff', 
+    ' #0:11 #7fffe00 #0:11 #ff000000 #3ff #0:11 #1ffff80', 
+    ' #0:11 #ffc00000 #ff #0:11 #ffffffe0 #1ff #0:11', 
+    ' #ffffc0 #0:11 #ffe00000 #7f #0:11 #3ffff0 #0:11', 
+    ' #fff80000 #1f #0:11 #ffffc #0:11 #fffe0000 #7 ]', ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-2', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['post-1'].edges.getSequenceFromMask(
+    ('[#1442 ]', ), ))
+mdb.models['Model-1'].ShellEdgeLoad(createStepName='Buckling Load', 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=
+    144.155844155844, name='Load-2', region=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-2'])
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, buckleCase=
+    PERTURBATION_AND_BUCKLING, createStepName='Buckling Load', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'BC-2', region=
+    mdb.models['Model-1'].rootAssembly.instances['post-1'].sets['fixSleeve'], 
+    u1=0.0, u2=0.0, u3=UNSET, ur1=0.0, ur2=0.0, ur3=0.0)
+# Save by ctf365 on 2018_11_05-15.10.12; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.Job(atTime=None, contactPrint=OFF, description='First Job - Loading', 
+    echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, 
+    historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model='Model-1', 
+    modelPrint=OFF, multiprocessingMode=DEFAULT, name='Job-1', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'First Job - Loading', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 10164, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 253.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 247.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 258.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 0, 'phase': STANDARD_PHASE, 
+    'equilibrium': 0})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Mon Nov  5 16:38:53 2018', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].loads['Load-1'].setValues(magnitude=144.155844155844)
+del mdb.models['Model-1'].loads['Load-1']
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-3', side1Edges=
+    mdb.models['Model-1'].rootAssembly.instances['post-1'].edges.getSequenceFromMask(
+    ('[#1442 ]', ), ))
+mdb.models['Model-1'].ShellEdgeLoad(createStepName='Static Load', 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=
+    144.155844155844, name='Load-3', region=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-3'])
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='post-2', part=
+    mdb.models['Model-1'].parts['post'])
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'First Job - Loading', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 10616, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'THERE ARE 2 UNCONNECTED REGIONS IN THE MODEL.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 489.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 80.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'THERE ARE 2 UNCONNECTED REGIONS IN THE MODEL.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 479.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 80.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 499.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 80.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 0, 'phase': STANDARD_PHASE, 
+    'equilibrium': 0})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Mon Nov  5 16:55:24 2018', 
+    'jobName': 'Job-1'})
+del mdb.models['Model-1'].rootAssembly.features['post-2']
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'First Job - Loading', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 11388, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 253.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 247.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 258.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 0, 'phase': STANDARD_PHASE, 
+    'equilibrium': 0})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Mon Nov  5 16:57:56 2018', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].boundaryConditions['BC-1'].suppress()
+mdb.models['Model-1'].boundaryConditions['BC-2'].setValues(buckleCase=
+    PERTURBATION_AND_BUCKLING, u3=0.0)
+mdb.Job(atTime=None, contactPrint=OFF, description='FixedEnd2', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-2', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'FixedEnd2', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-2.odb', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 11464, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 253.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 247.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 258.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 0, 'phase': STANDARD_PHASE, 
+    'equilibrium': 0})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_COMPLETED, {'time': 'Mon Nov  5 17:03:16 2018', 
+    'jobName': 'Job-2'})
+# Save by CTF365 on 2018_11_05-17.05.28; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].boundaryConditions['BC-1'].resume()
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#ffffce9 #0:23 #e0000000 #3fffff #0:11 #fff80000 #fff80fff', 
+    ' #7ff #0:11 #ffe00000 #3fff #0:11 #1ffff800 #0:11', 
+    ' #fc000000 #fff #0:11 #7fffe00 #0:11 #ff000000 #3ff', 
+    ' #0:11 #1ffff80 #0:11 #ffc00000 #ff #0:23 #ffffc', 
+    ' #0:11 #fffe0000 #7 #0:11 #3ffff #0:11 #ffff8000', 
+    ' #1 #0:10 #c0000000 #ffff #0:11 #7fffe000 #0:11', 
+    ' #f0000000 #3fff #0:11 #1ffff800 #0:11 #fc000000 #fff', 
+    ' #0:11 #7fffe00 #0:11 #ff000000 #3ff #0:11 #1ffff80', 
+    ' #0:11 #ffc00000 #ff #0:11 #ffffffe0 #1ff #0:11', 
+    ' #ffffc0 #0:11 #ffe00000 #7f #0:11 #3ffff0 #0:11', 
+    ' #fff80000 #1f #0:11 #ffffc #0:11 #fffe0000 #7 ]', ), ))
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#316 #0:11 #fffffc00 #7fff #0:11 #ffc00000 #1f', 
+    ' #0:11 #7f000 #0:11 #fe000000 #1fffff #0:11 #f0000000', 
+    ' #7ff #0:11 #3fff800 #0:11 #fc000000 #1ff #0:11', 
+    ' #fffe00 #0:11 #ff000000 #7f #0:11 #3fff80 #0:11', 
+    ' #ffc00000 #fffff #0:11 #fff00000 #7 #0:11 #3fff8', 
+    ' #0:11 #fffc0000 #1 #0:11 #fffe #0:11 #7fff0000', 
+    ' #0:11 #80000000 #3fff #0:11 #1fffc000 #0:11 #e0000000', 
+    ' #fff #0:11 #7fff000 #0:11 #f8000000 #3ff #0:11', 
+    ' #1fffc00 #0:11 #fe000000 #ff #0:11 #7fff00 #0:23', 
+    ' #ff800000 #3f #0:11 #1fffc0 #0:11 #ffe00000 #f', 
+    ' #0:11 #7fff0 #0:11 #fff80000 #3 #0:11 #1fffc', ' #0:11 #fffe0000 ]', ), 
+    ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'FixedEnd2', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-2.odb', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 2896, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 253.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 247.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 258.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ERROR, {'phase': STANDARD_PHASE, 
+    'message': 'INCREASE THE NUMBER OF ITERATIONS TO GET THE REQUESTED NUMBER OF EIGENVALUES', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ABORTED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ERROR, {
+    'message': 'Abaqus/Standard Analysis exited with an error - Please see the  message file for possible error messages if the file exists.', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_ABORTED, {
+    'message': 'Abaqus/Standard Analysis exited with an error - Please see the  message file for possible error messages if the file exists.', 
+    'jobName': 'Job-2'})
+mdb.models['Model-1'].steps['Buckling Load'].setValues(maxIterations=100)
+mdb.models['Model-1'].parts['post'].Set(name='fixSleeve', nodes=
+    mdb.models['Model-1'].parts['post'].nodes.getSequenceFromMask(mask=(
+    '[#7fffce9 #0:23 #c0000000 #3fffff #0:11 #fff00000 #fff80fff', 
+    ' #3ff #0:11 #ffe00000 #1fff #0:11 #ffff800 #0:11', 
+    ' #fc000000 #7ff #0:11 #3fffe00 #0:11 #ff000000 #1ff', 
+    ' #0:11 #ffff80 #0:11 #ffc00000 #7f #0:23 #ffff8', 
+    ' #0:11 #fffc0000 #7 #0:11 #3fffe #0:11 #ffff0000', 
+    ' #1 #0:10 #80000000 #ffff #0:11 #7fffc000 #0:11', 
+    ' #e0000000 #3fff #0:11 #1ffff000 #0:11 #f8000000 #fff', 
+    ' #0:11 #7fffc00 #0:11 #fe000000 #3ff #0:11 #1ffff00', 
+    ' #0:11 #ff800000 #ff #0:11 #ffffffc0 #ff #0:11', 
+    ' #7fffc0 #0:11 #ffe00000 #3f #0:11 #1ffff0 #0:11', 
+    ' #fff80000 #f #0:11 #7fffc #0:11 #fffe0000 #3 ]', ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'FixedEnd2', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-2.odb', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-15', 'handle': 7376, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Static Load', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 253.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 2.22e-16, 'increment': 1, 'stepTime': 2.22e-16, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'stepName': 'Buckling Load', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 247.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 258.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 45.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 0.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 0, 'phase': STANDARD_PHASE, 
+    'equilibrium': 0})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_COMPLETED, {'time': 'Mon Nov  5 17:16:53 2018', 
+    'jobName': 'Job-2'})
+# Save by CTF365 on 2018_11_05-17.27.15; build 2018 2017_11_07-11.21.41 127140
