@@ -1,0 +1,14 @@
+freq_3Hz.xlsx : M = 1.004744827586207
+freq_0.5Hz.xlsx : M = 1.0221333333333333
+freq_1.5Hz.xlsx : M = 1.0072
+freq_10.5Hz.xlsx : M = 0.9998923076923076
+freq_12Hz.xlsx : M = 1.0170767782708081
+freq_13.5Hz.xlsx : M = 1.0004537313432837
+freq_15Hz.xlsx : M = 1.0139597315436242
+freq_16.5Hz.xlsx : M = 1.0006243902439025
+freq_18Hz.xlsx : M = 1.0117898387500448
+freq_20Hz.xlsx : M = 1.0109770808202654
+freq_4.5Hz.xlsx : M = 1.0062260869565218
+freq_6Hz.xlsx : M = 1.0250840655168674
+freq_7.5Hz.xlsx : M = 0.9983567567567568
+freq_9Hz.xlsx : M = 1.0220224719101123

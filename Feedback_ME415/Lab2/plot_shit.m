@@ -1,7 +1,7 @@
 % Open the simulink diagram thing before running this script
 
 % Zeigler Nichols Graph
-
+clear
 Kp = 6;
 Ki = 0;
 Kd = 0;
@@ -12,7 +12,7 @@ decibel = @(x) 20*log10(x);
 while (f_in < 20)
 fig = figure;
 hold on    
-savestring1 = sprintf('freq_plot%1.1f.png',f_in);
+savestring = sprintf('freq_plot%1.1f.png',f_in);
 sim('prelab_PID.slx')
 plot(Input)
 plot(Output)
@@ -28,12 +28,18 @@ saveas(fig,savestring);
 % close
 
 
-datastring = sprintf('freq_data%1.1f.csv',f_in);
-T = table(Time,Input,Output,Voltage);
-writetable(T,datastring);
+datastring = sprintf('freq_data_%1.1f.csv',f_in);
+T = table(Time.Time,Input.Data,Output.Data,Voltage.Data);
+% writetable(T,datastring);
+a = 'Time';
+b = 'Input';
+c = 'Output';
+d = 'Voltage';
+headers = (a,b,c,d);
 
-
-f_in = f_in +1;
+xlsxwrite(datastring,headers);
+xlsxwrite(datastring,Time.Time, Input.Data, Output.Data, Voltage.Data);
+f_in = f_in +19.5;
 end
 % Tyreus and Luyben Graph
 % figure
