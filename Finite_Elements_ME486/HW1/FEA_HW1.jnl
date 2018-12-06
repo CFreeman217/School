@@ -1,0 +1,36 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(0.0, 0.0), 
+    point2=(100.0, 50.0))
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    50.0, 35.0), point1=(50.0, 45.0))
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='Homework 1 Part', 
+    type=DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['Homework 1 Part'].BaseSolidExtrude(depth=20.0, 
+    sketch=mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].Material(name='Copper')
+mdb.models['Model-1'].materials['Copper'].Density(table=((8.96e-06, ), ))
+mdb.models['Model-1'].parts['Homework 1 Part'].featurelistInfo()
+#* *** Error: Extend failed (utl_File: SetEndOfFile)
+#* error: There is not enough space on the disk.
+#* 
+#* file: Q:\My Documents\FEA_HW1.cae
+#* *** Error: Extend failed (utl_File: SetEndOfFile)
+#* error: There is not enough space on the disk.
+#* 
+#* file: Q:\My Documents\FEA\FEA_HW1.cae
+# Save by ctf365 on 2018_08_28-13.40.21; build 2018 2017_11_07-11.21.41 127140

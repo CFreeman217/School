@@ -1,0 +1,47 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].materials['Glass'].Elastic(table=((1800000.0, 0.24), ))
+mdb.models['Model-1'].HomogeneousShellSection(idealization=NO_IDEALIZATION, 
+    integrationRule=SIMPSON, material='Glass', name='Section-1', 
+    nodalThicknessField='', numIntPts=5, poissonDefinition=DEFAULT, 
+    preIntegrate=OFF, temperature=GRADIENT, thickness=0.062, thicknessField='', 
+    thicknessModulus=None, thicknessType=UNIFORM, useDensity=OFF)
+mdb.models['Model-1'].parts['stuff'].Set(faces=
+    mdb.models['Model-1'].parts['stuff'].faces.getSequenceFromMask(('[#1 ]', ), 
+    ), name='Set-1')
+mdb.models['Model-1'].parts['stuff'].SectionAssignment(offset=0.0, offsetField=
+    '', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['stuff'].sets['Set-1'], sectionName='Section-1'
+    , thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='stuff-1', part=
+    mdb.models['Model-1'].parts['stuff'])
+mdb.models['Model-1'].parts['stuff'].setMeshControls(allowMapped=False, 
+    elemShape=QUAD, regions=
+    mdb.models['Model-1'].parts['stuff'].faces.getSequenceFromMask(('[#1 ]', ), 
+    ))
+mdb.models['Model-1'].parts['stuff'].setElementType(elemTypes=(ElemType(
+    elemCode=S4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=DEFAULT), ElemType(elemCode=S3, elemLibrary=STANDARD)), 
+    regions=(mdb.models['Model-1'].parts['stuff'].faces.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['stuff'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.1)
+mdb.models['Model-1'].parts['stuff'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].FrequencyStep(acousticCoupling=AC_OFF, description=
+    'Modes of Stripped PCB', eigensolver=SUBSPACE, limitSavedEigenvectorRegion=
+    None, maxIterations=30, name='Step-1', normalization=MASS, numEigen=10, 
+    previous='Initial', simLinearDynamics=OFF, vectors=18)

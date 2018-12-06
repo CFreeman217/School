@@ -1,1 +1,1 @@
-set path = "%PATH%;%~d0\WinPython\WPy-3662\python-3.6.6.amd64\"
+set path = "%PATH%;E:\WinPython\WPy-3662\python-3.6.6.amd64\"

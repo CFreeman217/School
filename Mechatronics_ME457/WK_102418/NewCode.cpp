@@ -64,9 +64,9 @@ float err_yp = 0, err_yi = 0, err_yd = 0;
 float throt;
 float M1cmd = 0, M2cmd = 0, M3cmd = 0, M4cmd = 0;
 
-float k_p = 8e-4;
-float k_i = 5e-8;
-float k_d = 50e-5;
+float k_p = 85e-4;
+float k_i = 1e-8;
+float k_d = 55e-5;
 
 // float y_ss = 4.3;
 // float tau = 1;
@@ -79,7 +79,7 @@ float k_d = 50e-5;
 // float k_iy = 0.165894;
 // float k_dy = 0.0414735;
 float k_py = 0.333333;
-float k_iy = 0.505050505;
+float k_iy = 0.0505050505;
 float k_dy = 0.055;
 // float k_py = 0.20135228677379483;
 // float k_iy = 0.24889034211841138;

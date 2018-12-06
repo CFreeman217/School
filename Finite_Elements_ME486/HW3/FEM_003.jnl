@@ -1,0 +1,600 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=25.0)
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(0.0, 0.0), 
+    point2=(8.25, 2.25))
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    4.06698179244995, -1.42082452774048), value=25.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    14.2016906738281, 1.15063118934631), value=1.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5]), vector=(16.75, 
+    -1.25))
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    12.5, 1.0), point1=(12.5, 0.25))
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].EqualDistanceConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], midpoint=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(12.5, 0.25), point2=
+    (0.0, 0.25))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].TangentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    entity2=mdb.models['Model-1'].sketches['__profile__'].geometry[7])
+mdb.models['Model-1'].sketches['__profile__'].CoincidentConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[6], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].trimExtendCurve(curve1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], curve2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], point1=(
+    -0.00956833362579346, 0.159241139888763), point2=(0.0612705945968628, 
+    0.281942427158356))
+mdb.models['Model-1'].sketches['__profile__'].trimExtendCurve(curve1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], curve2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], point1=(
+    12.0073719024658, 0.242081999778748), point2=(13.2496891021729, 
+    0.897289395332336))
+#* Cannot extend the curve.
+mdb.models['Model-1'].sketches['__profile__'].trimExtendCurve(curve1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], curve2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], point1=(
+    12.0073719024658, 0.242081999778748), point2=(13.3256072998047, 
+    1.03522765636444))
+#* Cannot extend the curve.
+mdb.models['Model-1'].sketches['__profile__'].trimExtendCurve(curve1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], curve2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], point1=(
+    13.3463134765625, 1.04212462902069), point2=(13.2358856201172, 
+    0.793835639953613))
+mdb.models['Model-1'].sketches['__profile__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], point1=(
+    13.2496891021729, 1.11109387874603))
+# Save by ctf365 on 2018_09_23-21.07.56; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].sketches.changeKey(fromName='__profile__', toName=
+    '__save__')
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['__save__'])
+del mdb.models['Model-1'].sketches['__save__']
+mdb.models['Model-1'].ConstrainedSketch(name='wishbone', objectToCopy=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].sketches['wishbone'])
+del mdb.models['Model-1'].sketches['__edit__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].sketchOptions.setValues(
+    gridOrigin=(15.898154761028, -0.632721687984233))
+mdb.models['Model-1'].sketches['__profile__'].retrieveSketch(sketch=
+    mdb.models['Model-1'].sketches['wishbone'])
+mdb.models['Model-1'].sketches['__profile__'].move(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[7], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[8], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[9]), vector=(
+    15.898154761028, -0.632721687984233))
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='pt_wishbone', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['pt_wishbone'].BaseSolidExtrude(depth=0.1, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+# Save by ctf365 on 2018_09_23-21.30.59; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].Material(description='Steel', name='A36')
+mdb.models['Model-1'].materials['A36'].Elastic(table=((30000000.0, 0.3), ))
+mdb.models['Model-1'].HomogeneousSolidSection(material='A36', name=
+    'wishbone_section', thickness=0.1)
+mdb.models['Model-1'].parts['pt_wishbone'].Set(cells=
+    mdb.models['Model-1'].parts['pt_wishbone'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), name='bone_sec')
+mdb.models['Model-1'].parts['pt_wishbone'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['pt_wishbone'].sets['bone_sec'], sectionName=
+    'wishbone_section', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='pt_wishbone-1', 
+    part=mdb.models['Model-1'].parts['pt_wishbone'])
+# Save by ctf365 on 2018_09_23-21.44.34; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].StaticStep(description='end traction', name='Step-1', 
+    previous='Initial')
+# Save by ctf365 on 2018_09_23-22.01.17; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].parts['pt_wishbone'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.2)
+mdb.models['Model-1'].parts['pt_wishbone'].generateMesh()
+mdb.models['Model-1'].parts['pt_wishbone'].deleteMesh()
+mdb.models['Model-1'].parts['pt_wishbone'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.05)
+mdb.models['Model-1'].parts['pt_wishbone'].generateMesh()
+mdb.models['Model-1'].parts['pt_wishbone'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D8I, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    distortionControl=DEFAULT), ElemType(elemCode=C3D6, elemLibrary=STANDARD), 
+    ElemType(elemCode=C3D4, elemLibrary=STANDARD)), regions=(
+    mdb.models['Model-1'].parts['pt_wishbone'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-1', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['pt_wishbone-1'].faces.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].Pressure(amplitude=UNSET, createStepName='Step-1', 
+    distributionType=UNIFORM, field='', magnitude=500.0, name='Endload', 
+    region=mdb.models['Model-1'].rootAssembly.surfaces['Surf-1'])
+mdb.models['Model-1'].loads['Endload'].setValues(magnitude=-500.0)
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['pt_wishbone-1'].faces.getSequenceFromMask(
+    ('[#4 ]', ), ), name='Set-1')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Step-1', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'fix1', region=mdb.models['Model-1'].rootAssembly.sets['Set-1'], u1=0.0, 
+    u2=UNSET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['pt_wishbone-1'].faces.getSequenceFromMask(
+    ('[#2 ]', ), ), name='Set-2')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Step-1', 
+    distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'BC-2', region=mdb.models['Model-1'].rootAssembly.sets['Set-2'], u1=UNSET, 
+    u2=0.0, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
+# Save by ctf365 on 2018_09_24-15.14.43; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.Job(atTime=None, contactPrint=OFF, description='try1_endloading_1000lb', 
+    echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, 
+    historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model='Model-1', 
+    modelPrint=OFF, multiprocessingMode=DEFAULT, name='fem_003_1', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['fem_003_1'].submit(consistencyChecking=OFF)
+mdb.jobs['fem_003_1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 0, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'try1_endloading_1000lb', 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\fem_003_1.odb', 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 3560, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(STEP, {'stepName': 'end traction', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'fem_003_1', 'memory': 226.0})
+mdb.jobs['fem_003_1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(MINIMUM_MEMORY, {'minimum_memory': 58.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'fem_003_1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['fem_003_1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'fem_003_1'})
+mdb.jobs['fem_003_1']._Message(JOB_COMPLETED, {
+    'time': 'Mon Sep 24 15:17:14 2018', 'jobName': 'fem_003_1'})
+mdb.models['Model-1'].boundaryConditions.changeKey(fromName='BC-2', toName=
+    'axial_symmetry_line')
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-2', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['pt_wishbone-1'].faces.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].Pressure(amplitude=UNSET, createStepName='Step-1', 
+    distributionType=TOTAL_FORCE, field='', magnitude=500.0, name='Load-2', 
+    region=mdb.models['Model-1'].rootAssembly.surfaces['Surf-2'])
+del mdb.models['Model-1'].loads['Load-2']
+mdb.models['Model-1'].loads['Endload'].setValues(distributionType=TOTAL_FORCE)
+# Save by ctf365 on 2018_09_24-15.22.08; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].sketch)
+mdb.models['Model-1'].parts['pt_wishbone'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'])
+mdb.models['Model-1'].sketches['__edit__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[9], radius=0.75, 
+    textPoint=(28.0191078186035, 0.0714300870895386))
+mdb.models['Model-1'].sketches['__edit__'].dimensions[2].setValues(value=0.25)
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(28.648154761028, 
+    -0.132721687984233), point2=(28.648154761028, 0.386143028736115))
+mdb.models['Model-1'].sketches['__edit__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[10])
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[8], ))
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(40.898154761028, 
+    0.367278312015767), point2=(28.529239654541, 0.367278312015767))
+mdb.models['Model-1'].sketches['__edit__'].HorizontalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[11])
+mdb.models['Model-1'].sketches['__edit__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[11])
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[10], point1=(
+    28.6424999237061, 0.32049036026001))
+mdb.models['Model-1'].sketches['__edit__'].undo()
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[10], point1=(
+    28.6505317687988, 0.375612497329712))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[11], point1=(
+    28.5923137664795, 0.366257429122925))
+mdb.models['Model-1'].sketches['__edit__'].ObliqueDimension(textPoint=(
+    15.3541717529297, -0.556340873241425), value=0.25, vertex1=
+    mdb.models['Model-1'].sketches['__edit__'].vertices[0], vertex2=
+    mdb.models['Model-1'].sketches['__edit__'].vertices[4])
+mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].setValues(
+    sketch=mdb.models['Model-1'].sketches['__edit__'])
+del mdb.models['Model-1'].sketches['__edit__']
+mdb.models['Model-1'].parts['pt_wishbone'].regenerate()
+mdb.models['Model-1'].parts['pt_wishbone'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=0.1)
+mdb.models['Model-1'].parts['pt_wishbone'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    '0.25 fillet radius 1000lb end load ', echoPrint=OFF, explicitPrecision=
+    SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, 
+    memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='025_fillet_radius', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['025_fillet_radius'].submit(consistencyChecking=OFF)
+mdb.jobs['025_fillet_radius']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 0, 
+    'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '0.25 fillet radius 1000lb end load', 
+    'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\025_fillet_radius.odb', 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 10668, 
+    'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(STEP, {'stepName': 'end traction', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(MEMORY_ESTIMATE, {
+    'phase': STANDARD_PHASE, 'jobName': '025_fillet_radius', 'memory': 46.0})
+mdb.jobs['025_fillet_radius']._Message(PHYSICAL_MEMORY, {
+    'phase': STANDARD_PHASE, 'physical_memory': 8135.0, 
+    'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(MINIMUM_MEMORY, {'minimum_memory': 21.0, 
+    'phase': STANDARD_PHASE, 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(STATUS, {'totalTime': 1.0, 
+    'attempts': 1, 'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 
+    'step': 1, 'jobName': '025_fillet_radius', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['025_fillet_radius']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '025_fillet_radius'})
+mdb.jobs['025_fillet_radius']._Message(JOB_COMPLETED, {
+    'time': 'Mon Sep 24 15:42:49 2018', 'jobName': '025_fillet_radius'})
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].sketch)
+mdb.models['Model-1'].parts['pt_wishbone'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'])
+mdb.models['Model-1'].sketches['__edit__'].dimensions[2].setValues(value=0.5)
+mdb.models['Model-1'].sketches['__edit__'].dimensions[2].setValues(value=0.1)
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(28.448154761028, 
+    -0.332721687984233), point2=(28.448154761028, 0.464797854423523))
+mdb.models['Model-1'].sketches['__edit__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[14])
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[12], ))
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(28.648154761028, 
+    0.367278312015767), point2=(28.1578235626221, 0.367278312015767))
+mdb.models['Model-1'].sketches['__edit__'].HorizontalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[15])
+mdb.models['Model-1'].sketches['__edit__'].ParallelConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].geometry[13], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[15])
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[15], point1=(
+    28.3222732543945, 0.368409037590027))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[14], point1=(
+    28.4470291137695, 0.413768410682678))
+# Save by ctf365 on 2018_09_24-15.49.40; build 2018 2017_11_07-11.21.41 127140
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].setValues(
+    sketch=mdb.models['Model-1'].sketches['__edit__'])
+del mdb.models['Model-1'].sketches['__edit__']
+mdb.models['Model-1'].parts['pt_wishbone'].regenerate()
+mdb.models['Model-1'].parts['pt_wishbone'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    '0.10 in fillet radius 1000lb end load', echoPrint=OFF, explicitPrecision=
+    SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, 
+    memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='010_fillet_radius', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['010_fillet_radius'].submit(consistencyChecking=OFF)
+mdb.jobs['010_fillet_radius']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 0, 
+    'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '0.10 in fillet radius 1000lb end load', 
+    'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\010_fillet_radius.odb', 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 9360, 
+    'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(STEP, {'stepName': 'end traction', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(MEMORY_ESTIMATE, {
+    'phase': STANDARD_PHASE, 'jobName': '010_fillet_radius', 'memory': 45.0})
+mdb.jobs['010_fillet_radius']._Message(PHYSICAL_MEMORY, {
+    'phase': STANDARD_PHASE, 'physical_memory': 8135.0, 
+    'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(MINIMUM_MEMORY, {'minimum_memory': 21.0, 
+    'phase': STANDARD_PHASE, 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(STATUS, {'totalTime': 1.0, 
+    'attempts': 1, 'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 
+    'step': 1, 'jobName': '010_fillet_radius', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['010_fillet_radius']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '010_fillet_radius'})
+mdb.jobs['010_fillet_radius']._Message(JOB_COMPLETED, {
+    'time': 'Mon Sep 24 15:51:36 2018', 'jobName': '010_fillet_radius'})
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].sketch)
+mdb.models['Model-1'].parts['pt_wishbone'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=
+    mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'])
+mdb.models['Model-1'].sketches['__edit__'].dimensions[2].setValues(value=0.5)
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[16], ))
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[17], ))
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].dimensions[2], ))
+mdb.models['Model-1'].sketches['__edit__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__edit__'].geometry[9], ))
+mdb.models['Model-1'].sketches['__edit__'].ArcByCenterEnds(center=(
+    28.3954544067383, 0.0628794133663177), direction=COUNTERCLOCKWISE, point1=(
+    28.398154761028, -0.382721687984233), point2=(28.8980808258057, 
+    0.0322888791561127))
+mdb.models['Model-1'].sketches['__edit__'].RadialDimension(curve=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[18], radius=0.5, 
+    textPoint=(28.2075157165527, -0.0944431126117706))
+mdb.models['Model-1'].sketches['__edit__'].trimExtendCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[18], curve2=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[13], point1=(
+    28.83251953125, -0.0157817900180817), point2=(28.8805980682373, 
+    0.377524226903915))
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(28.3464879833609, 
+    0.114601691814336), point2=(29.3264045715332, 0.114601691814336))
+mdb.models['Model-1'].sketches['__edit__'].HorizontalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[20])
+mdb.models['Model-1'].sketches['__edit__'].Line(point1=(28.8464879833697, 
+    0.114601691814336), point2=(28.8464879833697, 0.526106715202332))
+mdb.models['Model-1'].sketches['__edit__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__edit__'].geometry[21])
+mdb.models['Model-1'].sketches['__edit__'].TangentConstraint(addUndoState=False
+    , entity1=mdb.models['Model-1'].sketches['__edit__'].geometry[19], entity2=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[21])
+mdb.models['Model-1'].sketches['__edit__'].CoincidentConstraint(addUndoState=
+    False, entity1=mdb.models['Model-1'].sketches['__edit__'].vertices[18], 
+    entity2=mdb.models['Model-1'].sketches['__edit__'].geometry[19])
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[19], point1=(
+    28.8106670379639, 0.220201939344406))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[13], point1=(
+    28.7451076507568, 0.373154252767563))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[21], point1=(
+    28.8543739318848, 0.434335201978683))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[20], point1=(
+    28.6314697265625, 0.110950201749802))
+mdb.models['Model-1'].sketches['__edit__'].autoTrimCurve(curve1=
+    mdb.models['Model-1'].sketches['__edit__'].geometry[25], point1=(
+    29.0554237365723, 0.10658010840416))
+mdb.models['Model-1'].parts['pt_wishbone'].features['Solid extrude-1'].setValues(
+    sketch=mdb.models['Model-1'].sketches['__edit__'])
+del mdb.models['Model-1'].sketches['__edit__']
+mdb.models['Model-1'].parts['pt_wishbone'].regenerate()
+mdb.models['Model-1'].parts['pt_wishbone'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    '0.50 fillet radius 1000lb end load', echoPrint=OFF, explicitPrecision=
+    SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, 
+    memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='050_fillet_radius', 
+    nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, queue=None, 
+    resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=
+    0, waitMinutes=0)
+mdb.jobs['050_fillet_radius'].submit(consistencyChecking=OFF)
+mdb.jobs['050_fillet_radius']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 0, 
+    'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': '0.50 fillet radius 1000lb end load', 
+    'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\050_fillet_radius.odb', 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-18', 'handle': 4772, 
+    'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(STEP, {'stepName': 'end traction', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(MEMORY_ESTIMATE, {
+    'phase': STANDARD_PHASE, 'jobName': '050_fillet_radius', 'memory': 46.0})
+mdb.jobs['050_fillet_radius']._Message(PHYSICAL_MEMORY, {
+    'phase': STANDARD_PHASE, 'physical_memory': 8135.0, 
+    'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(MINIMUM_MEMORY, {'minimum_memory': 21.0, 
+    'phase': STANDARD_PHASE, 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(STATUS, {'totalTime': 1.0, 
+    'attempts': 1, 'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 
+    'step': 1, 'jobName': '050_fillet_radius', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['050_fillet_radius']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': '050_fillet_radius'})
+mdb.jobs['050_fillet_radius']._Message(JOB_COMPLETED, {
+    'time': 'Mon Sep 24 15:57:26 2018', 'jobName': '050_fillet_radius'})
+# Save by ctf365 on 2018_09_24-15.58.31; build 2018 2017_11_07-11.21.41 127140
+# Save by ctf365 on 2018_09_24-17.39.50; build 2018 2017_11_07-11.21.41 127140
