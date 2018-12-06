@@ -1,0 +1,23 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.openStep('E:/School/Finite_Elements_ME486/polemount_2Jeremiah.STEP', 
+    scaleFromFile=OFF)
+mdb.models['Model-1'].PartFromGeometryFile(combine=False, dimensionality=
+    THREE_D, geometryFile=mdb.acis, name='polemount_2Jeremiah-1', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].PartFromGeometryFile(bodyNum=2, combine=False, 
+    dimensionality=THREE_D, geometryFile=mdb.acis, name='polemount_2Jeremiah-2'
+    , type=DEFORMABLE_BODY)
+# Save by ctf365 on 2018_12_02-16.53.37; build 2018 2017_11_07-11.21.41 127140
