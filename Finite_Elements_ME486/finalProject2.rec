@@ -1,0 +1,349 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].parts['polemount_2Jeremiah-1'].deleteMesh()
+mdb.models['Model-1'].parts['polemount_2Jeremiah-1'].seedPart(deviationFactor=
+    0.1, minSizeFactor=0.1, size=0.01)
+mdb.models['Model-1'].parts['polemount_2Jeremiah-1'].setElementType(elemTypes=(
+    ElemType(elemCode=C3D20R, elemLibrary=STANDARD), ElemType(elemCode=C3D15, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D10MH, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Model-1'].parts['polemount_2Jeremiah-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Model-1'].parts['polemount_2Jeremiah-1'].generateMesh()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['AllForce'].submit(consistencyChecking=OFF)
+mdb.jobs['AllForce']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'All Step', 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '607 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'AN ORIENTATION HAS BEEN DEFINED WITH A SURFACE OR EDGE TRACTION. IF THIS LOAD IS APPLIED TO A 2D ELEMENT YOU MUST MAKE SURE THAT THE ROTATED LOAD ONLY HAS NON-ZERO COMPONENTS IN THE GLOBAL 1-2 PLANE. ANY NON-ZERO COMPONENT WHICH IS NOT IN THE 1-2 PLANE WILL BE IGNORED.', 
+    'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 304 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\AllForce.odb', 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 1124, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(STEP, {'stepName': 'Face Loading and Torque', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'AllForce', 'memory': 3944.0})
+mdb.jobs['AllForce']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(MINIMUM_MEMORY, {'minimum_memory': 561.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'AllForce', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['AllForce']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(STEP, {'stepName': 'Resonant Frequency', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'AllForce', 'memory': 1171.0})
+mdb.jobs['AllForce']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(MINIMUM_MEMORY, {'minimum_memory': 211.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'AllForce', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['AllForce']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'AllForce'})
+mdb.jobs['AllForce']._Message(JOB_COMPLETED, {
+    'time': 'Mon Dec 10 13:43:22 2018', 'jobName': 'AllForce'})
+mdb.models['Model-1'].loads['FaceLoad'].suppress()
+mdb.jobs['FaceOnly'].submit(consistencyChecking=OFF)
+mdb.jobs['FaceOnly']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Face Loading Only', 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '607 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'AN ORIENTATION HAS BEEN DEFINED WITH A SURFACE OR EDGE TRACTION. IF THIS LOAD IS APPLIED TO A 2D ELEMENT YOU MUST MAKE SURE THAT THE ROTATED LOAD ONLY HAS NON-ZERO COMPONENTS IN THE GLOBAL 1-2 PLANE. ANY NON-ZERO COMPONENT WHICH IS NOT IN THE 1-2 PLANE WILL BE IGNORED.', 
+    'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 304 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\FaceOnly.odb', 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 4528, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(STEP, {'stepName': 'Face Loading and Torque', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'FaceOnly', 'memory': 3944.0})
+mdb.jobs['FaceOnly']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(MINIMUM_MEMORY, {'minimum_memory': 561.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'FaceOnly', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['FaceOnly']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(STEP, {'stepName': 'Resonant Frequency', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'FaceOnly', 'memory': 1171.0})
+mdb.jobs['FaceOnly']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(MINIMUM_MEMORY, {'minimum_memory': 211.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'FaceOnly', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['FaceOnly']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'FaceOnly'})
+mdb.jobs['FaceOnly']._Message(JOB_COMPLETED, {
+    'time': 'Mon Dec 10 13:56:50 2018', 'jobName': 'FaceOnly'})
+mdb.models['Model-1'].loads['FaceLoad'].resume()
+mdb.models['Model-1'].loads['TorqueLoad'].suppress()
+mdb.jobs['TorqueOnly'].submit(consistencyChecking=OFF)
+mdb.jobs['TorqueOnly']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Torque Only', 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '607 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 304 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\TorqueOnly.odb', 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 3704, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(STEP, {'stepName': 'Face Loading and Torque', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'TorqueOnly', 'memory': 3944.0})
+mdb.jobs['TorqueOnly']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(MINIMUM_MEMORY, {'minimum_memory': 561.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'TorqueOnly', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['TorqueOnly']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(STEP, {'stepName': 'Resonant Frequency', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'TorqueOnly', 'memory': 1171.0})
+mdb.jobs['TorqueOnly']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(MINIMUM_MEMORY, {'minimum_memory': 211.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'TorqueOnly', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['TorqueOnly']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 2, 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'TorqueOnly'})
+mdb.jobs['TorqueOnly']._Message(JOB_COMPLETED, {
+    'time': 'Mon Dec 10 14:01:34 2018', 'jobName': 'TorqueOnly'})
+mdb.models['Model-1'].boundaryConditions['BoltHoles'].suppress()
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['polemount_2Jeremiah-1-1'].faces.getSequenceFromMask(
+    ('[#14140 ]', ), ), name='Set-2')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Loading1'
+    , distributionType=UNIFORM, fieldName='', fixed=OFF, localCsys=None, name=
+    'twoBolts', region=mdb.models['Model-1'].rootAssembly.sets['Set-2'], u1=0.0
+    , u2=0.0, u3=0.0, ur1=0.0, ur2=0.0, ur3=0.0)
+mdb.Job(atTime=None, contactPrint=OFF, description=
+    'Two Bolts Fixed Face Loading', echoPrint=OFF, explicitPrecision=SINGLE, 
+    getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, memoryUnits=
+    PERCENTAGE, model='Model-1', modelPrint=OFF, multiprocessingMode=DEFAULT, 
+    name='TwoBoltFace', nodalOutputPrecision=SINGLE, numCpus=1, numGPUs=0, 
+    queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine=''
+    , waitHours=0, waitMinutes=0)
+mdb.jobs['TwoBoltFace'].submit(consistencyChecking=OFF)
+mdb.jobs['TwoBoltFace']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 0, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Two Bolts Fixed Face Loading', 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '607 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 224 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\TwoBoltFace.odb', 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'KC-SCE364LAB-13', 'handle': 9836, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(STEP, {'stepName': 'Face Loading and Torque', 
+    'phase': STANDARD_PHASE, 'stepId': 1, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 0, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'TwoBoltFace', 'memory': 3953.0})
+mdb.jobs['TwoBoltFace']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(MINIMUM_MEMORY, {'minimum_memory': 561.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 0, 'frame': 1, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'TwoBoltFace', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['TwoBoltFace']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(STEP, {'stepName': 'Resonant Frequency', 
+    'phase': STANDARD_PHASE, 'stepId': 2, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 0, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'TwoBoltFace', 'memory': 1172.0})
+mdb.jobs['TwoBoltFace']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 8135.0, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(MINIMUM_MEMORY, {'minimum_memory': 211.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 1, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 2, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 3, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 4, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 5, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 6, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 7, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 8, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 9, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 
+    'step': 1, 'frame': 10, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1e-36, 'increment': 1, 'stepTime': 1e-36, 'step': 2, 
+    'jobName': 'TwoBoltFace', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['TwoBoltFace']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 2, 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'TwoBoltFace'})
+mdb.jobs['TwoBoltFace']._Message(JOB_COMPLETED, {
+    'time': 'Mon Dec 10 14:38:13 2018', 'jobName': 'TwoBoltFace'})
