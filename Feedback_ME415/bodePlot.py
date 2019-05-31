@@ -1,8 +1,8 @@
 from scipy import signal
 import matplotlib.pyplot as plt
 
-numg = [1]
-deng = [1, 10]
+numg = [50]
+deng = [1, 9, 18, 0]
 
 tf = signal.TransferFunction(numg, deng)
 
