@@ -69,9 +69,9 @@
 #define w_n 2.5 // Increase for faster response time
 #define zeta 1 // Decrease if model is less accurate, 1 = no overshoot
 
-#define m_a 0.5 // Mass of body arm (kg)
+#define m_a 0.8 // Mass of body arm (kg)
 #define L_a 0.05 // Length to center of gravity (m)
-#define Ig_a 0.8 // Moment of intertia for arm about pivot point (kg-m^2)
+#define Ig_a 0.0115 // Moment of intertia for arm about pivot point (kg-m^2)
 
 #define stp 100 // sampling rate (Hz)
 
@@ -171,6 +171,7 @@ Z_offset = mpu6050.getAngleZ();
 X_acc_offset = mpu6050.getAccX();
 Y_acc_offset = mpu6050.getAccY();
 Z_acc_offset = mpu6050.getAccZ();
+theta_des = X_offset;
 }
 
 // Main program

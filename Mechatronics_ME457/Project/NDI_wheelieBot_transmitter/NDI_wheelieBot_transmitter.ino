@@ -32,26 +32,46 @@ typedef struct {
   int yaw;
 } commDef;
 
-
+typedef struct {
+  uint32_t timeytime;
+  float des_ang;
+  float meas_ang;
+  float mot_cmd;
+  float duty_cycle;
+} FUCKINGDATA;
 
 void setup() {
   pinMode(12, OUTPUT);
   Serial.begin(115200);
   radio.begin();
   radio.openWritingPipe(pipes[0]); // 00001
-//  radio.openReadingPipe(1, addresses[0]); // 00002
+  radio.openReadingPipe(1, pipes[1]); // 00002
 radio.setDataRate(DATARATE);
 radio.setPALevel(RF24_PA_MAX);
 radio.setChannel(0x34);
-radio.setAutoAck( true );
-radio.printDetails();
 radio.powerUp();
 radio.startListening();
 }
 
 void loop() {
-  delay(5);
-  radio.stopListening();
+  radio.startListening();
+  if(radio.available()) {
+    while(radio.available()) {
+      FUCKINGDATA melvin;
+      radio.read(&melvin, sizeof(melvin));
+      Serial.print(melvin.timeytime);
+      Serial.print(',');
+      Serial.print(melvin.des_ang);
+      Serial.print(',');
+      Serial.print(melvin.meas_ang);
+      Serial.print(',');
+      Serial.print(melvin.mot_cmd);
+      Serial.print(',');
+      Serial.print(melvin.duty_cycle);
+      Serial.println(',');
+    }
+  }
+  
   commDef joystick;
   int raw_pitch = analogRead(UPDN);
    raw_pitch = map(raw_pitch, 0, 1023, -MAX_PITCH_DEGREES, MAX_PITCH_DEGREES);

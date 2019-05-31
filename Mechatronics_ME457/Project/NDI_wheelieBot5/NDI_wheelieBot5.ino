@@ -7,6 +7,7 @@
  * 
  * F = [x_2d]*(M + m) - mL[phi_2d]*cos(phi) + mL[phi_1d]^2*sin(phi)
  * 
+ * 
  * Sum of moments about pivot point:
  * 
  * T + mgL*sin(phi) = [phi_2d]*(I_g + mL^2) - mL[x_2d]*cos(phi)
@@ -66,15 +67,16 @@
 #include <RF24.h>
 #include <Wire.h>
 
-#define w_n 4 // Increase for faster response time
+#define w_n 6  // Increase for faster response time
 #define zeta 1 // Decrease if model is less accurate, 1 = no overshoot
 
-#define m_a 0.5 // Mass of body arm (kg)
+#define m_a 0.8 // Mass of body arm (kg)
 #define L_a 0.05 // Length to center of gravity (m)
-#define Ig_a 0.8 // Moment of intertia for arm about pivot point (kg-m^2)
+#define Ig_a 0.0115 // Moment of intertia for arm about pivot point (kg-m^2)
 
 #define stp 100 // sampling rate (Hz)
 #define MAX_ANGLE 20 // Maximum Angle (degrees)
+#define DEFAULT_OFFSET 90 // default equipment offset
 
 #define LMD 6 // Left Motor Direction Pin
 #define LMS 3 // Left Motor Speed Pin (PWM)
@@ -136,14 +138,14 @@ void setMotor(float pit_cmd, float yaw_cmd, int lm_dir, int lm_pwm, int rm_dir, 
     lambda_R = pit_cmd + yaw_cmd;
   }
   if(lambda_L > 0) {
-    digitalWrite(lm_dir, HIGH);
-  } else {
-    digitalWrite(lm_dir, LOW);
-  }
-  if(lambda_R > 0) {
     digitalWrite(rm_dir, HIGH);
   } else {
     digitalWrite(rm_dir, LOW);
+  }
+  if(lambda_R > 0) {
+    digitalWrite(lm_dir, HIGH);
+  } else {
+    digitalWrite(lm_dir, LOW);
   }
    lambda_L = map(abs(lambda_L), 0, max_theta, 0, 255);
    lambda_R = map(abs(lambda_R), 0, max_theta, 0, 255);
@@ -180,7 +182,7 @@ mpu6050.begin();
 mpu6050.calcGyroOffsets(true);
 mpu6050.update();
 X_offset = mpu6050.getAngleX();
-Y_offset = mpu6050.getAngleY();
+Y_offset = mpu6050.getAngleY() - DEFAULT_OFFSET;
 Z_offset = mpu6050.getAngleZ();
 X_acc_offset = mpu6050.getAccX();
 Y_acc_offset = mpu6050.getAccY();
@@ -194,6 +196,10 @@ void loop() {
   if(radio.available()) {
   while(radio.available()) {
     commDef joystick;
+
+
+
+    
     radio.read(&joystick, sizeof(joystick));
     theta_des = joystick.pitch;
     }
@@ -201,11 +207,11 @@ void loop() {
   if(millis() - timer > (1000/stp)) {
   // Update the MPU measurements
       mpu6050.update();
-      float theta_meas = (mpu6050.getAngleX()-X_offset)*(PI/180); // current measured angle
-      float theta_dot = dot(theta_meas, theta_prev1,1/stp); // calculated angular rate
-      float theta_dbl_dot = dbl_dot(theta_meas, theta_prev1, theta_prev2, 1/stp); // calculated angular acceleration
-      float x_dbl_dot = (mpu6050.getAccX() - X_acc_offset)*9.81; // measured x-acceleration
-      float z_dbl_dot = (mpu6050.getAccZ() - Z_acc_offset)*9.81; // measured z-acceleration
+      float theta_meas = (mpu6050.getAngleY()-Y_offset)*(PI/180); // current measured angle
+      float theta_dot = dot(theta_meas, theta_prev1,1000/stp); // calculated angular rate
+      float theta_dbl_dot = dbl_dot(theta_meas, theta_prev1, theta_prev2, 1000/stp); // calculated angular acceleration
+      float x_dbl_dot = (mpu6050.getAccY() - Y_acc_offset)*9.81; // measured x-acceleration
+      float z_dbl_dot = (mpu6050.getAccX() - X_acc_offset)*9.81; // measured z-acceleration
       float k_1 = 2*zeta*w_n; // Knowledge of system
       float k_2 = w_n*w_n; // Controller response time
       // Compute torque command to be sent to motor
